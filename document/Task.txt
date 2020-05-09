@@ -7,3 +7,33 @@ bao mat buoc 3
 => Hoi phuc tap
 sign
 => chua tim hieu
+
+------------------------------------------------------
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTrlHb3adQstaRWJlqtsrIeFo5
+7lSpE5FemvbIiBn0gGVMl+SveVm8Zj1JnpLfJngkfnsUgyJp1fLodhgtN581o7Ad
+YGUQlx70kWw75WhSMbDAzH5qjpFNSlNNjC8rT5XyCE/YFJ6DuEloJgXoJvRnNXPx
+PWj4IelLJ84ZfAWI5QIDAQAB
+-----END PUBLIC KEY-----
+------------------------------------------------------
+cấu trúc gói tin gửi đi
+body
+{
+	"data": data
+}
+header
+{
+	"company_id": company_id
+	"timestamp": timestamp
+}
+cấu trúc gói tin encrypt:
+{
+	"source_id":"113",
+	"des_id":"10",
+	"value":"50000000"
+}
+gói tin trả về :
+{
+	"message": message
+	"error":error
+}

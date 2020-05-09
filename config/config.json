@@ -1,0 +1,20 @@
+{
+    "secret_key": {
+        "private_key": ["-----BEGIN RSA PRIVATE KEY-----",
+            "MIICWwIBAAKBgQCTrlHb3adQstaRWJlqtsrIeFo57lSpE5FemvbIiBn0gGVMl+Sv",
+            "eVm8Zj1JnpLfJngkfnsUgyJp1fLodhgtN581o7AdYGUQlx70kWw75WhSMbDAzH5q",
+            "jpFNSlNNjC8rT5XyCE/YFJ6DuEloJgXoJvRnNXPxPWj4IelLJ84ZfAWI5QIDAQAB",
+            "AoGAW5gHb01HQ5bX26fO50/d734tv7Zgzci0JbAJFZDMQEgOC/Y9QNQL4vyqUGnI",
+            "gBy08TV9EtjOVEP8906fahQQatcwWD/FwT0UwK1JmuZAk8hQonx+U7Fxd+uKfHBI",
+            "dYgXOW63V6FALZdnm2OWTObK6SyrDfFAVCpvvIayrDBUZUECQQDt53+O0dWOD4En",
+            "YYEBNp+PXelnm6YmYMSxYAlkRjahjtUpxGyhJw5fZRfvDZwjkydZLXxN7kauu/IQ",
+            "2g/cq5zxAkEAnun7MApsL+Ayj+ko66rA/paqy9YQDiTsgS22hmn+NJUgPtgqoh46",
+            "Pe9Cwr1rQFc0Qw8pYzMJZ51I7Qm5Bnq7NQJAWS/1URx3O/eyCopyK3tH3B5v1wiy",
+            "BCc49eoz+ySbbHu4jBz4QH381GR40YS/qVKMaNE1jZ2rX+xTtl+ZnLe1cQJAOycn",
+            "nENU8CFJUO5ekBLYkivtWcDN6yXtb0xf0/riaBpWjW4TuJL95Q4J0MmHgcS0LH4Z",
+            "TtaxmoMeoTVsTTAkPQJASVWWp0XVlW3O/Yc9oUPa8JtXKD1wTn0M5c1oBCw+nYLB",
+            "cnJhmA9//Cp7LsPv4rxfId5VUUxqO0Fq6Rn6lZsLjg==",
+            "-----END RSA PRIVATE KEY-----"
+        ]
+    }
+}

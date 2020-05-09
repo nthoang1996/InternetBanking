@@ -1,3 +1,4 @@
+const restrict = require('./auth.mdw');
 module.exports = function(app) {
-    app.use('/customer', require('../routes/customer/behavior.route'));
+    app.use('/customer', restrict, require('../routes/customer/behavior.route'));
 }
