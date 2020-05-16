@@ -31,4 +31,22 @@ router.route('/recharge')
         res.status(200).json({ message: "Success" });
     })
 
+    router.route('/query_information')
+    .post(async function(req,res){
+        const des_id = req.body.des_id;
+        const customer = await model.single_by_id('tbluser', des_id);
+        //console.log(customer);
+        const result = {
+            name: customer[0].name,
+            phone: customer[0].phone,
+            address: customer[0].address,
+            email: customer[0].email,
+            username: customer[0].username,
+            password: customer[0].password,
+            bank_balance: customer[0].balance,
+            is_active: customer[0].is_active
+        };
+        res.status(200).json(result);
+    })
+
 module.exports = router;
