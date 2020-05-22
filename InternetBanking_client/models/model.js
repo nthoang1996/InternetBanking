@@ -22,8 +22,8 @@ module.exports = {
         return db.load(sql);
     },
     getAllChildCatByLevel: (table, level) => { return db.load(`select * from ${table} where level = ${level};`) },
-    single_by_email: async(table, email) => {
-        const rows = await db.load(`select * from ${table} where email = '${email}'`);
+    single_by_username: async(table, username) => {
+        const rows = await db.load(`select * from ${table} where username = '${username}'`);
         if (rows.length === 0) {
             return null;
         }
