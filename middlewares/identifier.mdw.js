@@ -5,7 +5,7 @@ module.exports = async(req, res, next) => {
     const bank = await model.compare_with_bankId('tblbank', bank_id);
     console.log(bank);
     if(bank === null){
-        res.json({error:"Not found bank."});
+        return res.json({error:"Not found bank."});
     }    
     next();
 }

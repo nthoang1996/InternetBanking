@@ -14,7 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 
 
 require('./middlewares/routes.mdw')(app);
-console.log("tai day");
 
 app.use((req, res, next)=>{
     res.status(404).send("SERVER NOT FOUND");
