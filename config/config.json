@@ -15,6 +15,13 @@
             "TtaxmoMeoTVsTTAkPQJASVWWp0XVlW3O/Yc9oUPa8JtXKD1wTn0M5c1oBCw+nYLB",
             "cnJhmA9//Cp7LsPv4rxfId5VUUxqO0Fq6Rn6lZsLjg==",
             "-----END RSA PRIVATE KEY-----"
+        ],
+        "public_key": ["-----BEGIN PUBLIC KEY-----",
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTrlHb3adQstaRWJlqtsrIeFo5",
+            "7lSpE5FemvbIiBn0gGVMl+SveVm8Zj1JnpLfJngkfnsUgyJp1fLodhgtN581o7Ad",
+            "YGUQlx70kWw75WhSMbDAzH5qjpFNSlNNjC8rT5XyCE/YFJ6DuEloJgXoJvRnNXPx",
+            "PWj4IelLJ84ZfAWI5QIDAQAB",
+            "-----END PUBLIC KEY-----"
         ]
     }
 }
