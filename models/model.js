@@ -31,4 +31,11 @@ module.exports = {
     },
     full_text_search: (table, keyword) => { return db.load(`SELECT * FROM ${table} WHERE MATCH(name) Against("${keyword}");`) },
     all_product_not_expired: (table) => { return db.load(`SELECT * FROM ${table} WHERE is_expired = false`) },
+    compare_with_bankId: async(table, bankID) => {
+        const rows = await db.load(`select * from ${table} where id = '${bankID}'`);
+        if (rows.length === 0) {
+            return null;
+        }
+        return rows[0];
+    },
 };

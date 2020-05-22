@@ -47,7 +47,6 @@ router.route('/recharge')
     .post(async function(req,res){
         const des_id = req.body.des_id;
         const customer = await model.single_by_id('tbluser', des_id);
-        //console.log(customer);
         const result = {
             name: customer[0].name,
             phone: customer[0].phone,
