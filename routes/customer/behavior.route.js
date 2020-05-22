@@ -7,11 +7,19 @@ key.setOptions({ encryptionScheme: 'pkcs1' });
 const router = express.Router();
 router.route('/recharge')
     .post(async function(req, res) {
-        let data = {};
-        console.log(req.body.data);
-        const verify = key.verify('req.body1', req.body.data,'', 'base64');
-        console.log(verify);
-        res.status(200).json({ message: "Success" });
+        console.log(typeof(req.body.data));
+        const data = req.body.data;
+        const dataVerify = {};
+        dataVerify.ts = data.ts;
+        dataVerify.source_id = data.source_id;
+        dataVerify.value = data.value;
+        const verify = key.verify(dataVerify, data.signature,'', 'base64');
+        if(verify === true){
+            res.status(200).json({ message: "Success", error: ""});
+        }else{
+            res.status(200).json({ message: "Success", error: "Validate failed"});
+        }
+        
     })
 
     router.route('/query_information')
