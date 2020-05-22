@@ -7,7 +7,6 @@ key.setOptions({ encryptionScheme: 'pkcs1' });
 const router = express.Router();
 router.route('/recharge')
     .post(async function(req, res) {
-        console.log(typeof(req.body.data));
         const data = req.body.data;
         const dataVerify = {};
         dataVerify.ts = data.ts;
@@ -15,9 +14,28 @@ router.route('/recharge')
         dataVerify.value = data.value;
         const verify = key.verify(dataVerify, data.signature,'', 'base64');
         if(verify === true){
-            res.status(200).json({ message: "Success", error: ""});
+            try{
+                const customer = await model.single_by_id('tbluser', data.des_id);
+                const cus_value = parseInt(customer[0].bank_balance) + parseInt(data.value);
+                const update_cus = await model.edit('tbluser', { bank_balance: cus_value }, { id: data.des_id });
+                const entity = {
+                    type: 1,
+                    source_id:data.source_id,
+                    bank_company_id: req.headers.company_id,
+                    des_id:data.des_id,
+                    value:data.value,
+                    message: ''
+                }
+                const insert_his = await model.add('tblhistorytransaction', entity);
+                res.status(200).json({ message: "Success", error: ""});
+            }
+            catch(e){
+                console.log(e);
+                res.status(500).json({ message: "Failed", error: e.toString()});
+            }
+            
         }else{
-            res.status(200).json({ message: "Success", error: "Validate failed"});
+            res.status(401).json({ message: "Failed", error: "Validate failed"});
         }
         
     })
