@@ -19,20 +19,18 @@ PWj4IelLJ84ZfAWI5QIDAQAB
 cấu trúc gói tin gửi đi
 body
 {
-	"data": JSON.stringify(data),
+	"data": data
 }
-sinature({"id":"id","ts":"timestamp", "value":"500000000"},'base64');
 header
 {
 	"company_id": company_id
 	"timestamp": timestamp
 }
-cấu trúc gói tin:
+cấu trúc gói tin encrypt:
 {
 	"source_id":"113",
 	"des_id":"10",
-	"value":"50000000",
-	"signiature": "signature"
+	"value":"50000000"
 }
 gói tin trả về :
 {

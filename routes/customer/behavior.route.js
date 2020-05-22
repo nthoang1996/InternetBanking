@@ -16,6 +16,9 @@ router.route('/recharge')
         if(verify === true){
             try{
                 const customer = await model.single_by_id('tbluser', data.des_id);
+                if(customer.length == 0){
+                    return res.status(500).json({ message: "", error: "ID not found"});
+                }
                 const cus_value = parseInt(customer[0].bank_balance) + parseInt(data.value);
                 const update_cus = await model.edit('tbluser', { bank_balance: cus_value }, { id: data.des_id });
                 const entity = {
