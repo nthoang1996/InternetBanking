@@ -4,6 +4,7 @@ module.exports = {
     all: (table) => { return db.load(`select * from ${table};`) },
     all_by_level: (table, level) => { return db.load(`select * from ${table} where level = ${level}`) },
     single_by_id: (table, id) => { return db.load(`select * from ${table} where id = ${id}`) },
+    single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
     all_by_pid: (table, id) => { return db.load(`select * from ${table} where parent_id = ${id}`) },
     all_product_by_cat: (table, id) => { return db.load(`select * from ${table} where cat_id = ${id}`) },
     all_product_by_seller: (table, id) => { return db.load(`select * from ${table} where id_seller = ${id}`) },

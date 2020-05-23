@@ -47,6 +47,16 @@ INSERT INTO `tblbank` (`id`, `name`, `public_key`) VALUES
 ('TttwVLKHvX\r\nRujyllDq', 'HoangBank', '-----BEGIN PUBLIC KEY-----\r\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTrlHb3adQstaRWJlqtsrIeFo5\r\n7lSpE5FemvbIiBn0gGVMl+SveVm8Zj1JnpLfJngkfnsUgyJp1fLodhgtN581o7Ad\r\nYGUQlx70kWw75WhSMbDAzH5qjpFNSlNNjC8rT5XyCE/YFJ6DuEloJgXoJvRnNXPx\r\nPWj4IelLJ84ZfAWI5QIDAQAB\r\n-----END PUBLIC KEY-----');
 COMMIT;
 
+--
+-- add column secret_key in table tblbank and update data 
+--
+
+ALTER TABLE `tblbank` ADD `secret_key` text;
+UPDATE `tblbank` SET `secret_key` = "secretKey" where `id` = 'hFKsgwJyJX\r\nUpNxNwZM';
+UPDATE `tblbank` SET `secret_key` = "secretKey" where `id` = 'jpS38Zwq37\r\nhIQf0jkO';
+UPDATE `tblbank` SET `secret_key` = "secretKey" where `id` = 'TnyjhGBTwM\r\nthNgYZkq';
+UPDATE `tblbank` SET `secret_key` = "secretKey" where `id` = 'TttwVLKHvX\r\nRujyllDq';
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
