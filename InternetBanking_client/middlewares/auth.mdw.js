@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
             if(err){
                 throw createError(403, err);
             }
-            req.tokenPaylaod = payload;
+            req.tokenPayload = payload;
             next();
         })
     }else{

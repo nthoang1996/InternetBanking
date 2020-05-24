@@ -61,4 +61,26 @@ router.route('/transferAboard')
         res.status(200).json(result);
     })
 
+    router.route('/transferInternal')
+    .post(async function(req,res){
+        console.log(req.tokenPayload);
+        const data = req.body;
+        const customer = await model.single_by_id('tbluser', data.des_id );
+        if(customer.length == 0){
+            return res.status(500).json({ message: "", error: "ID not found"});
+        }
+        const cus_value = parseInt(customer[0].bank_balance) + parseInt(data.value);
+        const update_cus = await model.edit('tbluser', { bank_balance: cus_value }, { id: data.des_id });
+        const entity = {
+            type: 1,
+            source_id:req.tokenPayload.userID,
+            bank_company_id: -1,
+            des_id:data.des_id,
+            value:data.value,
+            message: ''
+        }
+        const insert_his = await model.add('tblhistorytransaction', entity);
+        res.status(200).json({ message: "Success", error: ""});
+    })
+
 module.exports = router;

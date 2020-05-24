@@ -1,21 +1,3 @@
-tao api nop tien
-api truy van thong tin tai khoan
-bao mat buoc 1
-bao mat buoc 2
-=> De
-bao mat buoc 3
-=> Hoi phuc tap
-sign
-=> chua tim hieu
-
-------------------------------------------------------
------BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTrlHb3adQstaRWJlqtsrIeFo5
-7lSpE5FemvbIiBn0gGVMl+SveVm8Zj1JnpLfJngkfnsUgyJp1fLodhgtN581o7Ad
-YGUQlx70kWw75WhSMbDAzH5qjpFNSlNNjC8rT5XyCE/YFJ6DuEloJgXoJvRnNXPx
-PWj4IelLJ84ZfAWI5QIDAQAB
------END PUBLIC KEY-----
-------------------------------------------------------
 cấu trúc gói tin gửi đi
 body
 {
