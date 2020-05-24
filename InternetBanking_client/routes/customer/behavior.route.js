@@ -6,6 +6,9 @@ const hoangbankapi = require('../../models/hoangbankapi');
 router.route('/transferAboard')
     .post(async function(req, res) {
         const data = req.body;
+        const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
+        const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
+        const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id:req.tokenPayload.userID });
         const formData = JSON.stringify({data:data});
         const ts = Date.now();
         data.ts = ts;
@@ -65,6 +68,9 @@ router.route('/transferAboard')
     .post(async function(req,res){
         console.log(req.tokenPayload);
         const data = req.body;
+        const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
+        const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
+        const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id:req.tokenPayload.userID });
         const customer = await model.single_by_id('tbluser', data.des_id );
         if(customer.length == 0){
             return res.status(500).json({ message: "", error: "ID not found"});
