@@ -1,5 +1,5 @@
 const express = require('express');
-const model = require('../../models/model')
+const model = require('../../models/model');
 const router = express.Router();
 const hoangbankapi = require('../../models/hoangbankapi');
 const nodemailer = require('nodemailer');
@@ -71,7 +71,7 @@ router.route('/transferAboard')
             bank_balance: customer[0].balance,
             is_active: customer[0].is_active
         };
-        res.status(200).json(result);
+        return res.status(200).json(result);
     })
 
     router.route('/transferInternal')
@@ -96,7 +96,7 @@ router.route('/transferAboard')
             message: data.message
         }
         const insert_his = await model.add('tblhistorytransaction', entity);
-        res.status(200).json({ message: "Success", error: ""});
+        return res.status(200).json({ message: "Success", error: ""});
     })
 
     router.route('/confirmination_Email')
@@ -141,6 +141,21 @@ router.route('/transferAboard')
             createError('500', e)
         }
         
+    })
+
+    router.route('/user_contact')
+    .post(async function(req,res){
+        const tblContact = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
+        const obj = tblContact.find(o => o.des_id == req.body.des_id);
+        if(obj){
+            return res.status(409).json({ message: "Failed", error: "Duplicated entry"});
+        }
+        const entity = {
+            source_id: req.tokenPayload.userID,
+            ...req.body,
+        }
+        const add = model.add('tblreceivercontact', entity)
+        return res.status(200).json({ message: "Success", error: ""});
     })
 
 module.exports = router;
