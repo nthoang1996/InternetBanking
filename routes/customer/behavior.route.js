@@ -26,7 +26,7 @@ router.route('/recharge')
                 bank_company_id: req.headers.company_id,
                 des_id:data.des_id,
                 value:data.value,
-                message: ''
+                message: data.message
             }
             const insert_his = await model.add('tblhistorytransaction', entity);
             res.status(200).json({ message: "Success", error: ""});

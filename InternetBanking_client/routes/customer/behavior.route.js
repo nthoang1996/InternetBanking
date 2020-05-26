@@ -2,6 +2,16 @@ const express = require('express');
 const model = require('../../models/model')
 const router = express.Router();
 const hoangbankapi = require('../../models/hoangbankapi');
+const nodemailer = require('nodemailer');
+const createError = require('http-errors');
+// const transporter = require('../../utils/email')
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth:{
+        user:'hoangbankptudwnc@gmail.com',
+        pass:'12345678x@X'
+    }
+});
 
 router.route('/transferAboard')
     .post(async function(req, res) {
@@ -83,10 +93,54 @@ router.route('/transferAboard')
             bank_company_id: -1,
             des_id:data.des_id,
             value:data.value,
-            message: ''
+            message: data.message
         }
         const insert_his = await model.add('tblhistorytransaction', entity);
         res.status(200).json({ message: "Success", error: ""});
+    })
+
+    router.route('/confirmination_Email')
+    .post(async function(req,res){
+        try{
+            const data = req.body;
+            const verify = Math.floor((Math.random() * 10000000) + 1);
+            const ts = Date.now();
+            const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
+            let userdata = {
+                id : req.tokenPayload.userID,
+                verify: "TRUE"
+            }
+            res.cookie("UserInfo",userdata);
+            const entityID = {"id":req.tokenPayload.userID};
+            const entity = {"verify": JSON.stringify({code: verify, ts: ts})}
+            const update = model.edit('tbluser', entity, entityID);
+            const mailOption = {
+                from :'thecoderank@gmail.com', // sender this is your email here
+                to : `${sender[0].email}`, // receiver email2
+                subject: "Account Verification",
+                html: `<h1>Hello Friend Please Click on this link<h1><br><hr><p>HELLO I AM 
+            HOANGBANKPTUDWNC.</p> <br>
+            <p>Seem you have requested for transfer money to the account ${data.des_id}</p><br>
+            <br><p> Please click the link below to confirmination your action: </p><br>\
+            <a href="http://localhost:3000/account/verification/?verify=${verify}&id=${req.tokenPayload.userID}">CLICK ME TO ACTIVATE YOUR ACCOUNT</a>`
+            }
+            transporter.sendMail(mailOption,(error,info)=>{
+                if(error){
+                    console.log(error)
+                }else{
+
+                    let userdata = {
+                        email : `${req.body.Email}`,
+                    }
+                    res.cookie("UserInfo",userdata);
+                    res.send("Your Mail Send Successfully")
+                }
+            })
+        }
+        catch(e){
+            createError('500', e)
+        }
+        
     })
 
 module.exports = router;

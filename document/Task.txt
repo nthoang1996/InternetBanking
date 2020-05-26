@@ -1,12 +1,19 @@
-tao api nop tien
-api truy van thong tin tai khoan
-bao mat buoc 1
-bao mat buoc 2
-=> De
-bao mat buoc 3
-=> Hoi phuc tap
-sign
-=> chua tim hieu
+Đăng nhập
+Liệt kê danh sách tài khoản của người dùng
+thiết lập danh sách người nhận
+chuyển khoản nội bộ
+chuyển khoản liên ngân hàng
+
+Quản lý nhắc nợ
+Xem lịch sử giao dịch
+đỏi mật khẩu
+quẩn mật khẩu
+
+Tạo tài khoản khách hàng
+Nạp tiền vào 1 tài khoản
+Xem lịch sử giao dịch của 1 tài khoản khách hàng
+Quản lý danh sách nhân viên
+Xem giao dịch trong tháng với các ngân hàng khác
 
 ------------------------------------------------------
 -----BEGIN PUBLIC KEY-----
@@ -33,6 +40,7 @@ cấu trúc gói tin:
 {
 	"des_id":"10",
 	"value":"50000000",
+	"message": "message",
 	"signiature": "signature"
 }
 gói tin trả về :
