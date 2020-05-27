@@ -29,18 +29,22 @@ router.route('/recharge')
                 message: data.message
             }
             const insert_his = await model.add('tblhistorytransaction', entity);
-            res.status(200).json({ message: "Success", error: ""});
+            return res.status(200).json({ message: "Success", error: ""});
             
         }else{
-            res.status(401).json({ message: "Failed", error: "Validate failed"});
+            return res.status(200).json({ message: "Failed", error: "Validate failed"});
         }
         
     })
 
     router.route('/query_information')
     .post(async function(req,res){
-        const des_id = req.body.des_id;
+        const des_id = req.body.data.des_id;
+        console.log(des_id);
         const customer = await model.single_by_id('tbluser', des_id);
+        if(customer.length == 0){
+            return res.status(200).json({ message: "Success", error: ""});
+        }
         const result = {
             name: customer[0].name,
             phone: customer[0].phone,
@@ -51,7 +55,7 @@ router.route('/recharge')
             bank_balance: customer[0].balance,
             is_active: customer[0].is_active
         };
-        res.status(200).json(result);
+        return res.status(200).json({ message: "Success", error: "", data: result});
     })
 
 module.exports = router;

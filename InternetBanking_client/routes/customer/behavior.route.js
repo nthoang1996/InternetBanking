@@ -7,9 +7,9 @@ const createError = require('http-errors');
 // const transporter = require('../../utils/email')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth:{
-        user:'hoangbankptudwnc@gmail.com',
-        pass:'12345678x@X'
+    auth: {
+        user: 'hoangbankptudwnc@gmail.com',
+        pass: '12345678x@X'
     }
 });
 
@@ -18,15 +18,13 @@ router.route('/transferAboard')
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
-        const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id:req.tokenPayload.userID });
-        const formData = JSON.stringify({data:data});
-        const ts = Date.now();
-        data.ts = ts;
+        const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id: req.tokenPayload.userID });
+        const formData = JSON.stringify({ data: data });
         api = new hoangbankapi(data);
-        const response = await api.callApi();
-        if(response.error){
+        const response = await api.callApiRecharge();
+        if (response.error) {
             res.status(401).json(response);
-        }else{
+        } else {
             res.status(200).json(response);
         }
 
@@ -36,7 +34,7 @@ router.route('/transferAboard')
         // dataVerify.value = data.value;
         // signature=key.sign(dataVerify, 'base64');
         // data.signature = signature;
-        
+
         // let response = {};
         // request({
         //     headers: {
@@ -56,67 +54,49 @@ router.route('/transferAboard')
         // });
     })
 
-    router.route('/query_information')
-    .post(async function(req,res){
-        const des_id = req.body.des_id;
-        const customer = await model.single_by_id('tbluser', des_id);
-        //console.log(customer);
-        const result = {
-            name: customer[0].name,
-            phone: customer[0].phone,
-            address: customer[0].address,
-            email: customer[0].email,
-            username: customer[0].username,
-            password: customer[0].password,
-            bank_balance: customer[0].balance,
-            is_active: customer[0].is_active
-        };
-        return res.status(200).json(result);
-    })
-
-    router.route('/transferInternal')
-    .post(async function(req,res){
+router.route('/transferInternal')
+    .post(async function(req, res) {
         console.log(req.tokenPayload);
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
-        const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id:req.tokenPayload.userID });
-        const customer = await model.single_by_id('tbluser', data.des_id );
-        if(customer.length == 0){
-            return res.status(500).json({ message: "", error: "ID not found"});
+        const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id: req.tokenPayload.userID });
+        const customer = await model.single_by_id('tbluser', data.des_id);
+        if (customer.length == 0) {
+            return res.status(500).json({ message: "", error: "ID not found" });
         }
         const cus_value = parseInt(customer[0].bank_balance) + parseInt(data.value);
         const update_cus = await model.edit('tbluser', { bank_balance: cus_value }, { id: data.des_id });
         const entity = {
             type: 1,
-            source_id:req.tokenPayload.userID,
+            source_id: req.tokenPayload.userID,
             bank_company_id: -1,
-            des_id:data.des_id,
-            value:data.value,
+            des_id: data.des_id,
+            value: data.value,
             message: data.message
         }
         const insert_his = await model.add('tblhistorytransaction', entity);
-        return res.status(200).json({ message: "Success", error: ""});
+        return res.status(200).json({ message: "Success", error: "" });
     })
 
-    router.route('/confirmination_Email')
-    .post(async function(req,res){
-        try{
+router.route('/confirmination_Email')
+    .post(async function(req, res) {
+        try {
             const data = req.body;
             const verify = Math.floor((Math.random() * 10000000) + 1);
             const ts = Date.now();
             const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
             let userdata = {
-                id : req.tokenPayload.userID,
+                id: req.tokenPayload.userID,
                 verify: "TRUE"
             }
-            res.cookie("UserInfo",userdata);
-            const entityID = {"id":req.tokenPayload.userID};
-            const entity = {"verify": JSON.stringify({code: verify, ts: ts})}
+            res.cookie("UserInfo", userdata);
+            const entityID = { "id": req.tokenPayload.userID };
+            const entity = { "verify": JSON.stringify({ code: verify, ts: ts }) }
             const update = model.edit('tbluser', entity, entityID);
             const mailOption = {
-                from :'thecoderank@gmail.com', // sender this is your email here
-                to : `${sender[0].email}`, // receiver email2
+                from: 'thecoderank@gmail.com', // sender this is your email here
+                to: `${sender[0].email}`, // receiver email2
                 subject: "Account Verification",
                 html: `<h1>Hello Friend Please Click on this link<h1><br><hr><p>HELLO I AM 
             HOANGBANKPTUDWNC.</p> <br>
@@ -124,38 +104,54 @@ router.route('/transferAboard')
             <br><p> Please click the link below to confirmination your action: </p><br>\
             <a href="http://localhost:3000/account/verification/?verify=${verify}&id=${req.tokenPayload.userID}">CLICK ME TO ACTIVATE YOUR ACCOUNT</a>`
             }
-            transporter.sendMail(mailOption,(error,info)=>{
-                if(error){
+            transporter.sendMail(mailOption, (error, info) => {
+                if (error) {
                     console.log(error)
-                }else{
+                } else {
 
                     let userdata = {
-                        email : `${req.body.Email}`,
+                        email: `${req.body.Email}`,
                     }
-                    res.cookie("UserInfo",userdata);
+                    res.cookie("UserInfo", userdata);
                     res.send("Your Mail Send Successfully")
                 }
             })
-        }
-        catch(e){
+        } catch (e) {
             createError('500', e)
         }
-        
+
     })
 
-    router.route('/user_contact')
-    .post(async function(req,res){
+router.route('/user_contact')
+    .post(async function(req, res) {
+        switch (req.body.bank_company_id) {
+            case '':
+                const user = await model.single_by_id('tbluser', req.body.des_id);
+                if (user.length == 0) {
+                    return res.status(400).json({ message: "Failed", error: "User id not found" });
+                }
+                break;
+            case 'TttwVLKHvXRujyllDq':
+                api = new hoangbankapi({ data: req.body });
+                const response = await api.callApiGetInfo();
+                console.log(response);
+                const data = JSON.parse(response);
+                if (!data.data) {
+                    return res.status(400).json({ message: "Failed", error: "User id not found" });
+                }
+        }
+
         const tblContact = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
         const obj = tblContact.find(o => o.des_id == req.body.des_id);
-        if(obj){
-            return res.status(409).json({ message: "Failed", error: "Duplicated entry"});
+        if (obj) {
+            return res.status(409).json({ message: "Failed", error: "Duplicated entry" });
         }
         const entity = {
             source_id: req.tokenPayload.userID,
             ...req.body,
         }
         const add = model.add('tblreceivercontact', entity)
-        return res.status(200).json({ message: "Success", error: ""});
+        return res.status(200).json({ message: "Success", error: "" });
     })
 
 module.exports = router;

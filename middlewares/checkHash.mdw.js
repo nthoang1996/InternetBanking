@@ -3,7 +3,7 @@ const model = require('../models/model');
 
 module.exports = async (req,res, next) =>{
     const signature = req.headers['x-signature'];
-    const time = req.headers['time'];
+    const time = req.headers['timestamp'];
     const data = req.body.data;
 
     const idCompany = req.headers.company_id; // id company
@@ -13,7 +13,7 @@ module.exports = async (req,res, next) =>{
     const hash = md5(time + data + secret_key); // hash
 
     if (hash !== signature ){
-        res.status(401).json({error: "Invalid"});
+        return res.status(401).json({"message": "Failed", "error": "Invalid"});
     }
     next();
 }

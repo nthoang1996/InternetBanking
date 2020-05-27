@@ -6,6 +6,7 @@ module.exports = {
         return db.load(`select * from ${table} where source_id = ${source_id};`);
     },
     single_by_id: (table, id) => { return db.load(`select * from ${table} where id = ${id}`) },
+    single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
     add: (table, entity) => { return db.add(table, entity) },
     del: (table, entity) => { return db.del(table, entity) },
     edit: (table, entity, entityId) => {

@@ -33,7 +33,7 @@ sinature({"id":"id","ts":"timestamp", "value":"500000000"},'base64');
 header
 {
 	"company_id": company_id
-	"time": time
+	"timestamp": timestamp
 	"x-signature": signature
 }
 cấu trúc gói tin:
