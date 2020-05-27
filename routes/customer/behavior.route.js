@@ -40,7 +40,6 @@ router.route('/recharge')
     router.route('/query_information')
     .post(async function(req,res){
         const des_id = req.body.data.des_id;
-        console.log(des_id);
         const customer = await model.single_by_id('tbluser', des_id);
         if(customer.length == 0){
             return res.status(400).json({ message: "Success", error: ""});
