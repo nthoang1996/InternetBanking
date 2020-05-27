@@ -24,7 +24,7 @@ class HoangBankAPI{
 		const secret_key = result[0].secret_key;
 		const formData = JSON.stringify({data:this.data});
 		const hash_signature = md5(timestamp + formData + secret_key); // hash
-        let res = request('POST',url,{
+        const res = request('POST',url,{
             headers: {
               'Content-Type': 'application/json',
 			  'company_id': this.company_id,
@@ -33,7 +33,7 @@ class HoangBankAPI{
             },
             body: formData,
           });
-        return res.getBody('utf8');
+        return res.body.toString('utf8');;
     }
 
     async callApiGetInfo(){
@@ -42,7 +42,7 @@ class HoangBankAPI{
 		const secret_key = result[0].secret_key;
 		const timestamp = Date.now();
 		const hash_signature = md5(timestamp + this.data + secret_key); // hash
-		let res = request('POST',url,{
+		const res = request('POST',url,{
             headers: {
               'Content-Type': 'application/json',
 			  'company_id': this.company_id,
@@ -50,8 +50,12 @@ class HoangBankAPI{
 			  'x-signature': hash_signature	 
             },
             body: JSON.stringify(this.data),
-		  });
-		return res.getBody('utf8');
+		  },function (error, response, body) {
+			  console.log(error);
+			  console.log(response);
+			  console.log(body);
+		  })
+		return res.body.toString('utf8');
     }
 }
 

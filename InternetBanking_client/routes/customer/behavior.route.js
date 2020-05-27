@@ -134,7 +134,6 @@ router.route('/user_contact')
             case 'TttwVLKHvXRujyllDq':
                 api = new hoangbankapi({ data: req.body });
                 const response = await api.callApiGetInfo();
-                console.log(response);
                 const data = JSON.parse(response);
                 if (!data.data) {
                     return res.status(400).json({ message: "Failed", error: "User id not found" });
@@ -142,7 +141,7 @@ router.route('/user_contact')
         }
 
         const tblContact = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
-        const obj = tblContact.find(o => o.des_id == req.body.des_id);
+        const obj = tblContact.find(o => o.des_id == req.body.des_id && o.bank_company_id == req.body.bank_company_id);
         if (obj) {
             return res.status(409).json({ message: "Failed", error: "Duplicated entry" });
         }

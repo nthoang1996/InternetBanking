@@ -32,7 +32,7 @@ router.route('/recharge')
             return res.status(200).json({ message: "Success", error: ""});
             
         }else{
-            return res.status(200).json({ message: "Failed", error: "Validate failed"});
+            return res.status(400).json({ message: "Failed", error: "Validate failed"});
         }
         
     })
@@ -43,7 +43,7 @@ router.route('/recharge')
         console.log(des_id);
         const customer = await model.single_by_id('tbluser', des_id);
         if(customer.length == 0){
-            return res.status(200).json({ message: "Success", error: ""});
+            return res.status(400).json({ message: "Success", error: ""});
         }
         const result = {
             name: customer[0].name,
