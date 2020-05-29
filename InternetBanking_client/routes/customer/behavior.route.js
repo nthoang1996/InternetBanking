@@ -163,4 +163,9 @@ router.route('/user_contact/:contact_id')
         return res.status(200).json({ message: "Success", error: "" });
     })
 
+router.route('/saving_account')
+    .get(async function(req, res) {
+        const rows = await model.all_by_id_user('tblsavingaccount', req.tokenPayload.userID);
+        return res.status(200).json({ message: "Success", error: "", data: rows });
+    })
 module.exports = router;
