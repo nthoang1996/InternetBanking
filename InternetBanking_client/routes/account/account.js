@@ -24,21 +24,4 @@ router.route('/login').post(async function(req,res){
 
 })
 
-router.route('/verification/')
-    .get(async function(req,res){
-        const sender = await model.single_by_id('tbluser', req.query.id);
-        if(sender[0].verify.code == req.query.verify){
-            const ts = Date.now();
-            if(ts - sender[0].verify.ts <= 180){
-                res.send('Ok con de');
-            }
-            else{
-                res.status(498).json({ message: "Failed", error: "Verify expired"});
-            }
-        }
-        else{
-            res.status(401).json({ message: "Failed", error: "Authentication failed"});
-        }
-    })
-
 module.exports = router;

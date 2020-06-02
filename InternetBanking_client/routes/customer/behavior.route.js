@@ -101,8 +101,9 @@ router.route('/confirmination_Email')
                 html: `<h1>Hello Friend Please Click on this link<h1><br><hr><p>HELLO I AM 
             HOANGBANKPTUDWNC.</p> <br>
             <p>Seem you have requested for transfer money to the account ${data.des_id}</p><br>
-            <br><p> Please click the link below to confirmination your action: </p><br>\
-            <a href="http://localhost:3000/account/verification/?verify=${verify}&id=${req.tokenPayload.userID}">CLICK ME TO ACTIVATE YOUR ACCOUNT</a>`
+            <p>Your code is ${verify} </p><br>
+            <p>Please use this code to confirm your action in my website</p>
+            <p>Thanks and best regard</p>`
             }
             transporter.sendMail(mailOption, (error, info) => {
                 if (error) {
@@ -120,6 +121,21 @@ router.route('/confirmination_Email')
             createError('500', e)
         }
 
+    })
+
+router.route('/verification/')
+    .get(async function(req, res) {
+        const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
+        if (sender[0].verify.code == req.body.verify) {
+            const ts = Date.now();
+            if (ts - sender[0].verify.ts <= 180) {
+                res.status(200).json({ message: "Success", error: "" });
+            } else {
+                res.status(498).json({ message: "Failed", error: "Verify expired" });
+            }
+        } else {
+            res.status(401).json({ message: "Failed", error: "Authentication failed" });
+        }
     })
 
 router.route('/user_contact')

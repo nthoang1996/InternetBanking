@@ -1,0 +1,56 @@
+{
+    "contact": [{
+            "title": "1900 54 54 13",
+            "icon_class": "fa fa-phone"
+        },
+        {
+            "title": "Cơ chế tố giác",
+            "icon_class": "fa fa-envelope"
+        }
+    ],
+    "founder": [{
+            "title": "Điểm đặt ATM",
+            "icon_class": "fa fa-credit-card"
+        },
+        {
+            "title": "Điểm giao dịch",
+            "icon_class": "fa fa-map-marker"
+        }
+    ],
+    "information_1": [{
+            "title": "Tỷ giá",
+            "icon_class": "fa fa-dollar-sign"
+        },
+        {
+            "title": "Biểu phí",
+            "icon_class": "fa fa-money-bill-alt"
+        },
+        {
+            "title": "Câu hỏi thường gặp",
+            "icon_class": "fa fa-comments"
+        }
+
+    ],
+    "information_2": [{
+            "title": "Lãi suất",
+            "icon_class": "fa fa-file-invoice-dollar"
+        },
+        {
+            "title": "Biểu mẫu",
+            "icon_class": "fa fa-search-dollar"
+        }
+    ],
+    "tool": [{
+            "title": "Chuyển đổi ngoại tệ",
+            "icon_class": "fa fa-balance-scale"
+        },
+        {
+            "title": "Tính lịch trả nợ",
+            "icon_class": "fa fa-calendar-day"
+        },
+        {
+            "title": "Tính lãi tiết kiệm",
+            "icon_class": "fa fa-cash-register"
+        }
+    ]
+}
