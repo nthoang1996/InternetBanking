@@ -2,10 +2,12 @@ const express = require('express'); // call express
 const app = express(); // define our app using express
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const port = process.env.PORT || 3000; // set our port
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(cookieParser());
+app.use(cors())
 
 require('./middlewares/routes.mdw')(app);
 

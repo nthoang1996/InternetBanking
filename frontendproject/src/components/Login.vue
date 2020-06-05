@@ -1,12 +1,6 @@
 <template>
   <div class="fadeInDown my-login">
-    <div
-      id="formContent"
-      method="post"
-      novalidate
-      name="formContent"
-      @submit="recaptcha($event)"
-    >
+    <div id="formContent" method="post" novalidate name="formContent" @submit="recaptcha($event)">
       <div class="fadeIn first">
         <label class="my-label">Chào mừng quý khách đến với iUSTechbank</label>
       </div>
@@ -19,12 +13,7 @@
           name="password"
           placeholder="Mật khẩu"
         />
-        <input
-          type="submit"
-          class="fadeIn fourth"
-          defaultValue="Log In"
-          value="Đăng nhập"
-        />
+        <input type="submit" class="fadeIn fourth" defaultValue="Log In" value="Đăng nhập" />
       </form>
       <div id="formFooter">
         <a class="underlineHover my-login-link" href="#">Quên mật khẩu</a>
@@ -34,23 +23,44 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { VueReCaptcha } from 'vue-recaptcha-v3'
-Vue.use(VueReCaptcha, { siteKey: '6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-' })
+import Vue from "vue";
+import { VueReCaptcha } from "vue-recaptcha-v3";
+Vue.use(VueReCaptcha, { siteKey: "6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-" });
 export default {
   name: "Login",
   data() {
     return {};
   },
   methods: {
+    sendData(captcha) {
+      const info = JSON.stringify({ captcha: captcha });
+      fetch("http://localhost:3000/account/verify", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json"
+        },
+        body: info
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("success");
+          } else {
+            alert("Bạn là một con bot");
+          }
+        });
+    },
+
     async recaptcha(event) {
+      const self = this;
       // (optional) Wait until recaptcha has been loaded.
       event.preventDefault();
       await this.$recaptchaLoaded();
 
       // Execute reCAPTCHA with action "login".
       const token = await this.$recaptcha("login");
-      alert(token);
+      self.sendData(token);
 
       // Do stuff with the received token.
     }
