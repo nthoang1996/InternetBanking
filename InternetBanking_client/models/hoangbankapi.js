@@ -37,7 +37,7 @@ class HoangBankAPI{
     }
 
     async callApiGetInfo(){
-		const url = 'http://localhost:8000/customer/query_information';
+		const url = 'https://salty-meadow-17297.herokuapp.com/customer/query_information';
 		const result = await model.single_by_idString('tblbank', this.company_id);
 		const secret_key = result[0].secret_key;
 		const timestamp = Date.now();
