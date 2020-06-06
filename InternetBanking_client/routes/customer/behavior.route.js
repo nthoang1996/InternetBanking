@@ -162,15 +162,13 @@ router.route('/user_contact')
                 api = new datbankapi({ stk: req.body.des_id });
                 response = await api.callApiGetInfo();
                 console.log(response)
-                // data = JSON.parse(response);
-                return res.status(400).json({ message: "Test", error: "User id not found" });
+                data = JSON.parse(response);
                 if (!data.data) {
                     return res.status(400).json({ message: "Failed", error: "User id not found" });
                 }
                 break;
 
         }
-
         const tblContact = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
         const obj = tblContact.find(o => o.des_id == req.body.des_id && o.bank_company_id == req.body.bank_company_id);
         if (obj) {
@@ -179,6 +177,9 @@ router.route('/user_contact')
         const entity = {
             source_id: req.tokenPayload.userID,
             ...req.body,
+        }
+        if(entity.name_contact === ''){
+            entity.name_contact = data.name;
         }
         const add = model.add('tblreceivercontact', entity)
         return res.status(200).json({ message: "Success", error: "" });

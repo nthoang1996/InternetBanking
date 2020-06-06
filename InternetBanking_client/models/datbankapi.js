@@ -8,7 +8,7 @@ key.importKey(config.secret_key.private_key.join('\n'), 'pkcs1');
 class HoangBankAPI{
     constructor(data){
 		this.data = data;
-		this.company_id = 'pawGDX1Ddu';
+		this.company_id = 'TttwVLKHvXRujyllDq';
     }
 
     async callApiRecharge(){
@@ -20,7 +20,7 @@ class HoangBankAPI{
         dataVerify.value = data.value;
         const signature=key.sign(this.dataVerify, 'base64');
 		this.data.signature = signature;
-		const result = await model.single_by_idString('tblbank', this.company_id);
+		const result = await model.single_by_idString('tblbank', 'pawGDX1Ddu');
 		const secret_key = result[0].secret_key;
 		const formData = JSON.stringify({data:this.data});
 		const hash_signature = md5(timestamp + formData + secret_key); // hash
@@ -38,14 +38,14 @@ class HoangBankAPI{
 
     async callApiGetInfo(){
 		const url = 'https://dacc-internet-banking.herokuapp.com/payment/getCustomer';
-		const result = await model.single_by_idString('tblbank', this.company_id);
+		const result = await model.single_by_idString('tblbank', 'pawGDX1Ddu');
 		const secret_key = result[0].secret_key;
 		const timestamp = Date.now();
 		const hash_signature = md5(this.data + timestamp + secret_key); // hash
 		const res = request('POST',url,{
             headers: {
               'Content-Type': 'application/json',
-			  'identify': this.company_id,
+			  'company_id': this.company_id,
 			  'ts': timestamp,
 			  'sig': hash_signature	 
             },
