@@ -2,6 +2,7 @@ const express = require('express');
 const model = require('../../models/model');
 const router = express.Router();
 const hoangbankapi = require('../../models/hoangbankapi');
+const datbankapi = require('../../models/datbankapi');
 const nodemailer = require('nodemailer');
 const createError = require('http-errors');
 // const transporter = require('../../utils/email')
@@ -140,6 +141,8 @@ router.route('/verification/')
 
 router.route('/user_contact')
     .post(async function(req, res) {
+        let response = "";
+        let data = {};
         switch (req.body.bank_company_id) {
             case '':
                 const user = await model.single_by_id('tbluser', req.body.des_id);
@@ -149,11 +152,23 @@ router.route('/user_contact')
                 break;
             case 'TttwVLKHvXRujyllDq':
                 api = new hoangbankapi({ data: req.body });
-                const response = await api.callApiGetInfo();
-                const data = JSON.parse(response);
+                response = await api.callApiGetInfo();
+                data = JSON.parse(response);
                 if (!data.data) {
                     return res.status(400).json({ message: "Failed", error: "User id not found" });
                 }
+                break;
+            case 'pawGDX1Ddu':
+                api = new datbankapi({ stk: req.body.des_id });
+                response = await api.callApiGetInfo();
+                console.log(response)
+                // data = JSON.parse(response);
+                return res.status(400).json({ message: "Test", error: "User id not found" });
+                if (!data.data) {
+                    return res.status(400).json({ message: "Failed", error: "User id not found" });
+                }
+                break;
+
         }
 
         const tblContact = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
