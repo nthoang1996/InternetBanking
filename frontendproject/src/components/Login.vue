@@ -21,6 +21,7 @@
           placeholder="Mật khẩu"
           v-model="passWord"
         />
+        <div v-if="err != ''" class="my-err-message">{{err}}</div>
         <input type="submit" class="fadeIn fourth" defaultValue="Log In" value="Đăng nhập" />
       </form>
       <div id="formFooter">
@@ -39,7 +40,8 @@ export default {
   data() {
     return {
       userName: "",
-      passWord: ""
+      passWord: "",
+      err: ""
     };
   },
   methods: {
@@ -57,6 +59,7 @@ export default {
           if (data.success) {
             console.log("success");
           } else {
+            this.err = data.msg;
             return;
           }
         });
@@ -73,8 +76,9 @@ export default {
         .then(res => res.json())
         .then(data => {
           if (data.message === "Success") {
-            console.log(data.access_token);
+            this.$store.dispatch('createToken', data.access_token);
           } else {
+            this.err = data.error;
             return;
           }
         });
@@ -349,5 +353,11 @@ input[type="text"]:placeholder {
   font-family: "Signika", sans-serif;
   padding-top: 10px;
   max-width: 60%;
+}
+
+.my-err-message{
+  color: red;
+  font-size: 10px;
+  font-family: "Signika", sans-serif;
 }
 </style>

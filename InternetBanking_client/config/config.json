@@ -16,5 +16,14 @@
             "cnJhmA9//Cp7LsPv4rxfId5VUUxqO0Fq6Rn6lZsLjg==",
             "-----END RSA PRIVATE KEY-----"
         ]
+    },
+    "captcha": {
+        "secret_key": "6LeQAMwUAAAAANC665bQZKP5KE-JUtd6UQdXcG-D"
+    },
+    "JWT": {
+        "secret_key": "p8Le2BdKaPeCNXW57cU77uco0wY5FoDw4nzGk4nc",
+        "refresh_token": {
+            "size": "80"
+        }
     }
 }
