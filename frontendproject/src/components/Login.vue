@@ -5,13 +5,21 @@
         <label class="my-label">Chào mừng quý khách đến với iUSTechbank</label>
       </div>
       <form>
-        <input type="text" id="login" class="fadeIn second" name="login" placeholder="Tài khoản" />
+        <input
+          type="text"
+          id="login"
+          class="fadeIn second"
+          name="login"
+          placeholder="Tài khoản"
+          v-model="userName"
+        />
         <input
           type="password"
           id="password"
           class="fadeIn third"
           name="password"
           placeholder="Mật khẩu"
+          v-model="passWord"
         />
         <input type="submit" class="fadeIn fourth" defaultValue="Log In" value="Đăng nhập" />
       </form>
@@ -29,15 +37,17 @@ Vue.use(VueReCaptcha, { siteKey: "6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-" });
 export default {
   name: "Login",
   data() {
-    return {};
+    return {
+      userName: "",
+      passWord: ""
+    };
   },
   methods: {
-    sendData(captcha) {
+    async sendData(captcha) {
       const info = JSON.stringify({ captcha: captcha });
-      fetch("http://localhost:3000/account/verify", {
+      await fetch("http://localhost:3000/account/verify", {
         method: "POST",
         headers: {
-          Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json"
         },
         body: info
@@ -45,9 +55,27 @@ export default {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            alert("success");
+            console.log("success");
           } else {
-            alert("Bạn là một con bot");
+            return;
+          }
+        });
+
+      const body = JSON.stringify({
+        username: this.userName,
+        password: this.passWord
+      });
+      await fetch("http://localhost:3000/account/login", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: body
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.message === "Success") {
+            console.log(data.access_token);
+          } else {
+            return;
           }
         });
     },

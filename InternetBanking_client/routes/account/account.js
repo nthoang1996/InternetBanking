@@ -6,27 +6,27 @@ const jwt = require('jsonwebtoken');
 const secretKey = "6LeQAMwUAAAAANC665bQZKP5KE-JUtd6UQdXcG-D";
 const request = require('request');
 
-router.route('/login').post(async function(req,res){
+router.route('/login').post(async function (req, res) {
     const rows = await model.single_by_username('tbluser', req.body.username);
-    if(rows.length == 0){
-        return res.status(404).json({"message":"Failed", "error": "Username not found"});
+    if (!rows) {
+        return res.status(401).json({ "message": "Failed", "error": "Username not found" });
     }
     const hashPwd = rows.password;
     const rs = bcrypt.compareSync(req.body.password, hashPwd);
     if (rs === false) {
-        return res.status(401).json({"message":"Failed", "error": "Authenticate failed"});
+        return res.status(401).json({ "message": "Failed", "error": "Authenticate failed" });
     }
     const payload = {
         userID: rows.id,
     };
     const token = jwt.sign(payload, 'secretKey', {
-        expiresIn: 10 * 60 ,
+        expiresIn: 10 * 60,
     })
-    res.status(200).json({"message":"Success", "error": "", "access_token": token});
+    res.status(200).json({ "message": "Success", "error": "", "access_token": token });
 
 })
 
-router.route('/verify').post(function(req, res) {
+router.route('/verify').post(function (req, res) {
     if (!req.body.captcha) {
         console.log("err");
         return res.json({ "success": false, "msg": "Capctha is not checked" });
