@@ -22,4 +22,18 @@ module.exports = {
         }
         return rows[0];
     },
+    verify_refresh_token: async(userID, refreshToken) => {
+        // const condition = {
+        //     ID: userID,
+        //     refreshToken: token
+        // }
+
+        const sql = `select * from userrefreshtokenext where id = ${userID} and refresh_token = '${refreshToken}'`;
+        console.log(sql);
+        const rows = await db.load(sql);
+        if(rows.length > 0){
+            return true;
+        }
+        return false;
+    }
 };

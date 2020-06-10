@@ -1,4 +1,12 @@
 {
+    "mysql": {
+        "connectionLimit": 50,
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "",
+        "database": "internet_banking"
+    },
     "secret_key": {
         "private_key": ["-----BEGIN RSA PRIVATE KEY-----",
             "MIICWwIBAAKBgQCTrlHb3adQstaRWJlqtsrIeFo57lSpE5FemvbIiBn0gGVMl+Sv",
@@ -22,6 +30,9 @@
     },
     "JWT": {
         "secret_key": "p8Le2BdKaPeCNXW57cU77uco0wY5FoDw4nzGk4nc",
+        "access_token": {
+            "expired_time" : 600
+        },
         "refresh_token": {
             "size": "80"
         }

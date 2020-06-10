@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
+const config = require('../config/config.json');
 
 module.exports = (req, res, next) => {
     const token = req.headers['x-access-token'];
     if(token){
-        jwt.verify(token,'secretKey',function(err, payload){
+        jwt.verify(token, config.JWT.secret_key,function(err, payload){
             if(err){
                 throw createError(403, err);
             }

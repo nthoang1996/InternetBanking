@@ -7,34 +7,36 @@ const config = require('../../config/config.json');
 const request = require('request');
 const randToken = require('rand-token');
 const moment = require('moment');
+const createError = require('http-errors');
 
 router.route('/login').post(async function (req, res) {
-    const rows = await model.single_by_username('tbluser', req.body.username);
-    if (!rows) {
-        return res.status(401).json({ "message": "Failed", "error": "Không tìm thấy tài khoản người dùng!" });
-    }
-    const hashPwd = rows.password;
-    const rs = bcrypt.compareSync(req.body.password, hashPwd);
-    if (rs === false) {
-        return res.status(401).json({ "message": "Failed", "error": "Mật khẩu bạn nhập vào không đúng!" });
-    }
-    const payload = {
-        userID: rows.id,
-    };
-    const token = jwt.sign(payload, config.JWT.secret_key, {
-        expiresIn: 10 * 60,
-    })
+    try {
+        const rows = await model.single_by_username('tbluser', req.body.username);
+        if (!rows) {
+            return res.status(401).json({ "message": "Failed", "error": "Không tìm thấy tài khoản người dùng!" });
+        }
+        const hashPwd = rows.password;
+        const rs = bcrypt.compareSync(req.body.password, hashPwd);
+        if (rs === false) {
+            return res.status(401).json({ "message": "Failed", "error": "Mật khẩu bạn nhập vào không đúng!" });
+        }
 
-    const refreshToken = createRefreshToken(rows.id);
-    
-    res.status(200).json({ "message": "Success", "error": "", "access_token": token, refreshToken: refreshToken });
+        const token = generateAccessToken(rows.id);
+
+        const refreshToken = await createRefreshToken(rows.id);
+
+        res.status(200).json({ "message": "Success", "error": "", "access_token": token, refreshToken: refreshToken });
+    }
+    catch (err) {
+        console.log(err);
+    }
 
 })
 
-async function createRefreshToken(id){
+async function createRefreshToken(id) {
     const refreshToken = randToken.generate(config.JWT.refresh_token.size);
-    const entityId = {id}
-    const del = model.del('userrefreshtokenext',entityId);
+    const entityId = { id }
+    const del = model.del('userrefreshtokenext', entityId);
     const entity = {
         id,
         refresh_token: refreshToken,
@@ -70,4 +72,33 @@ router.route('/verify').post(function (req, res) {
 
     })
 })
+
+router.route('/refresh')
+    .post(async function (req, res) {
+        const userID = '';
+
+        jwt.verify(req.body.accessToken, config.JWT.secret_key, { ignoreExpiration: true }, async function (err, payload) {
+            console.log(err);
+            console.log(payload);
+            const verifyRfToken = await model.verify_refresh_token(payload.userID, req.body.refreshToken);
+
+            if (verifyRfToken === false) {
+                throw createError(400, "Refresh token không đúng!");
+            }
+
+            const access_token = generateAccessToken(userID);
+            return res.status(200).json({ "message": "Success", "error": "", "access_token": access_token });
+        })
+    })
+
+const generateAccessToken = userID => {
+    const payload = {
+        userID,
+    };
+    const token = jwt.sign(payload, config.JWT.secret_key, {
+        expiresIn: config.JWT.access_token.expired_time,
+    })
+
+    return token;
+}
 module.exports = router;
