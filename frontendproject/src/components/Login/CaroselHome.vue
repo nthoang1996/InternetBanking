@@ -10,6 +10,7 @@
 
 <script>
 import CaroselItem from './CaroselItem'
+
 export default {
     props: ["srcImage"],
     components: {
@@ -19,4 +20,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

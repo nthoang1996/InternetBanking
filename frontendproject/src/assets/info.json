@@ -1,56 +1,56 @@
 {
     "contact": [{
             "title": "1900 54 54 13",
-            "icon_class": "fa fa-phone"
+            "icon_class": "phone"
         },
         {
             "title": "Cơ chế tố giác",
-            "icon_class": "fa fa-envelope"
+            "icon_class": "envelope"
         }
     ],
     "founder": [{
             "title": "Điểm đặt ATM",
-            "icon_class": "fa fa-credit-card"
+            "icon_class": "credit-card"
         },
         {
             "title": "Điểm giao dịch",
-            "icon_class": "fa fa-map-marker"
+            "icon_class": "map-marker"
         }
     ],
     "information_1": [{
             "title": "Tỷ giá",
-            "icon_class": "fa fa-dollar-sign"
+            "icon_class": "percent"
         },
         {
             "title": "Biểu phí",
-            "icon_class": "fa fa-money-bill-alt"
+            "icon_class": "sticky-note"
         },
         {
             "title": "Câu hỏi thường gặp",
-            "icon_class": "fa fa-comments"
+            "icon_class": "comments"
         }
 
     ],
     "information_2": [{
             "title": "Lãi suất",
-            "icon_class": "fa fa-file-invoice-dollar"
+            "icon_class": "arrow-circle-up"
         },
         {
             "title": "Biểu mẫu",
-            "icon_class": "fa fa-search-dollar"
+            "icon_class": "file"
         }
     ],
     "tool": [{
             "title": "Chuyển đổi ngoại tệ",
-            "icon_class": "fa fa-balance-scale"
+            "icon_class": "balance-scale"
         },
         {
             "title": "Tính lịch trả nợ",
-            "icon_class": "fa fa-calendar-day"
+            "icon_class": "calendar"
         },
         {
             "title": "Tính lãi tiết kiệm",
-            "icon_class": "fa fa-cash-register"
+            "icon_class": "dollar"
         }
     ]
 }

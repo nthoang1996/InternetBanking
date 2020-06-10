@@ -76,7 +76,10 @@ export default {
         .then(res => res.json())
         .then(data => {
           if (data.message === "Success") {
-            this.$store.dispatch('createToken', data.access_token);
+            localStorage.todoapp_accesstoken = data.access_token;
+            localStorage.todoapp_refreshtoken = data.refresh_token;
+            const retUrl = this.$route.query.retUrl || '/customer_dashboard';
+            return this.$router.push(retUrl);
           } else {
             this.err = data.error;
             return;

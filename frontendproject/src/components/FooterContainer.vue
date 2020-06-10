@@ -1,7 +1,7 @@
 <template>
   <div>
     <span v-for="(item, index) in data" :key="index" class="my-footer-text pl-3 mt-1">
-        <i :class="[item.icon_class, 'my-icon']"></i>&nbsp;
+       <vue-fontawesome :icon="[item.icon_class]" class="my-icon" size="2" color="lightgray"></vue-fontawesome>&nbsp;
         <a class="my-link">{{item.title}}</a>
     </span>
   </div>
@@ -25,7 +25,8 @@ export default {
 
 .my-icon {
     color: #A7A9AC !important;
-    min-width: 15px;
+    min-width: 20px;
+    font-size: 15px !important;
 }
 
 .my-link:hover {

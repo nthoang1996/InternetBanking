@@ -10,26 +10,21 @@ const moment = require('moment');
 const createError = require('http-errors');
 
 router.route('/login').post(async function (req, res) {
-    try {
-        const rows = await model.single_by_username('tbluser', req.body.username);
-        if (!rows) {
-            return res.status(401).json({ "message": "Failed", "error": "Không tìm thấy tài khoản người dùng!" });
-        }
-        const hashPwd = rows.password;
-        const rs = bcrypt.compareSync(req.body.password, hashPwd);
-        if (rs === false) {
-            return res.status(401).json({ "message": "Failed", "error": "Mật khẩu bạn nhập vào không đúng!" });
-        }
-
-        const token = generateAccessToken(rows.id);
-
-        const refreshToken = await createRefreshToken(rows.id);
-
-        res.status(200).json({ "message": "Success", "error": "", "access_token": token, refreshToken: refreshToken });
+    const rows = await model.single_by_username('tbluser', req.body.username);
+    if (!rows) {
+        return res.status(401).json({ "message": "Failed", "error": "Không tìm thấy tài khoản người dùng!" });
     }
-    catch (err) {
-        console.log(err);
+    const hashPwd = rows.password;
+    const rs = bcrypt.compareSync(req.body.password, hashPwd);
+    if (rs === false) {
+        return res.status(401).json({ "message": "Failed", "error": "Mật khẩu bạn nhập vào không đúng!" });
     }
+
+    const token = generateAccessToken(rows.id);
+
+    const refreshToken = await createRefreshToken(rows.id);
+
+    res.status(200).json({ "message": "Success", "error": "", "access_token": token, refresh_token: refreshToken });
 
 })
 
