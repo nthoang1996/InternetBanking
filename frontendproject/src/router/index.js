@@ -37,7 +37,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!localStorage.todoapp_accesstoken || !localStorage.todoapp_refreshtoken) {
+    if (!localStorage.internetbanking_accesstoken || !localStorage.internetbanking_refreshtoken) {
       next({
         path: '/',
         query: { retUrl: to.fullPath }

@@ -1,15 +1,8 @@
 <template>
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand" href="/product">
-      <div class="sidebar-brand-icon rotate-n-15">
-        <i class="fas fa-laugh-wink"></i>
-      </div>
-      <div class="sidebar-brand-text mx-3">
-        R
-        <sup>19</sup>
-      </div>
-    </a>
+    <router-link to="/profile" class="sidebar-brand mb-3">Xin chào <br>{{getUser.name}}</router-link>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0" />
@@ -61,7 +54,25 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from 'vuex';
+export default {
+  data() {
+    return {
+      user: {}
+    };
+  },
+  mounted() {
+    this.$store.dispatch("initSidebar");
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+
+    // visibleTasks() {
+    //   // return this.$store.state.tasks;
+    //   return this.$store.getters.visibleTasks;
+    // }
+  },
+};
 </script>
 
 <style lang="scss" scoped>

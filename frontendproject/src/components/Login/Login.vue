@@ -76,11 +76,9 @@ export default {
         .then(res => res.json())
         .then(data => {
           if (data.message === "Success") {
-            localStorage.todoapp_accesstoken = data.access_token;
-            localStorage.todoapp_refreshtoken = data.refresh_token;
+            localStorage.internetbanking_accesstoken = data.access_token;
+            localStorage.internetbanking_refreshtoken = data.refresh_token;
             const retUrl = this.$route.query.retUrl || '/customer_dashboard';
-            const recaptcha = this.$recaptchaInstance
-            recaptcha.hideBadge()
             return this.$router.push(retUrl);
           } else {
             this.err = data.error;

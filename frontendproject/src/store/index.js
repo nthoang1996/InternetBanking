@@ -5,22 +5,32 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: ''
+    user: {}
   },
-  getters:{
-    getToken(state){
-      return state.token;
+  getters: {
+    getUser(state) {
+      return state.user;
     }
   },
   mutations: {
-    CREATE_TOKEN(state, payload){
+    INIT_USER(state, payload) {
       console.log(payload);
-      state.token = payload;
+      state.user = payload;
     }
   },
   actions: {
-    createToken(ctx, token){
-      ctx.commit('CREATE_TOKEN', token);
+    initSidebar(ctx) {
+      const url = 'http://localhost:3000/general/get_user_login_info'
+      fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        console.log(json);
+        ctx.commit('INIT_USER', json.user);
+      });      
     }
   },
   modules: {
