@@ -35,7 +35,9 @@
 import Vue from "vue";
 import { VueReCaptcha } from "vue-recaptcha-v3";
 Vue.use(VueReCaptcha, { siteKey: "6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-" });
+import myMixin from '../../Mixin'
 export default {
+  mixins: [myMixin],
   name: "Login",
   data() {
     return {
@@ -76,8 +78,8 @@ export default {
         .then(res => res.json())
         .then(data => {
           if (data.message === "Success") {
-            localStorage.internetbanking_accesstoken = data.access_token;
-            localStorage.internetbanking_refreshtoken = data.refresh_token;
+            this.setAuth(data);
+             localStorage.internetbanking_refreshtoken = data.refresh_token;
             const retUrl = this.$route.query.retUrl || '/customer_dashboard';
             return this.$router.push(retUrl);
           } else {

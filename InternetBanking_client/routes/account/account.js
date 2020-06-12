@@ -70,7 +70,6 @@ router.route('/verify').post(function (req, res) {
 
 router.route('/refresh')
     .post(async function (req, res) {
-        const userID = '';
 
         jwt.verify(req.body.accessToken, config.JWT.secret_key, { ignoreExpiration: true }, async function (err, payload) {
             console.log(err);
@@ -81,7 +80,7 @@ router.route('/refresh')
                 throw createError(400, "Refresh token không đúng!");
             }
 
-            const access_token = generateAccessToken(userID);
+            const access_token = generateAccessToken(payload.userID);
             return res.status(200).json({ "message": "Success", "error": "", "access_token": access_token });
         })
     })

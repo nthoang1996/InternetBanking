@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import data from "../assets/info.json";
+import myMixin from '../Mixin';
 
 Vue.use(Vuex)
 
@@ -8,7 +9,7 @@ export default new Vuex.Store({
   state: {
     user: {},
     current_page: '',
-    list_dashboard: [{id:1, name: "Thông tin cá nhân", url:"/", class:"fa fa-user-circle"}],
+    list_dashboard: [],
   },
   getters: {
     getUser(state) {
@@ -29,11 +30,14 @@ export default new Vuex.Store({
       state.current_page = payload;
     },
     SET_DASHBOARD(state, payload){
+      state.list_dashboard = [{id:1, name: "Thông tin cá nhân", url:"/", class:"fa fa-user-circle"}],
       state.list_dashboard = [...state.list_dashboard, ...payload];
     }
   },
   actions: {
-    initSidebar(ctx) {
+    async initSidebar(ctx) {
+      await myMixin.methods.handleBeforeCallServer();
+      console.log(localStorage.internetbanking_accesstoken);
       const url = 'http://localhost:3000/general/get_user_login_info'
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
@@ -42,6 +46,7 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
+        console.log(json);
         ctx.commit('INIT_USER', json.user);
       });      
     },
