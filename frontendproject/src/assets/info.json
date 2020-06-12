@@ -1,56 +1,80 @@
 {
-    "contact": [{
-            "title": "1900 54 54 13",
-            "icon_class": "phone"
-        },
-        {
-            "title": "Cơ chế tố giác",
-            "icon_class": "envelope"
-        }
-    ],
-    "founder": [{
-            "title": "Điểm đặt ATM",
-            "icon_class": "credit-card"
-        },
-        {
-            "title": "Điểm giao dịch",
-            "icon_class": "map-marker"
-        }
-    ],
-    "information_1": [{
-            "title": "Tỷ giá",
-            "icon_class": "percent"
-        },
-        {
-            "title": "Biểu phí",
-            "icon_class": "sticky-note"
-        },
-        {
-            "title": "Câu hỏi thường gặp",
-            "icon_class": "comments"
-        }
+    "footer": {
+        "contact": [{
+                "title": "1900 54 54 13",
+                "icon_class": "phone"
+            },
+            {
+                "title": "Cơ chế tố giác",
+                "icon_class": "envelope"
+            }
+        ],
+        "founder": [{
+                "title": "Điểm đặt ATM",
+                "icon_class": "credit-card"
+            },
+            {
+                "title": "Điểm giao dịch",
+                "icon_class": "map-marker"
+            }
+        ],
+        "information_1": [{
+                "title": "Tỷ giá",
+                "icon_class": "percent"
+            },
+            {
+                "title": "Biểu phí",
+                "icon_class": "sticky-note"
+            },
+            {
+                "title": "Câu hỏi thường gặp",
+                "icon_class": "comments"
+            }
 
-    ],
-    "information_2": [{
-            "title": "Lãi suất",
-            "icon_class": "arrow-circle-up"
-        },
-        {
-            "title": "Biểu mẫu",
-            "icon_class": "file"
-        }
-    ],
-    "tool": [{
-            "title": "Chuyển đổi ngoại tệ",
-            "icon_class": "balance-scale"
-        },
-        {
-            "title": "Tính lịch trả nợ",
-            "icon_class": "calendar"
-        },
-        {
-            "title": "Tính lãi tiết kiệm",
-            "icon_class": "dollar"
-        }
-    ]
+        ],
+        "information_2": [{
+                "title": "Lãi suất",
+                "icon_class": "arrow-circle-up"
+            },
+            {
+                "title": "Biểu mẫu",
+                "icon_class": "file"
+            }
+        ],
+        "tool": [{
+                "title": "Chuyển đổi ngoại tệ",
+                "icon_class": "balance-scale"
+            },
+            {
+                "title": "Tính lịch trả nợ",
+                "icon_class": "calendar"
+            },
+            {
+                "title": "Tính lãi tiết kiệm",
+                "icon_class": "dollar"
+            }
+        ]
+    },
+    "dashboard": [{
+        "role": 3,
+        "elements": [{
+                "id": 2,
+                "name": "Danh sách tài khoản",
+                "url": "/list_account",
+                "class": "fa fa-list-ul"
+            },
+            {
+                "id": 3,
+                "name": "Danh bạ",
+                "url": "/list_contact",
+                "class": "fa fa-address-book"
+            },
+            {
+                "id": 4,
+                "name": "Chuyển tiền",
+                "url": "/transaction",
+                "class": "fa fa-paper-plane"
+            }
+        ]
+    }]
 }

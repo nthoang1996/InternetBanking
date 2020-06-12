@@ -23,7 +23,7 @@ Vue.use(VueRouter)
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
-        path: 'aaa',
+        path: '',
         component: UserProfile
       }
     ],
