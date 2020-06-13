@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login/Body'
-import CustomerDashboard from '../components/Dashboard/Customer/Body'
-import UserProfile from '../components/Dashboard/Customer/UserProfile'
+import Dashboard from '../components/Dashboard/Body'
+import UserProfile from '../components/Dashboard/UserProfile/UserProfile'
 
 Vue.use(VueRouter)
 
@@ -13,12 +13,12 @@ Vue.use(VueRouter)
       component: Login
     },
   {
-    path: '/customer_dashboard',
-    name: 'CustomerDashboard',
+    path: '/dashboard',
+    name: 'Dashboard',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: CustomerDashboard,
+    component: Dashboard,
     children: [
       {
         // UserProfile will be rendered inside User's <router-view>

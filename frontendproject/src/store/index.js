@@ -10,6 +10,7 @@ export default new Vuex.Store({
     user: {},
     current_page: '',
     list_dashboard: [],
+    userVisible: {}
   },
   getters: {
     getUser(state) {
@@ -20,17 +21,24 @@ export default new Vuex.Store({
     },
     getListDashBoard(state) {
       return state.list_dashboard;
+    },
+    getUserVisible(state) {
+      state.userVisible = {...state.user};
+      delete state.userVisible.id;
+      delete state.userVisible.role;
+      return state.userVisible;
     }
   },
   mutations: {
     INIT_USER(state, payload) {
       state.user = payload;
     },
-    SET_CURRENT_PAGE(state, payload){
-      state.current_page = payload;
+    SET_CURRENT_PAGE(state, query){
+      console.log(JSON.parse(JSON.stringify(state.list_dashboard)))
+      state.current_page = state.list_dashboard.find(element=>element.url === query).name;
     },
     SET_DASHBOARD(state, payload){
-      state.list_dashboard = [{id:1, name: "Thông tin cá nhân", url:"/", class:"fa fa-user-circle"}],
+      state.list_dashboard = [{id:1, name: "Thông tin cá nhân", url:"/dashboard", class:"fa fa-user-circle"}];
       state.list_dashboard = [...state.list_dashboard, ...payload];
     }
   },
@@ -50,8 +58,8 @@ export default new Vuex.Store({
         ctx.commit('INIT_USER', json.user);
       });      
     },
-    setCurrentPage(ctx, payload){
-      ctx.commit('SET_CURRENT_PAGE', payload);
+    setCurrentPage(ctx, query){
+      ctx.commit('SET_CURRENT_PAGE', query);
     },
     setDashBoard(ctx){
       let listDashBoard = data.dashboard.find(element => element.role === this.state.user.role).elements;

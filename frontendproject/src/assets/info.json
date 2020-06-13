@@ -76,5 +76,13 @@
                 "class": "fa fa-paper-plane"
             }
         ]
-    }]
+    }],
+    "constant": {
+        "name": "Họ tên",
+        "phone": "Số điện thoại",
+        "address": "Địa chỉ",
+        "email": "Email",
+        "username": "Tên tài khoản",
+        "bank_balance": "Số dư"
+    }
 }

@@ -1,7 +1,7 @@
 <template>
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <router-link to="/" class="sidebar-brand mb-3">Xin chào <br>{{getUser.name}}</router-link>
+    <router-link to="/dashboard" class="sidebar-brand mb-3 my-hover">Xin chào <br>{{getUser.name}}</router-link>
 
 
     <!-- Divider -->
@@ -25,8 +25,10 @@
     <!-- Nav Item - Tables -->
 
     <router-link :to="item.url" v-for="item in getListDashBoard" class="nav-item dropdown-header" :key="item.id">
-      <h6 :class="item.class" style="color:white; font-weight: bold;">&nbsp;{{item.name}}</h6>
+      <h6 :class="[item.class, 'my-hover']" style="color:white; font-weight: bold;">&nbsp;{{item.name}}</h6>
     </router-link>
+
+    <a class="nav-item dropdown-header" @click="logOut"><h6 class="fa fa-sign-out my-hover" style="color:white; font-weight: bold;">&nbsp;Thoát</h6></a>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block" />
@@ -42,19 +44,26 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("initSidebar");
-    this.$store.dispatch("setCurrentPage", "Thông tin cá nhân");
-    this.$store.dispatch("setDashBoard");
+    await this.$store.dispatch("setDashBoard");
+    this.$store.dispatch("setCurrentPage", this.$route.path);
   },
   computed: {
     ...mapGetters(['getUser', 'getCurrentPage', 'getListDashBoard'])
-
-    // visibleTasks() {
-    //   // return this.$store.state.tasks;
-    //   return this.$store.getters.visibleTasks;
-    // }
   },
+  methods:{
+    logOut: function(){
+      localStorage.internetbanking_accesstoken = "";
+      localStorage.internetbanking_timeaccesstokenexpire = "0";
+      localStorage.internetbanking_refreshtoken = "";
+      return this.$router.push('/');
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.my-hover:hover{
+  cursor: pointer;
+  color: aqua !important;
+}
 </style>

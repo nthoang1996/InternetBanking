@@ -80,7 +80,7 @@ export default {
           if (data.message === "Success") {
             this.setAuth(data);
              localStorage.internetbanking_refreshtoken = data.refresh_token;
-            const retUrl = this.$route.query.retUrl || '/customer_dashboard';
+            const retUrl = this.$route.query.retUrl || '/dashboard';
             return this.$router.push(retUrl);
           } else {
             this.err = data.error;
