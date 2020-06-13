@@ -59,18 +59,12 @@
         "role": 3,
         "elements": [{
                 "id": 2,
-                "name": "Danh sách tài khoản",
-                "url": "/list_account",
-                "class": "fa fa-list-ul"
-            },
-            {
-                "id": 3,
                 "name": "Danh bạ",
                 "url": "/list_contact",
                 "class": "fa fa-address-book"
             },
             {
-                "id": 4,
+                "id": 3,
                 "name": "Chuyển tiền",
                 "url": "/transaction",
                 "class": "fa fa-paper-plane"
@@ -82,7 +76,7 @@
         "phone": "Số điện thoại",
         "address": "Địa chỉ",
         "email": "Email",
-        "username": "Tên tài khoản",
+        "username": "Tài khoản giao dịch",
         "bank_balance": "Số dư"
     }
 }

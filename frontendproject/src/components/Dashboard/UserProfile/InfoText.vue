@@ -7,6 +7,7 @@
 
 <script>
     import data from '../../../assets/info.json';
+
     export default {
         props: ['mykey', 'value'],
         data(){

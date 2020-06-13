@@ -27,6 +27,7 @@
         "mysql": "^2.18.1",
         "node-rsa": "^1.0.8",
         "nodemailer": "^6.4.6",
+        "numeral": "^2.0.6",
         "rand-token": "^1.0.1",
         "request": "^2.88.2",
         "sync-request": "^6.1.0"

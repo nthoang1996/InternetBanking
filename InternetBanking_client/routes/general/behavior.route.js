@@ -1,7 +1,7 @@
 const express = require('express');
 const model = require('../../models/model');
 const router = express.Router();
-const createError = require('http-errors');
+const numeral = require('numeral');
 
 router.route('/get_user_login_info')
     .get(async function(req, res) {
@@ -11,6 +11,7 @@ router.route('/get_user_login_info')
         delete data.password;
         delete data.verify;
         delete data.is_active;
+        data.bank_balance = numeral(data.bank_balance).format('0,0') + " ₫";
         if(!user){
             return res.status(400).json({message: "Failed", error:"Không tìm thấy người dùng"});
         }

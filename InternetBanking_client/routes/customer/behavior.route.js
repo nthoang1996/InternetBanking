@@ -5,6 +5,7 @@ const hoangbankapi = require('../../models/hoangbankapi');
 const datbankapi = require('../../models/datbankapi');
 const nodemailer = require('nodemailer');
 const createError = require('http-errors');
+const numeral = require('numeral');
 // const transporter = require('../../utils/email')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -198,6 +199,9 @@ router.route('/user_contact/:contact_id')
 router.route('/saving_account')
     .get(async function(req, res) {
         const rows = await model.all_by_id_user('tblsavingaccount', req.tokenPayload.userID);
+        for(let i =0; i<rows.length; i++){
+            rows[i].bank_balance = numeral(rows[i].bank_balance).format('0,0') + " ₫";
+        }
         return res.status(200).json({ message: "Success", error: "", data: rows });
     })
 module.exports = router;
