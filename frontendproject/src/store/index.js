@@ -8,10 +8,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    current_page: '',
     list_dashboard: [],
+    current_page: '',
     userVisible: {},
-    listAccount: []
+    listAccount: [],
+    listContact: [],
+    accountQuery: ''
   },
   getters: {
     getUser(state) {
@@ -31,6 +33,16 @@ export default new Vuex.Store({
     },
     getListAccount(state){
       return state.listAccount;
+    },
+    getListContact(state){
+      if (state.accountQuery.length === 0) {
+        return state.listContact;
+      }
+
+      const lcQuery = state.accountQuery.toLocaleLowerCase();
+      return state.listContact.filter(
+        t => t.name_contact.toLocaleLowerCase().includes(lcQuery)
+      );
     }
   },
   mutations: {
@@ -38,7 +50,9 @@ export default new Vuex.Store({
       state.user = payload;
     },
     SET_CURRENT_PAGE(state, query){
-      state.current_page = state.list_dashboard.find(element=>element.url === query).name;
+      if(state.list_dashboard.length !== 0){
+        state.current_page = state.list_dashboard.find(element=>element.url === query).name;
+      }
     },
     SET_DASHBOARD(state, payload){
       state.list_dashboard = [{id:1, name: "Thông tin cá nhân", url:"/dashboard", class:"fa fa-user-circle"}];
@@ -46,6 +60,12 @@ export default new Vuex.Store({
     },
     GET_LIST_ACCOUNT(state, payload){
       state.listAccount = [...payload];
+    },
+    SET_LIST_CONTACT(state, payload){
+      state.listContact = [...payload];
+    },
+    UPDATE_QUERY(state, payload){
+      state.accountQuery = payload;
     }
   },
   actions: {
@@ -73,8 +93,7 @@ export default new Vuex.Store({
     },
     async getListAccount(ctx){
       await myMixin.methods.handleBeforeCallServer();
-      console.log(localStorage.internetbanking_accesstoken);
-      const url = 'http://localhost:3000/customer/saving_account'
+      const url = 'http://localhost:3000/customer/saving_account';
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -85,6 +104,23 @@ export default new Vuex.Store({
         console.log(json);
         ctx.commit('GET_LIST_ACCOUNT', json.data);
       });   
+    },
+    async setListContact(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/user_contact';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        console.log(json);
+        ctx.commit('SET_LIST_CONTACT', json.data);
+      });
+    },
+    updateQuery(ctx, query){
+      ctx.commit('UPDATE_QUERY', query);
     }
   },
   modules: {

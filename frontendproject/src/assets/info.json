@@ -60,7 +60,7 @@
         "elements": [{
                 "id": 2,
                 "name": "Danh bạ",
-                "url": "/list_contact",
+                "url": "/dashboard/list_contact",
                 "class": "fa fa-address-book"
             },
             {

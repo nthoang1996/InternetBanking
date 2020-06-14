@@ -3,11 +3,11 @@ const createError = require('http-errors');
 const config = require('../config/config.json');
 const model = require('../models/model');
 
-module.exports = async(req, res, next) => {
+module.exports = (req, res, next) => {
     const token = req.headers['x-access-token'];
     console.log("token", token);
     if(token){
-        jwt.verify(token, config.JWT.secret_key,function(err, payload){
+        jwt.verify(token, config.JWT.secret_key,async function(err, payload){
             if(err){
                 throw createError(403, err);
             }

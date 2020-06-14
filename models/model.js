@@ -4,7 +4,7 @@ module.exports = {
     all: (table) => { return db.load(`select * from ${table};`) },
     single_by_id: (table, id) => { return db.load(`select * from ${table} where id = ${id}`) },
     single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
-    all_by_pid: (table, id) => { return db.load(`select * from ${table} where parent_id = ${id}`) },
+    all_by_source_id: (table, id) => { return db.load(`select * from ${table} where source_id = ${id}`) },
     add: (table, entity) => { return db.add(table, entity) },
     del: (table, entity) => { return db.del(table, entity) },
     edit: (table, entity, entityId) => {

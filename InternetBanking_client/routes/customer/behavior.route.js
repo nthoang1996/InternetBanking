@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 router.route('/transferAboard')
-    .post(async function(req, res) {
+    .post(async function (req, res) {
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
@@ -29,35 +29,10 @@ router.route('/transferAboard')
         } else {
             res.status(200).json(response);
         }
-
-        // const dataVerify = {};
-        // dataVerify.ts = ts;
-        // dataVerify.source_id = data.source_id;
-        // dataVerify.value = data.value;
-        // signature=key.sign(dataVerify, 'base64');
-        // data.signature = signature;
-
-        // let response = {};
-        // request({
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //       'company_id': 'TttwVLKHvXRujyllDq',
-        //     },
-        //     uri: 'http://localhost:8000/customer/recharge',
-        //     body: formData,
-        //     method: 'POST'
-        //   }, function (err, response, body) {
-        //       console.log(response.body);
-        //     if(response.body.error){
-        //         res.status(401).json(response.body);
-        //     }else{
-        //         res.status(200).json(response.body);
-        //     }
-        // });
     })
 
 router.route('/transferInternal')
-    .post(async function(req, res) {
+    .post(async function (req, res) {
         console.log(req.tokenPayload);
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
@@ -82,7 +57,7 @@ router.route('/transferInternal')
     })
 
 router.route('/confirmination_Email')
-    .post(async function(req, res) {
+    .post(async function (req, res) {
         try {
             const data = req.body;
             const verify = Math.floor((Math.random() * 10000000) + 1);
@@ -126,7 +101,7 @@ router.route('/confirmination_Email')
     })
 
 router.route('/verification/')
-    .get(async function(req, res) {
+    .get(async function (req, res) {
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
         if (sender[0].verify.code == req.body.verify) {
             const ts = Date.now();
@@ -141,7 +116,7 @@ router.route('/verification/')
     })
 
 router.route('/user_contact')
-    .post(async function(req, res) {
+    .post(async function (req, res) {
         let response = "";
         let data = {};
         switch (req.body.bank_company_id) {
@@ -179,27 +154,44 @@ router.route('/user_contact')
             source_id: req.tokenPayload.userID,
             ...req.body,
         }
-        if(entity.name_contact === ''){
+        if (entity.name_contact === '') {
             entity.name_contact = data.name;
         }
         const add = model.add('tblreceivercontact', entity)
         return res.status(200).json({ message: "Success", error: "" });
     })
+    .get(async function (req, res) {
+        const rows = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
+        const listBank = await model.all('tblbank');
+        rows.forEach(element => {
+            if (element.bank_company_id === 'TttwVLKHvXRujyllDq') {
+                element.bank_name = "Cùng ngân hàng";
+            }
+            else {
+                const bank = listBank.find(bank => bank.id === element.bank_company_id);
+                if (bank) {
+                    element.bank_name = bank.name;
+                }
+            }
+        });
+        console.log(rows);
+        return res.status(200).json({ message: "Success", error: "", data: rows });
+    })
 
 router.route('/user_contact/:contact_id')
-    .put(async function(req, res) {
+    .put(async function (req, res) {
         const edit = await model.edit('tblreceivercontact', req.body, { id: req.params.contact_id });
         return res.status(200).json({ message: "Success", error: "" });
     })
-    .delete(async function(req, res) {
+    .delete(async function (req, res) {
         const del = await model.del('tblreceivercontact', { id: req.params.contact_id })
         return res.status(200).json({ message: "Success", error: "" });
     })
 
 router.route('/saving_account')
-    .get(async function(req, res) {
+    .get(async function (req, res) {
         const rows = await model.all_by_id_user('tblsavingaccount', req.tokenPayload.userID);
-        for(let i =0; i<rows.length; i++){
+        for (let i = 0; i < rows.length; i++) {
             rows[i].bank_balance = numeral(rows[i].bank_balance).format('0,0') + " ₫";
         }
         return res.status(200).json({ message: "Success", error: "", data: rows });

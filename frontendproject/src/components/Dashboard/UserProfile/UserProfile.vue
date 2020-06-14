@@ -29,6 +29,9 @@ export default {
     computed: {
     ...mapGetters(['getCurrentPage', 'getUserVisible', 'getListAccount'])
   },
+  mounted(){
+    this.$store.dispatch("setCurrentPage", this.$route.path);
+  },
   components: {InfoText, ListAccount},
 };
 </script>
