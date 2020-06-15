@@ -16,12 +16,12 @@ class HoangBankAPI{
 		const dataVerify = {};
 		const timestamp = Date.now();
         dataVerify.ts = timestamp;
-        dataVerify.source_username = data.source_username;
-        dataVerify.value = data.value;
-        const signature=key.sign(this.dataVerify, 'base64');
+        dataVerify.source_username = this.data.source_username;
+		dataVerify.value = this.data.value;
+		console.log(dataVerify);
+        const signature=key.sign(dataVerify, 'base64');
 		this.data.signature = signature;
-		const result = await model.single_by_idString('tblbank', this.company_id);
-		const secret_key = result[0].secret_key;
+		const secret_key = config.secret_key.secret_key;
 		const formData = JSON.stringify({data:this.data});
 		const hash_signature = md5(timestamp + formData + secret_key); // hash
         const res = request('POST',url,{
@@ -38,8 +38,7 @@ class HoangBankAPI{
 
     async callApiGetInfo(){
 		const url = 'https://salty-meadow-17297.herokuapp.com/customer/query_information';
-		const result = await model.single_by_idString('tblbank', this.company_id);
-		const secret_key = result[0].secret_key;
+		const secret_key = config.secret_key.secret_key;
 		const timestamp = Date.now();
 		const hash_signature = md5(timestamp + this.data + secret_key); // hash
 		const res = request('POST',url,{

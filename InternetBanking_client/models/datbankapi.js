@@ -1,44 +1,41 @@
 const request = require('sync-request');
 const NodeRSA = require('node-rsa');
+const openpgp = require('openpgp');
 const config = require('../config/config.json');
-const model = require('../models/model')
-const md5 = require('md5');
 const key = new NodeRSA(null, {signingScheme: 'pkcs1-sha256'});
 key.importKey(config.secret_key.private_key.join('\n'), 'pkcs1');
-class HoangBankAPI{
+const model = require('../models/model')
+const md5 = require('md5');
+class DatBankAPI{
     constructor(data){
 		this.data = data;
 		this.company_id = 'TttwVLKHvXRujyllDq';
     }
 
     async callApiRecharge(){
-		const url = 'http://localhost:8000/customer/recharge';	
-		const dataVerify = {};
+		const url = 'https://dacc-internet-banking.herokuapp.com/bank/rgpTransferMoney';	
+		const dataVerify = this.data;
 		const timestamp = Date.now();
-        dataVerify.ts = timestamp;
-        dataVerify.source_id = data.source_id;
-        dataVerify.value = data.value;
-        const signature=key.sign(this.dataVerify, 'base64');
-		this.data.signature = signature;
-		const result = await model.single_by_idString('tblbank', 'pawGDX1Ddu');
-		const secret_key = result[0].secret_key;
-		const formData = JSON.stringify({data:this.data});
-		const hash_signature = md5(timestamp + formData + secret_key); // hash
+        const signature=key.sign(dataVerify, 'hex');
+		const secret_key = config.secret_key.secret_key;
+		const formData = {data:this.data,signature};
+		console.log(formData);
+		const hash_signature = md5( formData + timestamp + secret_key); // hash
+		console.log(hash_signature);
         const res = request('POST',url,{
             headers: {
               'Content-Type': 'application/json',
 			  'company_id': this.company_id,
-			  'timestamp': timestamp,
-			  'x-signature': hash_signature			  
+			  'ts': timestamp,
+			  'sig': hash_signature			  
             },
-            body: formData,
+            body: JSON.stringify(formData),
           });
         return res.body.toString('utf8');;
     }
 
     async callApiGetInfo(){
-		const url = 'https://dacc-internet-banking.herokuapp.com/payment/getCustomer';
-		const result = await model.single_by_idString('tblbank', 'pawGDX1Ddu');
+		const url = 'https://dacc-internet-banking.herokuapp.com/bank/rgpGetCustomer';
 		const secret_key = config.secret_key.secret_key;
 		const timestamp = Date.now();
 		const hash_signature = md5(this.data + timestamp + secret_key); // hash
@@ -59,4 +56,4 @@ class HoangBankAPI{
     }
 }
 
-module.exports = HoangBankAPI;
+module.exports = DatBankAPI;

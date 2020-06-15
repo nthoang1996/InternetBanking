@@ -1,6 +1,11 @@
 const express = require('express');
 const model = require('../../models/model');
 const router = express.Router();
+const config = require('../../config/config.json');
+const NodeRSA = require('node-rsa');
+const openpgp = require('openpgp');
+// const key = new NodeRSA(config.secret_key.public_key.join('\n'));
+// key.setOptions({ encryptionScheme: 'pkcs1' });
 const hoangbankapi = require('../../models/hoangbankapi');
 const datbankapi = require('../../models/datbankapi');
 const nodemailer = require('nodemailer');
@@ -17,30 +22,59 @@ const transporter = nodemailer.createTransport({
 
 router.route('/transferAboard')
     .post(async function (req, res) {
-        let body ={
-            des_username: "des_username",
-            value: "100000",
-            message: "asdasdas",
-            bank_company_id: "13213z2x1c32z1x3c2",
-        }
+        // let body ={
+        //     "des_username": "des_username",
+        //     "value": "100000",
+        //     "message": "asdasdas",
+        //     "bank_company_id": "13213z2x1c32z1x3c2",
+        // }
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
         const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id: req.tokenPayload.userID });
         const formData = JSON.stringify({ data: data });
         let api = {};
-        switch(data.bank_company_id){
+        let response = {};
+        let verify = false;
+        switch (data.bank_company_id) {
             case "pawGDX1Ddu":
-                lapi = new datbankapi(data);
+                const dat_data = {
+                    rgp_stk: parseInt(sender[0].username),
+                    stk: parseInt(data.des_username),
+                    amountOfMoney: parseInt(data.value)
+                }
+                api = new datbankapi(dat_data);
+                response = JSON.parse(await api.callApiRecharge());
+                const bank = await model.single_by_id('tblbank', 'pawGDX1Ddu');
+                console.log(bank[0].public_key);
+                let cleartext = response.cleartext;
+                const verified = await openpgp.verify({
+                    message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
+                    publicKeys: (await openpgp.key.readArmored(bank[0].public_key)).keys, // for verification
+                });
+                const { valid } = verified.signatures[0];
+                if(valid){
+                    let res = cleartext.slice(cleartext.indexOf('{'), cleartext.indexOf('}') + 1);
+                    console.log(res);
+                }
+                else{
+                    console.log("failed");
+                }
                 break;
             case "TttwVLKHvXRujyllDq":
+                data.source_username = sender[0].username;
+                data.source_name = sender[0].name;
                 api = new hoangbankapi(data);
+                response = JSON.parse(await api.callApiRecharge());
+                console.log(response);
+                // verify = key.verify(response.data, response.signature, '', 'base64');
+                verify = true;
+                break;
         }
-        const response = await api.callApiRecharge();
-        if (response.error) {
-            res.status(401).json(response);
+        if (verify) {
+            res.status(200).json(response.data);
         } else {
-            res.status(200).json(response);
+            res.status(401).json({ message: "Failed", error: "Xác thực thất bại" });
         }
     })
 
