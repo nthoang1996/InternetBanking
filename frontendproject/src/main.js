@@ -6,6 +6,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import "font-awesome/css/font-awesome.min.css";
 import router from './router'
+import VModal from 'vue-js-modal'
+ 
+Vue.use(VModal)
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)

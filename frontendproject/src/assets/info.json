@@ -55,21 +55,33 @@
             }
         ]
     },
+    "send_money_label": [{
+            "id": 1,
+            "name": "Số tài khoản",
+            "key": "account-number",
+            "is_disabled": false
+        },
+        {
+            "id": 2,
+            "name": "Tên tài khoản",
+            "key": "account-name",
+            "is_disabled": true
+        },
+        {
+            "id": 3,
+            "name": "Số tiền cần chuyển",
+            "key": "money-among",
+            "is_disabled": false
+        }
+    ],
     "dashboard": [{
         "role": 3,
         "elements": [{
-                "id": 2,
-                "name": "Danh bạ",
-                "url": "/dashboard/list_contact",
-                "class": "fa fa-address-book"
-            },
-            {
-                "id": 3,
-                "name": "Chuyển tiền",
-                "url": "/transaction",
-                "class": "fa fa-paper-plane"
-            }
-        ]
+            "id": 2,
+            "name": "Danh bạ",
+            "url": "/dashboard/list_contact",
+            "class": "fa fa-address-book"
+        }]
     }],
     "constant": {
         "name": "Họ tên",

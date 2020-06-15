@@ -18,4 +18,10 @@ router.route('/get_user_login_info')
 
         return res.status(200).json({message: "Success", error:"", user: user[0]});
     })
+
+    router.route('/banks')
+    .get(async function(req, res) {
+        const banks = await model.all('tblbank');
+        return res.status(200).json({message: "Success", error:"", banks});
+    })
 module.exports = router;

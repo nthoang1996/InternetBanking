@@ -17,6 +17,9 @@
             </div>
           </div>
         </div>
+        <div class="col-sm-7">
+          <SendMoney />
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +28,8 @@
 <script>
 import { mapGetters } from "vuex";
 import ContactItem from "./ContactItem";
-import HeaderListContact from './HeaderListContact'
+import HeaderListContact from './HeaderListContact';
+import SendMoney from './SendMoney';
 export default {
   mounted() {
     this.$store.dispatch("setCurrentPage", this.$route.path);
@@ -34,7 +38,7 @@ export default {
   computed: {
     ...mapGetters(["getCurrentPage", "getListContact"])
   },
-  components: { ContactItem, HeaderListContact }
+  components: { ContactItem, HeaderListContact, SendMoney }
 };
 </script>
 

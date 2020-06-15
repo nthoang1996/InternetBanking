@@ -71,7 +71,6 @@ export default new Vuex.Store({
   actions: {
     async initSidebar(ctx) {
       await myMixin.methods.handleBeforeCallServer();
-      console.log(localStorage.internetbanking_accesstoken);
       const url = 'http://localhost:3000/general/get_user_login_info'
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
