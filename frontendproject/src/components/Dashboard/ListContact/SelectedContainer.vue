@@ -1,12 +1,18 @@
 <template>
   <div>
     <label for="bank-name">Tên ngân hàng</label>
-    <b-form-select v-model="selected" :options="options" class="my-custom"  v-on:change="getSelectedItem"></b-form-select>
+    <b-form-select
+      v-model="selected"
+      :options="options"
+      class="my-custom"
+      v-on:change="getSelectedItem"
+    ></b-form-select>
   </div>
 </template>
 
 <script>
 import mixin from "../../../Mixin";
+import { mapGetters } from "vuex";
 export default {
   mixins: [mixin],
   data() {
@@ -33,15 +39,24 @@ export default {
         this.options = [...json.banks];
       });
   },
-  methods:{
-      getSelectedItem(){
-          this.$emit('dataChange','bank_company_id', this.selected);
-      }
+  methods: {
+    getSelectedItem() {
+      const data = {
+        key: "bank_company_id",
+        value: this.selected
+      };
+      this.$store.dispatch(
+        "updateDataSending",
+        data
+      );
+    }
+  },
+  computed: {
+    ...mapGetters(["getDataSending"])
   }
 };
 </script>
 
 <style scoped>
-
 </style>
 <style scoped src="@/assets/css/send_money_page.css"></style>

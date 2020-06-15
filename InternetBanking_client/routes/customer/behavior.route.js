@@ -17,12 +17,25 @@ const transporter = nodemailer.createTransport({
 
 router.route('/transferAboard')
     .post(async function (req, res) {
+        let body ={
+            des_username: "des_username",
+            value: "100000",
+            message: "asdasdas",
+            bank_company_id: "13213z2x1c32z1x3c2",
+        }
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
         const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id: req.tokenPayload.userID });
         const formData = JSON.stringify({ data: data });
-        api = new hoangbankapi(data);
+        let api = {};
+        switch(data.bank_company_id){
+            case "pawGDX1Ddu":
+                lapi = new datbankapi(data);
+                break;
+            case "TttwVLKHvXRujyllDq":
+                api = new hoangbankapi(data);
+        }
         const response = await api.callApiRecharge();
         if (response.error) {
             res.status(401).json(response);
@@ -119,6 +132,7 @@ router.route('/user_contact')
     .post(async function (req, res) {
         let response = "";
         let data = {};
+        console.log(req.body.bank_company_id);
         switch (req.body.bank_company_id) {
             case '':
                 const user = await model.single_by_id('tbluser', req.body.des_id);

@@ -16,7 +16,7 @@ class HoangBankAPI{
 		const dataVerify = {};
 		const timestamp = Date.now();
         dataVerify.ts = timestamp;
-        dataVerify.source_id = data.source_id;
+        dataVerify.source_username = data.source_username;
         dataVerify.value = data.value;
         const signature=key.sign(this.dataVerify, 'base64');
 		this.data.signature = signature;

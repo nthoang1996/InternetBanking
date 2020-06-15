@@ -39,7 +39,7 @@ class HoangBankAPI{
     async callApiGetInfo(){
 		const url = 'https://dacc-internet-banking.herokuapp.com/payment/getCustomer';
 		const result = await model.single_by_idString('tblbank', 'pawGDX1Ddu');
-		const secret_key = result[0].secret_key;
+		const secret_key = config.secret_key.secret_key;
 		const timestamp = Date.now();
 		const hash_signature = md5(this.data + timestamp + secret_key); // hash
 		const res = request('POST',url,{

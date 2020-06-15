@@ -58,19 +58,19 @@
     "send_money_label": [{
             "id": 1,
             "name": "Số tài khoản",
-            "key": "account-number",
+            "key": "des_id",
             "is_disabled": false
         },
         {
             "id": 2,
             "name": "Tên tài khoản",
-            "key": "account-name",
+            "key": "account_name",
             "is_disabled": true
         },
         {
             "id": 3,
             "name": "Số tiền cần chuyển",
-            "key": "money-among",
+            "key": "value",
             "is_disabled": false
         }
     ],

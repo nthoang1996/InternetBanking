@@ -10,6 +10,7 @@ module.exports = {
     },
     single_by_id: (table, id) => { return db.load(`select * from ${table} where id = ${id}`) },
     single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
+    single_by_username_id: (table, username_id) => { return db.load(`select * from ${table} where username = '${username_id}'`) },
     add: (table, entity) => { return db.add(table, entity) },
     del: (table, entity) => { return db.del(table, entity) },
     edit: (table, entity, entityId) => {

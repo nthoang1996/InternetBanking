@@ -13,7 +13,8 @@ export default new Vuex.Store({
     userVisible: {},
     listAccount: [],
     listContact: [],
-    accountQuery: ''
+    accountQuery: '',
+    data_sending : {}
   },
   getters: {
     getUser(state) {
@@ -43,6 +44,10 @@ export default new Vuex.Store({
       return state.listContact.filter(
         t => t.name_contact.toLocaleLowerCase().includes(lcQuery)
       );
+    },
+    getDataSending(state){
+      console.log("AAAA",JSON.parse(JSON.stringify(state.dataSending)));
+      return state.dataSending;
     }
   },
   mutations: {
@@ -66,6 +71,20 @@ export default new Vuex.Store({
     },
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
+    },
+    UPDATE_DATA_SENDING(state, data){
+      console.log(data);
+      state.dataSending[data.key]= data.value;
+    },
+    INIT_DATA_SENDING(state){
+      state.dataSending = {
+        des_id: "",
+        account_name:"",
+        value:"0",
+        my_message: '',
+        bank_company_id: "TttwVLKHvXRujyllDq"
+      }
+      console.log("AAAAAA");
     }
   },
   actions: {
@@ -120,6 +139,12 @@ export default new Vuex.Store({
     },
     updateQuery(ctx, query){
       ctx.commit('UPDATE_QUERY', query);
+    },
+    updateDataSending(ctx, data){
+      ctx.commit('UPDATE_DATA_SENDING', data);
+    },
+    initDataSending(ctx){
+      ctx.commit('INIT_DATA_SENDING');
     }
   },
   modules: {
