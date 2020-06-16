@@ -64,6 +64,7 @@ export default {
         alert("Số tiền không đủ lớn");
         return
       }
+      
       await this.handleBeforeCallServer();
       const formData = {
         des_id: this.getDataSendingUserID

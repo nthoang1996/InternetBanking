@@ -4,6 +4,7 @@ import Login from '../components/Login/Body'
 import Dashboard from '../components/Dashboard/Body'
 import UserProfile from '../components/Dashboard/UserProfile/UserProfile'
 import ListContact from '../components/Dashboard/ListContact/ListContact'
+import NewContact from '../components/Dashboard/ListContact/NewContact'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,12 @@ Vue.use(VueRouter)
         // when /user/:id/profile is matched
         path: '/dashboard/list_contact',
         component: ListContact
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/dashboard/add_new_contact',
+        component: NewContact
       }
     ],
     meta: { requiresAuth: true }

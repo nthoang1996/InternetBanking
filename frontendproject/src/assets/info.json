@@ -71,11 +71,20 @@
     "dashboard": [{
         "role": 3,
         "elements": [{
-            "id": 2,
-            "name": "Danh bạ",
-            "url": "/dashboard/list_contact",
-            "class": "fa fa-address-book"
-        }]
+                "id": 2,
+                "name": "Danh bạ",
+                "url": "/dashboard/list_contact",
+                "class": "fa fa-address-book",
+                "display": true
+            },
+            {
+                "id": 3,
+                "name": "Thêm danh bạ",
+                "url": "/dashboard/add_new_contact",
+                "class": "",
+                "display": false
+            }
+        ]
     }],
     "constant": {
         "name": "Họ tên",

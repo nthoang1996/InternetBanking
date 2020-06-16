@@ -167,27 +167,25 @@ router.route('/user_contact')
         let response = "";
         let data = {};
         switch (req.body.bank_company_id) {
-            case '':
-                const user = await model.single_by_id('tbluser', req.body.des_id);
-                if (user.length == 0) {
-                    return res.status(400).json({ message: "Failed", error: "User id not found" });
-                }
-                break;
             case 'TttwVLKHvXRujyllDq':
-                api = new hoangbankapi({ data: req.body });
+                const my_data = {
+                    usernameID: req.body.des_id
+                }
+                api = new hoangbankapi({ data: my_data });
                 response = await api.callApiGetInfo();
                 data = JSON.parse(response);
+                console.log("data", data)
                 if (!data.data) {
-                    return res.status(400).json({ message: "Failed", error: "User id not found" });
+                    return res.status(400).json({ success: false, error: "Số tài khoản bạn nhập vào không tồn tại" });
                 }
                 break;
             case 'pawGDX1Ddu':
                 api = new datbankapi({ stk: req.body.des_id });
                 response = await api.callApiGetInfo();
-                console.log(response)
+                
                 data = JSON.parse(response);
                 if (!data.data) {
-                    return res.status(400).json({ message: "Failed", error: "User id not found" });
+                    return res.status(400).json({ success: false, error: "Số tài khoản bạn nhập vào không tồn tại" });
                 }
                 break;
 
@@ -195,17 +193,17 @@ router.route('/user_contact')
         const tblContact = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
         const obj = tblContact.find(o => o.des_id == req.body.des_id && o.bank_company_id == req.body.bank_company_id);
         if (obj) {
-            return res.status(409).json({ message: "Failed", error: "Duplicated entry" });
+            return res.status(409).json({ success: false, error: "Số tài khoản liên hệ bạn nhập vào đã tồn tại trong danh bạ của bạn" });
         }
         const entity = {
             source_id: req.tokenPayload.userID,
             ...req.body,
         }
-        if (entity.name_contact === '') {
-            entity.name_contact = data.name;
+        if (entity.name_contact == '') {
+            entity.name_contact = data.data.name;
         }
         const add = model.add('tblreceivercontact', entity)
-        return res.status(200).json({ message: "Success", error: "" });
+        return res.status(200).json({ success: true, error: "" });
     })
     .get(async function (req, res) {
         const rows = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);

@@ -29,7 +29,7 @@ export default new Vuex.Store({
       return state.current_page;
     },
     getListDashBoard(state) {
-      return state.list_dashboard;
+      return state.list_dashboard.filter(db => db.display === true);
     },
     getUserVisible(state) {
       state.userVisible = {...state.user};
@@ -79,7 +79,7 @@ export default new Vuex.Store({
       }
     },
     SET_DASHBOARD(state, payload){
-      state.list_dashboard = [{id:1, name: "Thông tin cá nhân", url:"/dashboard", class:"fa fa-user-circle"}];
+      state.list_dashboard = [{id:1, name: "Thông tin cá nhân", url:"/dashboard", class:"fa fa-user-circle", display: true}];
       state.list_dashboard = [...state.list_dashboard, ...payload];
     },
     GET_LIST_ACCOUNT(state, payload){
