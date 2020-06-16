@@ -4,10 +4,18 @@
             <b-row>
                 <b-col></b-col>
                 <b-col cols="6">
-                    <p class="txtTitle mt-3 mb-3">TẠO TÀI KHOẢN</p>
-                    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                    <p class="txtTitle mt-3 mb-3">TẠO TÀI KHOẢN KHÁCH HÀNG</p>
+                    <b-form @submit="onSubmit" v-if="show">
                         <b-form-group class="title" label="Họ tên khách hàng:" label-for="txtname" >
                             <b-form-input id="txtname" v-model="form.name" type="text" required></b-form-input>
+                        </b-form-group>
+
+                         <b-form-group class="title" label="Số điện thoại:" label-for="txtphone" >
+                            <b-form-input id="txtphone" v-model="form.phone" type="text" required></b-form-input>
+                        </b-form-group>
+
+                         <b-form-group class="title" label="Địa chỉ:" label-for="txtaddress" >
+                            <b-form-input id="txtaddress" v-model="form.address" type="text" required></b-form-input>
                         </b-form-group>
 
                         <b-form-group class="title" label="Tên tài khoản:" label-for="txtaccount" >
@@ -22,8 +30,8 @@
                             <b-form-input id="txtrepeatpassword" v-model="form.repeatpassword" type="password" required></b-form-input>
                         </b-form-group>
 
-                        <b-form-group class="title" id="input-group-1" label="Email address:" label-for="input-1" >
-                            <b-form-input id="input-1" v-model="form.email" type="email" required></b-form-input>
+                        <b-form-group class="title" label="Email:" label-for="txtemail" >
+                            <b-form-input id="txtemail" v-model="form.email" type="email" required></b-form-input>
                         </b-form-group>
                         <div class="divButton mb-3">
                             <b-button class="text-center" type="submit" variant="primary">Tạo tài khoản</b-button>
@@ -45,7 +53,9 @@
             account: '',
             password: '',
             repeatpassword: '',
-            email: ''
+            email: '',
+            address: '',
+            phone: '',
         },
         show: true
       }
@@ -55,19 +65,6 @@
             evt.preventDefault()
             alert(JSON.stringify(this.form))
         },
-        onReset(evt) {
-            evt.preventDefault()
-            // Reset our form values
-            this.form.email = ''
-            this.form.name = ''
-            this.form.food = null
-            this.form.checked = []
-            // Trick to reset/clear native browser form validation state
-            this.show = false
-            this.$nextTick(() => {
-                this.show = true
-            })
-        }
     }
   }
 </script>
