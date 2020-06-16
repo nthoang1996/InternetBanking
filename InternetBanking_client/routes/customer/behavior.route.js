@@ -20,6 +20,22 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+function verifyCode(res, verify, code){
+    console.log(code, verify);
+    if (verify.code == code) {
+        const ts = Date.now();
+        if (ts - verify.ts <= 180000) {
+            return
+        } else {
+            return "Hết thời gian xác thực";
+        }
+    } else {
+        return "Mã bạn nhập vào không đúng";
+        return res.status(401).json({ success: false, error: "Mã bạn nhập vào không đúng"});
+    }
+}
+
+
 router.route('/transferAboard')
     .post(async function (req, res) {
         // let body ={
@@ -27,9 +43,14 @@ router.route('/transferAboard')
         //     "value": "100000",
         //     "message": "asdasdas",
         //     "bank_company_id": "13213z2x1c32z1x3c2",
+        //     "code": 123456
         // }
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
+        const message = verifyCode(res, JSON.parse(sender[0].verify),req.body.code);
+        if(message){
+            return res.status(401).json({ success: false, error: message });
+        }
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
         const update_sder = await model.edit('tbluser', { bank_balance: sder_value }, { id: req.tokenPayload.userID });
         const formData = JSON.stringify({ data: data });
@@ -65,15 +86,15 @@ router.route('/transferAboard')
                 data.source_name = sender[0].name;
                 api = new hoangbankapi(data);
                 response = JSON.parse(await api.callApiRecharge());
-                console.log(response);
+                console.log("respone", response);
                 // verify = key.verify(response.data, response.signature, '', 'base64');
                 verify = true;
                 break;
         }
         if (verify) {
-            res.status(200).json(response.data);
+            res.status(200).json({success: true, data: response.data});
         } else {
-            res.status(401).json({ message: "Failed", error: "Xác thực thất bại" });
+            res.status(401).json({ success: false, error: "Đã có lỗi xảy ra, vui lòng thử lại sau!" });
         }
     })
 
@@ -118,47 +139,27 @@ router.route('/confirmination_Email')
             const entity = { "verify": JSON.stringify({ code: verify, ts: ts }) }
             const update = model.edit('tbluser', entity, entityID);
             const mailOption = {
-                from: 'thecoderank@gmail.com', // sender this is your email here
+                from: 'hoangbankptudwnc@gmail.com', // sender this is your email here
                 to: `${sender[0].email}`, // receiver email2
-                subject: "Account Verification",
-                html: `<h1>Hello Friend Please Click on this link<h1><br><hr><p>HELLO I AM 
-            HOANGBANKPTUDWNC.</p> <br>
-            <p>Seem you have requested for transfer money to the account ${data.des_id}</p><br>
-            <p>Your code is ${verify} </p><br>
-            <p>Please use this code to confirm your action in my website</p>
-            <p>Thanks and best regard</p>`
+                subject: "Xác thực tài khoản",
+                html: `<h3>Chào ${sender[0].name}</h3> <br>
+                <p>Chúng tôi là công ty cổ phần USTechBank</p> 
+                <p>Có vẻ như bạn vừa gửi một yêu cần chuyển tiền đến tài khoản ${data.des_id}</p>
+                <p>Mã xác nhận của bạn là ${verify} </p>
+                <p>Vui lòng sử dụng mã nay để xác thực các bước tiếp theo của bạn!</p><br>
+                <p>Cám ơn đã sử dụng dịch vụ của chúng tôi!</p>`
             }
             transporter.sendMail(mailOption, (error, info) => {
                 if (error) {
-                    console.log(error)
+                    res.status(500).json({success:false, error})
                 } else {
-
-                    let userdata = {
-                        email: `${req.body.Email}`,
-                    }
-                    res.cookie("UserInfo", userdata);
-                    res.send("Your Mail Send Successfully")
+                    res.status(200).json({success:true, error:""})
                 }
             })
         } catch (e) {
             createError('500', e)
         }
 
-    })
-
-router.route('/verification/')
-    .get(async function (req, res) {
-        const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
-        if (sender[0].verify.code == req.body.verify) {
-            const ts = Date.now();
-            if (ts - sender[0].verify.ts <= 180) {
-                res.status(200).json({ message: "Success", error: "" });
-            } else {
-                res.status(498).json({ message: "Failed", error: "Verify expired" });
-            }
-        } else {
-            res.status(401).json({ message: "Failed", error: "Authentication failed" });
-        }
     })
 
 router.route('/user_contact')

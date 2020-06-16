@@ -19,7 +19,7 @@ export default new Vuex.Store({
     data_sending_value: '0',
     data_sending_my_message: '',
     data_sending_bank_company_id:"TttwVLKHvXRujyllDq",
-    test: ''
+    code_verify: ''
   },
   getters: {
     getUser(state) {
@@ -64,6 +64,9 @@ export default new Vuex.Store({
     },
     getDataSendingBankID(state){
       return state.data_sending_bank_company_id;
+    },
+    getCodeVerify(state){
+      return state.code_verify;
     }
   },
   mutations: {
@@ -101,9 +104,11 @@ export default new Vuex.Store({
       state.data_sending_my_message = payload;
     },
     UPDATE_DATA_SENDING_BANK_ID(state, payload){
-      console.log(payload);
       state.data_sending_bank_company_id = payload;
     },
+    UPDATE_CODE_VERIFY(state, payload){
+      state.code_verify = payload;
+    }
   },
   actions: {
     async initSidebar(ctx) {
@@ -172,6 +177,9 @@ export default new Vuex.Store({
     },
     updateDataSendingBankID(ctx, query){
       ctx.commit('UPDATE_DATA_SENDING_BANK_ID', query);
+    },
+    updateCodeVerify(ctx, query){
+      ctx.commit('UPDATE_CODE_VERIFY', query);
     }
 
   },

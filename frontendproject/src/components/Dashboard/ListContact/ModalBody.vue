@@ -1,29 +1,32 @@
 <template>
-  <div>
-    <modal name="hello-world" no-close-on-backdrop>
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <ModalHeader />
-            <ModalBody />
-            <ModalFooter @close="$emit('close')"/>
-          </div>
-        </div>
-      </div>
-    </modal>
+  <div class="mt-2">
+    <slot name="body">
+        <p>Chúng tôi đã gửi một tin nhắn chứa code tới email mà bạn đăng ký. Vui lòng nhập mã code và xác nhận lại:</p>
+        <b-form-input v-model="value" type="text" debounce="500" class="my-input mb-4" @keyup="handleChange($event)"></b-form-input>
+    </slot>
   </div>
 </template>
 
 <script>
-import ModalHeader from './ModalHeader';
-import ModalBody from './ModalBody';
-import ModalFooter from './ModalFooter';
 export default {
-  components: { ModalHeader, ModalBody, ModalFooter }
+    data(){
+        return {
+            value: ""
+        }
+    },
+    methods:{
+        handleChange(event){
+            this.$store.dispatch('updateCodeVerify', event.target.value)
+        }
+    }
 };
 </script>
 
 <style scoped>
+.my-input{
+    width: 50%;
+    margin: auto;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -43,7 +46,7 @@ export default {
 
 .modal-container {
   width: 700px;
-  height: 330px;
+  height: 300px;
   margin: 0px auto;
   padding: 20px;
   background-color: #fff;
@@ -59,7 +62,7 @@ export default {
 }
 
 .modal-body {
-  margin: 20px 0;
+  margin: 0;
 }
 
 /*

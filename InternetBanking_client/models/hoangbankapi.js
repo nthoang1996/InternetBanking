@@ -22,7 +22,7 @@ class HoangBankAPI{
         const signature=key.sign(dataVerify, 'base64');
 		this.data.signature = signature;
 		const secret_key = config.secret_key.secret_key;
-		const formData = JSON.stringify({data:this.data});
+		const formData = {data:this.data};
 		const hash_signature = md5(timestamp + formData + secret_key); // hash
         const res = request('POST',url,{
             headers: {
@@ -31,7 +31,7 @@ class HoangBankAPI{
 			  'timestamp': timestamp,
 			  'x-signature': hash_signature			  
             },
-            body: formData,
+            body: JSON.stringify(formData),
           });
         return res.body.toString('utf8');;
     }

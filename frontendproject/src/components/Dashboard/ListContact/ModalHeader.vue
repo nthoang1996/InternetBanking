@@ -1,26 +1,11 @@
 <template>
-  <div>
-    <modal name="hello-world" no-close-on-backdrop>
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <ModalHeader />
-            <ModalBody />
-            <ModalFooter @close="$emit('close')"/>
-          </div>
-        </div>
-      </div>
-    </modal>
+  <div class="modal-header">
+    <h3 name="header">Xác nhận gửi tiền</h3>
   </div>
 </template>
 
 <script>
-import ModalHeader from './ModalHeader';
-import ModalBody from './ModalBody';
-import ModalFooter from './ModalFooter';
-export default {
-  components: { ModalHeader, ModalBody, ModalFooter }
-};
+export default {};
 </script>
 
 <style scoped>
@@ -43,7 +28,7 @@ export default {
 
 .modal-container {
   width: 700px;
-  height: 330px;
+  height: 300px;
   margin: 0px auto;
   padding: 20px;
   background-color: #fff;

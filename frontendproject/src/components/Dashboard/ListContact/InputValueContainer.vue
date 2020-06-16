@@ -3,7 +3,7 @@
     <label for="money">Số tiền</label>
     <input
       id="money"
-      type="text"
+      type="number"
       name="money"
       autocomplete="off"
       @keyup="handleChange($event)"
