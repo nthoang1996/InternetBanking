@@ -123,9 +123,13 @@ export default new Vuex.Store({
     UPDATE_MODAL_TYPE(state,payload){
       state.modalType = payload;
     },
-    INSERT_LIST_ACCOUNT(state, payload){
+    INSERT_LIST_CONTACT(state, payload){
       state.listContact = [...state.listContact,payload];
-      console.log(JSON.parse(JSON.stringify(state.listContact)))
+    },
+    DELETE_CONTACT(state, payload){
+      state.listContact = state.listContact.filter(function( obj ) {
+        return obj.id !== payload;
+    });
     }
   },
   actions: {
@@ -205,10 +209,12 @@ export default new Vuex.Store({
     updateModalType(ctx,query){
       ctx.commit('UPDATE_MODAL_TYPE', query);
     },
-    insertListAccount(ctx,data){
-      ctx.commit('INSERT_LIST_ACCOUNT', data);
+    insertListContact(ctx,data){
+      ctx.commit('INSERT_LIST_CONTACT', data);
+    },
+    deleteListContact(ctx, id){
+      ctx.commit("DELETE_CONTACT", id)
     }
-
   },
   modules: {
   }

@@ -50,7 +50,7 @@ export default {
             alert(json.error);
             return;
           } else {
-            await this.$store.dispatch('insertListAccount', json.data);
+            await this.$store.dispatch('insertListContact', json.data);
             this.clearDataSending();
             alert("Thao tác thành công!");
             this.$emit("close");

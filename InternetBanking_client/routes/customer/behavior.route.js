@@ -247,8 +247,9 @@ router.route('/user_contact/:contact_id')
         return res.status(200).json({ success: true, error: "" });
     })
     .delete(async function (req, res) {
+        console.log(req.params.contact_id);
         const del = await model.del('tblreceivercontact', { id: req.params.contact_id })
-        return res.status(200).json({ message: "Success", error: "" });
+        return res.status(200).json({ success: true, error: "" });
     })
 
 router.route('/saving_account')
