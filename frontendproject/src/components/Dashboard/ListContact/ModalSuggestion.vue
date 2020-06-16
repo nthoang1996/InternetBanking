@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modal name="hello-world" no-close-on-backdrop>
+    <modal name="suggest-modal" no-close-on-backdrop>
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
@@ -19,10 +19,11 @@ import ModalSuggestionHeader from './ModalSuggestionHeader';
 import ModalSuggestionBody from './ModalBody';
 import ModalSuggestionFooter from './ModalFooter';
 export default {
+  name: 'suggest-modal',
   components: { ModalSuggestionHeader, ModalSuggestionBody, ModalSuggestionFooter },
   methods:{
-    closeModal(isOpenModal){
-      this.$emit('close',isOpenModal);
+    closeModal(){
+      this.$emit('close');
     }
   }
 };

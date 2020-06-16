@@ -20,7 +20,8 @@ export default new Vuex.Store({
     data_sending_my_message: '',
     data_sending_bank_company_id:"TttwVLKHvXRujyllDq",
     id_contact_selected: '',
-    code_verify: ''
+    code_verify: '',
+    modalType: 1,
   },
   getters: {
     getUser(state) {
@@ -71,6 +72,9 @@ export default new Vuex.Store({
     },
     getIdContactSelected(state){
       return state.id_contact_selected;
+    },
+    getModalType(state){
+      return state.modalType;
     }
   },
   mutations: {
@@ -115,6 +119,13 @@ export default new Vuex.Store({
     },
     UPDATE_ID_CONTACT_SELECTED(state, payload){
       state.id_contact_selected = payload;
+    },
+    UPDATE_MODAL_TYPE(state,payload){
+      state.modalType = payload;
+    },
+    INSERT_LIST_ACCOUNT(state, payload){
+      state.listContact = [...state.listContact,payload];
+      console.log(JSON.parse(JSON.stringify(state.listContact)))
     }
   },
   actions: {
@@ -190,6 +201,12 @@ export default new Vuex.Store({
     },
     updateIdContactSelected(ctx, query){
       ctx.commit('UPDATE_ID_CONTACT_SELECTED', query);
+    },
+    updateModalType(ctx,query){
+      ctx.commit('UPDATE_MODAL_TYPE', query);
+    },
+    insertListAccount(ctx,data){
+      ctx.commit('INSERT_LIST_ACCOUNT', data);
     }
 
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2">
+  <div class="mt-2 my-height">
     <slot name="body">
         <p>Bạn có muốn lưu lại thông tin người nhận vào danh bạ cho lần gửi kể tiếp?</p>
     </slot>
@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style scoped>
+.my-height{
+  height: 150px;
+}
 .my-input{
     width: 50%;
     margin: auto;

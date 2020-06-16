@@ -51,16 +51,8 @@ export default {
           if (!json.success) {
             alert(json.error);
           } else {
-            this.$store.dispatch("updateDataSendingUserID", "");
-            this.$store.dispatch("updateDataSendingAccountName", "");
-            this.$store.dispatch("updateDataSendingValue", "");
-            this.$store.dispatch(
-              "updateDataSendingBankID",
-              "TttwVLKHvXRujyllDq"
-            );
-            this.$store.dispatch("updateDataSendingMyMessage", "");
-            this.$emit("close", true);
             alert("Thao tác thành công!");
+            this.$emit("close", true);
           }
         });
     }

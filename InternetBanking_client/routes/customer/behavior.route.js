@@ -219,8 +219,9 @@ router.route('/user_contact')
         if (entity.name_contact == '') {
             entity.name_contact = data.data.name;
         }
-        const add = model.add('tblreceivercontact', entity)
-        return res.status(200).json({ success: true, error: "" });
+        const add = await model.add('tblreceivercontact', entity);
+        entity.id = add.insertId;
+        return res.status(200).json({ success: true, error: "", data:entity});
     })
     .get(async function (req, res) {
         const rows = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);

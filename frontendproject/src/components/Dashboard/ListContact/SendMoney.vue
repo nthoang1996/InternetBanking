@@ -20,7 +20,7 @@
         </form>
       </div>
     </div>
-    <ModalSending @close="hide" />
+    <ModalSending @close="hide" @closeModalSuggest="hideSuggestionModal" />
   </div>
 </template>
 
@@ -46,7 +46,7 @@ export default {
     this.elements = [...data.send_money_label];
   },
   computed: {
-    ...mapGetters(["getDataSendingUserID", "getDataSendingMyMessage", "getDataSendingAccountName", "getDataSendingValue", "getDataSendingBankID"])
+    ...mapGetters(["getDataSendingUserID", "getDataSendingMyMessage", "getDataSendingAccountName", "getDataSendingValue", "getDataSendingBankID", "getListContact"])
   },
   components: { InputUserIDContainer, SelectedContainer, TextAreaContainer, ModalSending, InputNameContainer, InputValueContainer },
   methods:{
@@ -64,7 +64,7 @@ export default {
         alert("Số tiền không đủ lớn");
         return
       }
-      
+
       await this.handleBeforeCallServer();
       const formData = {
         des_id: this.getDataSendingUserID
@@ -84,10 +84,23 @@ export default {
             alert("Đã có lỗi xảy ra, vui lòng thử lại sau ít phút!");
           }
         });
-
+      await this.$store.dispatch("updateModalType", 1);
       this.$modal.show('hello-world');
     },
-    hide () {
+    hide(isOpenModal) {
+      if(isOpenModal){
+        const contact = this.getListContact.find(contact => contact.des_id == this.getDataSendingUserID);
+        if(!contact){
+          this.$store.dispatch("updateModalType", 2);
+        }
+        else{
+          this.clearDataSending();
+          this.$modal.hide('hello-world');
+        }
+      }
+    },
+    hideSuggestionModal(){
+      this.clearDataSending();
       this.$modal.hide('hello-world');
     }
   }

@@ -1,10 +1,10 @@
 <template>
   <div class="modal-footer">
     <slot name="footer">
-      <b-button variant="primary" @click="sendMoney">
+      <b-button variant="primary" @click="saveContact">
         <i class="fa fa-check-square"></i>&nbsp;Đồng ý
       </b-button>
-      <b-button variant="danger" @click="$emit('close', false)">
+      <b-button variant="danger" @click="$emit('close')">
         <i class="fa fa-times-circle"></i>&nbsp;Để lúc khác
       </b-button>
     </slot>
@@ -27,16 +27,14 @@ export default {
     ])
   },
   methods: {
-    async sendMoney() {
+    async saveContact() {
       await this.handleBeforeCallServer();
       const formData = {
-        des_username: this.getDataSendingUserID,
-        value: this.getDataSendingValue,
-        message: this.getDataSendingMyMessage,
         bank_company_id: this.getDataSendingBankID,
-        code: this.getCodeVerify
+        name_contact: this.getDataSendingAccountName,
+        des_id: this.getDataSendingUserID
       };
-      const url = "http://localhost:3000/customer/transferAboard";
+      const url = "http://localhost:3000/customer/user_contact";
       fetch(url, {
         method: "post", // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -46,21 +44,16 @@ export default {
         body: JSON.stringify(formData)
       })
         .then(response => response.json())
-        .then(json => {
+        .then(async(json) => {
           console.log(json);
           if (!json.success) {
             alert(json.error);
+            return;
           } else {
-            this.$store.dispatch("updateDataSendingUserID", "");
-            this.$store.dispatch("updateDataSendingAccountName", "");
-            this.$store.dispatch("updateDataSendingValue", "");
-            this.$store.dispatch(
-              "updateDataSendingBankID",
-              "TttwVLKHvXRujyllDq"
-            );
-            this.$store.dispatch("updateDataSendingMyMessage", "");
-            this.$emit("close", true);
+            await this.$store.dispatch('insertListAccount', json.data);
+            this.clearDataSending();
             alert("Thao tác thành công!");
+            this.$emit("close");
           }
         });
     }

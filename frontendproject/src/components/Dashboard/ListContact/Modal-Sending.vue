@@ -3,11 +3,16 @@
     <modal name="hello-world" no-close-on-backdrop>
       <div class="modal-mask">
         <div class="modal-wrapper">
-          <div class="modal-container">
+          <div class="modal-container" v-if="this.getModalType == 1">
             <ModalHeader />
             <ModalBody />
             <ModalFooter @close="closeModal"/>
           </div>
+           <div class="modal-container" v-if="this.getModalType == 2">
+             <ModalSuggestionHeader v-if="this.getModalType == 2"/>
+              <ModalSuggestionBody v-if="this.getModalType == 2"/>
+              <ModalSuggestionFooter @close="closeModalSuggest" v-if="this.getModalType == 2"/>
+           </div>
         </div>
       </div>
     </modal>
@@ -18,11 +23,21 @@
 import ModalHeader from './ModalHeader';
 import ModalBody from './ModalBody';
 import ModalFooter from './ModalFooter';
+import { mapGetters } from "vuex";
+import ModalSuggestionHeader from './ModalSuggestionHeader';
+import ModalSuggestionBody from './ModalSuggestionBody';
+import ModalSuggestionFooter from './ModalSuggestionFooter';
 export default {
-  components: { ModalHeader, ModalBody, ModalFooter },
+  components: { ModalHeader, ModalBody, ModalFooter, ModalSuggestionHeader, ModalSuggestionBody, ModalSuggestionFooter },
+  computed: {
+    ...mapGetters(["getModalType"])
+  },
   methods:{
     closeModal(isOpenModal){
       this.$emit('close',isOpenModal);
+    },
+    closeModalSuggest(){
+      return this.$emit('closeModalSuggest');
     }
   }
 };
