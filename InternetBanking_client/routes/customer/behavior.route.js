@@ -226,7 +226,7 @@ router.route('/user_contact')
 router.route('/user_contact/:contact_id')
     .put(async function (req, res) {
         const edit = await model.edit('tblreceivercontact', req.body, { id: req.params.contact_id });
-        return res.status(200).json({ message: "Success", error: "" });
+        return res.status(200).json({ success: true, error: "" });
     })
     .delete(async function (req, res) {
         const del = await model.del('tblreceivercontact', { id: req.params.contact_id })

@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-5 form-group">
+  <div class="row mt-2 form-group">
     <div class="col-sm-2 text-right">
       <label for="account-name" class="my-label">Tên liên hệ</label>
     </div>
@@ -47,5 +47,10 @@ export default {
   border: none;
   border-bottom: 1px solid black;
   outline: none;
+}
+
+.my-input:disabled{
+  background: transparent;
+  cursor: not-allowed;
 }
 </style>

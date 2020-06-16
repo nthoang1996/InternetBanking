@@ -9,6 +9,13 @@ export default {
             localStorage.internetbanking_timeaccesstokenexpire = timestamp.toString();
             return true;
         },
+        clearDataSending: function () {
+            this.$store.dispatch("updateDataSendingUserID", "");
+            this.$store.dispatch("updateDataSendingAccountName", "");
+            this.$store.dispatch("updateDataSendingValue", "");
+            this.$store.dispatch("updateDataSendingBankID", "TttwVLKHvXRujyllDq");
+            this.$store.dispatch("updateDataSendingMyMessage", "");
+        },
         handleBeforeCallServer: async function () {
             const timeExpired = parseInt(localStorage.internetbanking_timeaccesstokenexpire) + 540000;
             const localTimestamp = (new Date()).getTime();

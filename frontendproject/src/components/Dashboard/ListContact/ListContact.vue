@@ -30,10 +30,13 @@ import { mapGetters } from "vuex";
 import ContactItem from "./ContactItem";
 import HeaderListContact from './HeaderListContact';
 import SendMoney from './SendMoney';
+import mixin from "../../../Mixin";
 export default {
+  mixins: [mixin],
   mounted() {
     this.$store.dispatch("setCurrentPage", this.$route.path);
     this.$store.dispatch("setListContact");
+    this.clearDataSending();
   },
   computed: {
     ...mapGetters(["getCurrentPage", "getListContact"])

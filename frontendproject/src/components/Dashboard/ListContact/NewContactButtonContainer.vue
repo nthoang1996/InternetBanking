@@ -15,14 +15,15 @@
 import { mapGetters } from "vuex";
 import mixin from "../../../Mixin";
 export default {
-    mixins: [mixin],
+  mixins: [mixin],
   computed: {
     ...mapGetters([
       "getDataSendingUserID",
       "getDataSendingMyMessage",
       "getDataSendingAccountName",
       "getDataSendingValue",
-      "getDataSendingBankID"
+      "getDataSendingBankID",
+      "getIdContactSelected"
     ])
   },
   methods: {
@@ -30,37 +31,71 @@ export default {
       return this.$router.push("/dashboard/list_contact");
     },
     async save() {
-        await this.handleBeforeCallServer();
-      const formData = {
-        bank_company_id: this.getDataSendingBankID,
-        name_contact: this.getDataSendingAccountName,
-        des_id: this.getDataSendingUserID
-      };
-      console.log(formData);
-      const url = "http://localhost:3000/customer/user_contact";
-      fetch(url, {
-        method: "post", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "x-access-token": localStorage.internetbanking_accesstoken,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      })
-        .then(response => response.json())
-        .then(json => {
-          console.log(json);
-          if (!json.success) {
-            alert(json.error);
-          } else {
-            this.$store.dispatch("updateDataSendingUserID", "");
-            this.$store.dispatch("updateDataSendingAccountName", "");
-            this.$store.dispatch(
-              "updateDataSendingBankID",
-              "TttwVLKHvXRujyllDq"
-            );
-            alert("Thao tác thành công!");
-          }
-        });
+      await this.handleBeforeCallServer();
+      if (this.$route.path == "/dashboard/edit_contact") {
+        const formData = {
+          bank_company_id: this.getDataSendingBankID,
+          name_contact: this.getDataSendingAccountName
+        };
+        const url = "http://localhost:3000/customer/user_contact/"+ this.getIdContactSelected;
+        fetch(url, {
+          method: "put", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "x-access-token": localStorage.internetbanking_accesstoken,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(response => response.json())
+          .then(json => {
+            console.log(json);
+            if (!json.success) {
+              alert(json.error);
+              return;
+            } else {
+              this.$store.dispatch("updateDataSendingUserID", "");
+              this.$store.dispatch("updateDataSendingAccountName", "");
+              this.$store.dispatch(
+                "updateDataSendingBankID",
+                "TttwVLKHvXRujyllDq"
+              );
+              alert("Thao tác thành công!");
+              return this.$router.push("/dashboard/list_contact");
+            }
+          });
+      } else {
+        const formData = {
+          bank_company_id: this.getDataSendingBankID,
+          name_contact: this.getDataSendingAccountName,
+          des_id: this.getDataSendingUserID
+        };
+        const url = "http://localhost:3000/customer/user_contact";
+        fetch(url, {
+          method: "post", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "x-access-token": localStorage.internetbanking_accesstoken,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(response => response.json())
+          .then(json => {
+            console.log(json);
+            if (!json.success) {
+              alert(json.error);
+              return;
+            } else {
+              this.$store.dispatch("updateDataSendingUserID", "");
+              this.$store.dispatch("updateDataSendingAccountName", "");
+              this.$store.dispatch(
+                "updateDataSendingBankID",
+                "TttwVLKHvXRujyllDq"
+              );
+              alert("Thao tác thành công!");
+              return this.$router.push("/dashboard/list_contact");
+            }
+          });
+      }
     }
   }
 };

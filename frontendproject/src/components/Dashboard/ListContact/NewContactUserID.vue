@@ -13,6 +13,7 @@
         @keyup="handleChange($event)"
         autofocus
         :value="getDataSendingUserID"
+        :disabled="isDisabled"
       />
     </div>
   </div>
@@ -21,8 +22,19 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+    data(){
+        return{
+            isDisabled: false
+        }
+    },
     computed: {
     ...mapGetters(["getDataSendingUserID"]),
+  },
+  mounted(){
+      if(this.$route.path == '/dashboard/edit_contact'){
+          console.log(this.$route.path);
+          this.isDisabled = true;
+      }
   },
   methods: {
     handleChange(event) {
@@ -47,5 +59,10 @@ export default {
   border: none;
   border-bottom: 1px solid black;
   outline: none;
+}
+
+.my-input:disabled{
+  background: transparent;
+  cursor: not-allowed;
 }
 </style>

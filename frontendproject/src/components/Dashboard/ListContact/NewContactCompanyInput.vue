@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-2 form-group">
+  <div class="row mt-5 form-group">
     <div class="col-sm-2 text-right">
       <label class="my-label">Công ty</label>
     </div>
@@ -9,6 +9,7 @@
         :options="options"
         class="my-input"
         v-on:change="getSelectedItem($event)"
+        :disabled="isDisabled"
       ></b-form-select>
     </div>
   </div>
@@ -21,7 +22,8 @@ export default {
   mixins: [mixin],
   data() {
     return {
-      options: []
+      options: [],
+      isDisabled: false
     };
   },
   async mounted() {
@@ -41,6 +43,10 @@ export default {
         });
         this.options = [...json.banks];
       });
+      if(this.$route.path == '/dashboard/edit_contact'){
+          console.log(this.$route.path);
+          this.isDisabled = true;
+      }
   },
   methods: {
     getSelectedItem(data) {
@@ -49,7 +55,8 @@ export default {
   },
   computed: {
     ...mapGetters(["getDataSendingBankID"])
-  }
+  },
+  
 };
 </script>
 
@@ -68,5 +75,10 @@ export default {
   border: none;
   border-bottom: 1px solid black;
   outline: none;
+}
+
+.my-input:disabled{
+  background: transparent;
+  cursor: not-allowed;
 }
 </style>

@@ -19,6 +19,7 @@ export default new Vuex.Store({
     data_sending_value: '0',
     data_sending_my_message: '',
     data_sending_bank_company_id:"TttwVLKHvXRujyllDq",
+    id_contact_selected: '',
     code_verify: ''
   },
   getters: {
@@ -67,6 +68,9 @@ export default new Vuex.Store({
     },
     getCodeVerify(state){
       return state.code_verify;
+    },
+    getIdContactSelected(state){
+      return state.id_contact_selected;
     }
   },
   mutations: {
@@ -108,6 +112,9 @@ export default new Vuex.Store({
     },
     UPDATE_CODE_VERIFY(state, payload){
       state.code_verify = payload;
+    },
+    UPDATE_ID_CONTACT_SELECTED(state, payload){
+      state.id_contact_selected = payload;
     }
   },
   actions: {
@@ -180,6 +187,9 @@ export default new Vuex.Store({
     },
     updateCodeVerify(ctx, query){
       ctx.commit('UPDATE_CODE_VERIFY', query);
+    },
+    updateIdContactSelected(ctx, query){
+      ctx.commit('UPDATE_ID_CONTACT_SELECTED', query);
     }
 
   },

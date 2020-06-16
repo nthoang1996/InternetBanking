@@ -39,6 +39,12 @@ Vue.use(VueRouter)
         // when /user/:id/profile is matched
         path: '/dashboard/add_new_contact',
         component: NewContact
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/dashboard/edit_contact',
+        component: NewContact
       }
     ],
     meta: { requiresAuth: true }

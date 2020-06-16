@@ -14,7 +14,9 @@
 <script>
 import FilterItem from "./FilterItem";
 import { mapGetters } from "vuex";
+import mixin from "../../../Mixin";
 export default {
+     mixins: [mixin],
   components: { FilterItem },
   computed: {
     ...mapGetters([
@@ -28,11 +30,7 @@ export default {
   },
   methods: {
     addContact() {
-      this.$store.dispatch("updateDataSendingUserID", "");
-      this.$store.dispatch("updateDataSendingAccountName", "");
-      this.$store.dispatch("updateDataSendingValue", "");
-      this.$store.dispatch("updateDataSendingBankID", "TttwVLKHvXRujyllDq");
-      this.$store.dispatch("updateDataSendingMyMessage", "");
+      this.clearDataSending();
       return this.$router.push("/dashboard/add_new_contact");
     }
   }
