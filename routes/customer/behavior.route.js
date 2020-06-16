@@ -2,6 +2,7 @@ const express = require('express');
 const model = require('../../models/model')
 const config = require('../../config/config.json');
 const NodeRSA = require('node-rsa');
+const moment = require('moment');
 const key = new NodeRSA(config.secret_key.public_key.join('\n'));
 key.setOptions({ encryptionScheme: 'pkcs1' });
 key.importKey(config.secret_key.private_key.join('\n'), 'pkcs1');
@@ -13,7 +14,7 @@ router.route('/recharge')
         dataVerify.ts = parseInt(req.headers.timestamp);
         dataVerify.source_username = data.source_username;
         dataVerify.value = data.value;
-        console.log(dataVerify);
+        console.log("data", data);
         const verify = key.verify(dataVerify, data.signature, '', 'base64');
         if (verify === true) {
             const customer = await model.single_by_username_id('tbluser', data.des_username);
@@ -22,17 +23,20 @@ router.route('/recharge')
             }
             const cus_value = parseInt(customer[0].bank_balance) + parseInt(data.value);
             const update_cus = await model.edit('tbluser', { bank_balance: cus_value }, { username: data.des_username });
-            // const entity = {
-            //     type: 1,
-            //     source_username: data.source_usernameID,
-            //     bank_company_id: req.headers.company_id,
-            //     des_username: data.des_usernameID,
-            //     des_name: data.name,
-            //     value: data.value,
-            //     message: data.message
-            // }
-            // const insert_his = await model.add('tblhistorytransaction', entity);
-            const result = { message: "Success", error: "" };
+            const entity = {
+                type: 2,
+                root_id: customer[0].id,
+                source_username: data.source_username,
+                source_name: data.source_name,
+                bank_company_id: data.bank_company_id,
+                des_username: customer[0].username,
+                des_name: customer[0].name,
+                value: data.value,
+                message: data.message,
+                time: new Date()
+            }
+            const insert_his = await model.add('tblhistorytransaction', entity);
+            const result = { message: "Success", error: "", username: customer[0].name};
             const signature=key.sign(dataVerify, 'base64');
             console.log(signature);
             return res.status(200).json({data:result, signature});

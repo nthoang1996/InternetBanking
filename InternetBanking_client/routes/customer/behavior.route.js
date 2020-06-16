@@ -11,6 +11,7 @@ const datbankapi = require('../../models/datbankapi');
 const nodemailer = require('nodemailer');
 const createError = require('http-errors');
 const numeral = require('numeral');
+const moment = require('moment');
 // const transporter = require('../../utils/email')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -92,6 +93,20 @@ router.route('/transferAboard')
                 break;
         }
         if (verify) {
+            console.log("response", response);
+            const entity = {
+                type: 1,
+                root_id: sender[0].id,
+                source_username: sender[0].username,
+                source_name: sender[0].name,
+                bank_company_id: data.bank_company_id,
+                des_username: data.des_username,
+                des_name: response.data.username,
+                value: data.value,
+                message: data.message,
+                time: new Date()
+            }
+            const addHistory = await model.add('tblhistorytransaction', entity)
             res.status(200).json({success: true, data: response.data});
         } else {
             res.status(401).json({ success: false, error: "Đã có lỗi xảy ra, vui lòng thử lại sau!" });
@@ -117,8 +132,10 @@ router.route('/transferInternal')
             bank_company_id: -1,
             des_id: data.des_id,
             value: data.value,
-            message: data.message
+            message: data.message,
+            time: new Date()
         }
+        console.log("entity", entity);
         const insert_his = await model.add('tblhistorytransaction', entity);
         return res.status(200).json({ message: "Success", error: "" });
     })

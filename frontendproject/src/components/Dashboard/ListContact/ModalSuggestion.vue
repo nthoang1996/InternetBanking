@@ -4,9 +4,9 @@
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
-            <ModalHeader />
-            <ModalBody />
-            <ModalFooter @close="closeModal"/>
+            <ModalSuggestionHeader />
+            <ModalSuggestionBody />
+            <ModalSuggestionFooter @close="closeModal"/>
           </div>
         </div>
       </div>
@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import ModalHeader from './ModalHeader';
-import ModalBody from './ModalBody';
-import ModalFooter from './ModalFooter';
+import ModalSuggestionHeader from './ModalSuggestionHeader';
+import ModalSuggestionBody from './ModalBody';
+import ModalSuggestionFooter from './ModalFooter';
 export default {
-  components: { ModalHeader, ModalBody, ModalFooter },
+  components: { ModalSuggestionHeader, ModalSuggestionBody, ModalSuggestionFooter },
   methods:{
     closeModal(isOpenModal){
       this.$emit('close',isOpenModal);

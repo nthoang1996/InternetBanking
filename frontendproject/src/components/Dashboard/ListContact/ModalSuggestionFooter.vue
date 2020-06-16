@@ -2,10 +2,10 @@
   <div class="modal-footer">
     <slot name="footer">
       <b-button variant="primary" @click="sendMoney">
-        <i class="fa fa-check-square"></i>&nbsp;Xác nhận
+        <i class="fa fa-check-square"></i>&nbsp;Đồng ý
       </b-button>
       <b-button variant="danger" @click="$emit('close', false)">
-        <i class="fa fa-times-circle"></i>&nbsp;Hủy
+        <i class="fa fa-times-circle"></i>&nbsp;Để lúc khác
       </b-button>
     </slot>
   </div>
