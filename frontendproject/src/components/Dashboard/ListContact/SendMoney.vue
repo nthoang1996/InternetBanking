@@ -7,9 +7,11 @@
         <h3 class="blurb">Vui lòng điền số tài khoản &mdash;</h3>
         <span class="blurb-tagline">và số tiền bạn muốn chuyển</span>
         <form class="signup-form" method="post" action="#" novalidate="novalidate">
-          <InputContainer v-for="item in elements" :key="item.id" :data="item" />
+          <InputNameContainer />
+          <InputUserIDContainer />
           <SelectedContainer />
-          <TextAreaContainer :data="{key:'my_message', name:'Tin nhắn', is_disabled: false}"/>
+          <InputValueContainer />
+          <TextAreaContainer/>
           <button class="btn btn-outline submit-btn" @click="transferMoney($event)">
             <span>
               <i class="fa fa-paper-plane"></i>&nbsp;Chuyển tiền
@@ -24,10 +26,12 @@
 
 <script>
 import data from "../../../assets/info.json";
-import InputContainer from "./InputContainer";
+import InputUserIDContainer from "./InputUserIDContainer";
+import InputNameContainer from "./InputNameContainer";
 import SelectedContainer from "./SelectedContainer";
 import TextAreaContainer from "./TextAreaContainer";
 import ModalSending from "./Modal-Sending"
+import InputValueContainer from './InputValueContainer'
 export default {
   data() {
     return {
@@ -37,9 +41,8 @@ export default {
   },
   mounted() {
     this.elements = [...data.send_money_label];
-    this.$store.dispatch("initDataSending");
   },
-  components: { InputContainer, SelectedContainer, TextAreaContainer, ModalSending },
+  components: { InputUserIDContainer, SelectedContainer, TextAreaContainer, ModalSending, InputNameContainer, InputValueContainer },
   methods:{
     transferMoney(event){
       event.preventDefault();

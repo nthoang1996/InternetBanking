@@ -4,11 +4,14 @@ const model = require('../models/model');
 module.exports = async (req,res, next) =>{
     const signature = req.headers['x-signature'];
     const time = req.headers['timestamp'];
-    const data = JSON.stringify(req.body);
+    const data = req.body
+	console.log(time);
+	console.log(data);
 
     const idCompany = req.headers.company_id; // id company
     const result = await model.single_by_idString('tblbank', idCompany);
     const secret_key = result[0].secret_key // get secret_key bank
+    console.log(secret_key);
     const hash = md5(time + data + secret_key); // hash
 
     if (hash !== signature ){

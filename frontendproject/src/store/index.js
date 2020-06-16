@@ -14,7 +14,12 @@ export default new Vuex.Store({
     listAccount: [],
     listContact: [],
     accountQuery: '',
-    data_sending : {}
+    data_sending_des_id: '',
+    data_sending_account_name: '',
+    data_sending_value: '0',
+    data_sending_my_message: '',
+    data_sending_bank_company_id:"TttwVLKHvXRujyllDq",
+    test: ''
   },
   getters: {
     getUser(state) {
@@ -45,9 +50,20 @@ export default new Vuex.Store({
         t => t.name_contact.toLocaleLowerCase().includes(lcQuery)
       );
     },
-    getDataSending(state){
-      console.log("AAAA",JSON.parse(JSON.stringify(state.dataSending)));
-      return state.dataSending;
+    getDataSendingUserID(state){
+      return state.data_sending_des_id;
+    },
+    getDataSendingMyMessage(state){
+      return state.data_sending_my_message;
+    },
+    getDataSendingAccountName(state){
+      return state.data_sending_account_name;
+    },
+    getDataSendingValue(state){
+      return state.data_sending_value;
+    },
+    getDataSendingBankID(state){
+      return state.data_sending_bank_company_id;
     }
   },
   mutations: {
@@ -72,20 +88,22 @@ export default new Vuex.Store({
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
     },
-    UPDATE_DATA_SENDING(state, data){
-      console.log(data);
-      state.dataSending[data.key]= data.value;
+    UPDATE_DATA_SENDING_USER_ID(state, payload){
+      state.data_sending_des_id = payload;
     },
-    INIT_DATA_SENDING(state){
-      state.dataSending = {
-        des_id: "",
-        account_name:"",
-        value:"0",
-        my_message: '',
-        bank_company_id: "TttwVLKHvXRujyllDq"
-      }
-      console.log("AAAAAA");
-    }
+    UPDATE_DATA_SENDING_ACCOUNT_NAME(state, payload){
+      state.data_sending_account_name = payload;
+    },
+    UPDATE_DATA_SENDING_VALUE(state, payload){
+      state.data_sending_value = payload;
+    },
+    UPDATE_DATA_SENDING_MY_MESSAGE(state, payload){
+      state.data_sending_my_message = payload;
+    },
+    UPDATE_DATA_SENDING_BANK_ID(state, payload){
+      console.log(payload);
+      state.data_sending_bank_company_id = payload;
+    },
   },
   actions: {
     async initSidebar(ctx) {
@@ -140,12 +158,22 @@ export default new Vuex.Store({
     updateQuery(ctx, query){
       ctx.commit('UPDATE_QUERY', query);
     },
-    updateDataSending(ctx, data){
-      ctx.commit('UPDATE_DATA_SENDING', data);
+    updateDataSendingUserID(ctx, query){
+      ctx.commit('UPDATE_DATA_SENDING_USER_ID', query);
     },
-    initDataSending(ctx){
-      ctx.commit('INIT_DATA_SENDING');
+    updateDataSendingAccountName(ctx, query){
+      ctx.commit('UPDATE_DATA_SENDING_ACCOUNT_NAME', query);
+    },
+    updateDataSendingValue(ctx, query){
+      ctx.commit('UPDATE_DATA_SENDING_VALUE', query);
+    },
+    updateDataSendingMyMessage(ctx, query){
+      ctx.commit('UPDATE_DATA_SENDING_MY_MESSAGE', query);
+    },
+    updateDataSendingBankID(ctx, query){
+      ctx.commit('UPDATE_DATA_SENDING_BANK_ID', query);
     }
+
   },
   modules: {
   }

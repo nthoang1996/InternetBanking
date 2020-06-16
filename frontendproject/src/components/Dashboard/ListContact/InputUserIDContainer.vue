@@ -1,14 +1,13 @@
 <template>
   <div>
-    <label :for="data.key">{{data.name}}</label>
+    <label for="user_id">Số tài khoản</label>
     <input
-      :id="data.key"
+      id="user_id"
       type="text"
-      :name="data.key"
+      name="user_id"
       autocomplete="off"
-      :disabled="data.is_disabled"
       @keyup="handleChange($event)"
-      :value="getDataSending[data.key]"
+      :value="getDataSendingUserID"
     />
   </div>
 </template>
@@ -24,19 +23,18 @@ export default {
   },
   methods: {
     handleChange(event) {
-      const data= {
-        key: this.data.key,
-        value: event.target.value
-      }
       this.$store.dispatch(
-        "updateDataSending",
-        data
+        "updateDataSendingUserID",
+        event.target.value
       );
-      console.log(JSON.parse(JSON.stringify(this.getDataSending)));
+      this.$store.dispatch(
+        "updateDataSendingAccountName",
+        ""
+      );
     }
   },
   computed: {
-    ...mapGetters(["getDataSending"])
+    ...mapGetters(["getDataSendingUserID"]),
   }
 };
 </script>

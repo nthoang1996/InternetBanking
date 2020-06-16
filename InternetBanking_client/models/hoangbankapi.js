@@ -37,10 +37,13 @@ class HoangBankAPI{
     }
 
     async callApiGetInfo(){
-		const url = 'https://salty-meadow-17297.herokuapp.com/customer/query_information';
+		const url = 'http://localhost:8000/customer/query_information';
 		const secret_key = config.secret_key.secret_key;
+		console.log(secret_key);
+		console.log(this.data);
 		const timestamp = Date.now();
 		const hash_signature = md5(timestamp + this.data + secret_key); // hash
+		console.log(timestamp);
 		const res = request('POST',url,{
             headers: {
               'Content-Type': 'application/json',

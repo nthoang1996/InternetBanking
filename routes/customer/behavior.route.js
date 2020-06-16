@@ -46,7 +46,7 @@ router.route('/recharge')
 router.route('/query_information')
     .post(async function (req, res) {
         const usernameID = req.body.data.usernameID;
-        console.log(usernameID);
+        console.log("username", usernameID);
         const customer = await model.single_by_username_id('tbluser', usernameID);
         if (customer.length == 0) {
             return res.status(400).json({ message: "Success", error: "" });

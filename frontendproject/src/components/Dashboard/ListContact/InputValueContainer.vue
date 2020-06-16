@@ -1,13 +1,13 @@
 <template>
   <div>
-    <label for="message">Tin nhắn</label>
-    <textarea
-      id="message"
-      name="message"
+    <label for="money">Số tiền</label>
+    <input
+      id="money"
+      type="text"
+      name="money"
       autocomplete="off"
-      class="my-custom my-text-area"
       @keyup="handleChange($event)"
-      :value="getDataSendingMyMessage"
+      :value="getDataSendingValue"
     />
   </div>
 </template>
@@ -23,13 +23,22 @@ export default {
   },
   methods: {
     handleChange(event) {
-      this.$store.dispatch('updateDataSendingMyMessage', event.target.value);
+      this.$store.dispatch(
+        "updateDataSendingValue",
+        event.target.value
+      );
     }
   },
   computed: {
-    ...mapGetters(["getDataSendingMyMessage"])
+    ...mapGetters(["getDataSendingValue"])
   }
 };
 </script>
 
+<style scoped>
+.my-margin {
+  margin-left: 0;
+  margin-bottom: 20px;
+}
+</style>
 <style scoped src="@/assets/css/send_money_page.css"></style>

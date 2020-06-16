@@ -46,7 +46,6 @@ router.route('/transferAboard')
                 api = new datbankapi(dat_data);
                 response = JSON.parse(await api.callApiRecharge());
                 const bank = await model.single_by_id('tblbank', 'pawGDX1Ddu');
-                console.log(bank[0].public_key);
                 let cleartext = response.cleartext;
                 const verified = await openpgp.verify({
                     message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
@@ -166,7 +165,6 @@ router.route('/user_contact')
     .post(async function (req, res) {
         let response = "";
         let data = {};
-        console.log(req.body.bank_company_id);
         switch (req.body.bank_company_id) {
             case '':
                 const user = await model.single_by_id('tbluser', req.body.des_id);
@@ -243,5 +241,42 @@ router.route('/saving_account')
             rows[i].bank_balance = numeral(rows[i].bank_balance).format('0,0') + " ₫";
         }
         return res.status(200).json({ message: "Success", error: "", data: rows });
+    })
+
+router.route('/user')
+    .post(async function(req,res){
+        let response = "";
+        let data = {};
+        switch (req.body.bank_id) {
+            // case '':
+            //     const user = await model.single_by_id('tbluser', req.body.des_id);
+            //     if (user.length == 0) {
+            //         return res.status(400).json({ message: "Failed", error: "User id not found" });
+            //     }
+            //     break;
+            case 'TttwVLKHvXRujyllDq':
+                const my_data = {
+                    usernameID: req.body.username
+                }
+                api = new hoangbankapi({ data: my_data });
+                response = await api.callApiGetInfo();
+                data = JSON.parse(response);
+                console.log(data);
+                if (!data.data) {
+                    return res.status(200).json({ success: true, message: "Không tìm thấy người dùng"  });
+                }
+                break;
+            case 'pawGDX1Ddu':
+                api = new datbankapi({ stk: req.body.username });
+                response = await api.callApiGetInfo();
+                console.log(response)
+                data = JSON.parse(response);
+                if (!data.data) {
+                    return res.status(200).json({ message: true, message: "Không tìm thấy người dùng" });
+                }
+                break;
+
+        }
+        res.status(200).json({success: true, message:"Thành công", data: data.data});
     })
 module.exports = router;

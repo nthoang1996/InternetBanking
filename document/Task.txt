@@ -3,17 +3,20 @@ Liệt kê danh sách tài khoản của người dùng
 thiết lập danh sách người nhận
 chuyển khoản nội bộ
 chuyển khoản liên ngân hàng
+=>Hoàng
 
 Quản lý nhắc nợ
 Xem lịch sử giao dịch
-đỏi mật khẩu
-quẩn mật khẩu
+đổi mật khẩu
+Quên mật khẩu
+=>Dũng
 
 Tạo tài khoản khách hàng
 Nạp tiền vào 1 tài khoản
 Xem lịch sử giao dịch của 1 tài khoản khách hàng
 Quản lý danh sách nhân viên
 Xem giao dịch trong tháng với các ngân hàng khác
+=>Tuấn
 
 ------------------------------------------------------
 -----BEGIN PUBLIC KEY-----

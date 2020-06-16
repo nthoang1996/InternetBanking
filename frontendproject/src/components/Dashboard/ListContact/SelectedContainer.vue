@@ -2,10 +2,10 @@
   <div>
     <label for="bank-name">Tên ngân hàng</label>
     <b-form-select
-      v-model="selected"
+      :value="getDataSendingBankID"
       :options="options"
       class="my-custom"
-      v-on:change="getSelectedItem"
+      v-on:change="getSelectedItem($event)"
     ></b-form-select>
   </div>
 </template>
@@ -17,7 +17,6 @@ export default {
   mixins: [mixin],
   data() {
     return {
-      selected: "TttwVLKHvXRujyllDq",
       options: []
     };
   },
@@ -40,19 +39,19 @@ export default {
       });
   },
   methods: {
-    getSelectedItem() {
-      const data = {
-        key: "bank_company_id",
-        value: this.selected
-      };
+    getSelectedItem(data) {
       this.$store.dispatch(
-        "updateDataSending",
+        "updateDataSendingBankID",
         data
+      );
+      this.$store.dispatch(
+        "updateDataSendingAccountName",
+        ""
       );
     }
   },
   computed: {
-    ...mapGetters(["getDataSending"])
+    ...mapGetters(["getDataSendingBankID"])
   }
 };
 </script>

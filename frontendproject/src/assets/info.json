@@ -63,12 +63,6 @@
         },
         {
             "id": 2,
-            "name": "Tên tài khoản",
-            "key": "account_name",
-            "is_disabled": true
-        },
-        {
-            "id": 3,
             "name": "Số tiền cần chuyển",
             "key": "value",
             "is_disabled": false
