@@ -125,7 +125,7 @@
         "phone": "Số điện thoại",
         "address": "Địa chỉ",
         "email": "Email",
-        "username": "Tài khoản giao dịch",
+        "username": "Tài khoản",
         "bank_balance": "Số dư"
     }
 }

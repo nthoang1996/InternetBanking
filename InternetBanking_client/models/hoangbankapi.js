@@ -23,6 +23,7 @@ class HoangBankAPI{
 		this.data.signature = signature;
 		const secret_key = config.secret_key.secret_key;
 		const formData = {data:this.data};
+		console.log("data", formData);
 		const hash_signature = md5(timestamp + formData + secret_key); // hash
         const res = request('POST',url,{
             headers: {

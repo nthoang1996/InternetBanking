@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
+    currentRole: 3,
     list_dashboard: [],
     current_page: '',
     userVisible: {},
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     data_sending_value: '0',
     data_sending_my_message: '',
     data_sending_bank_company_id:"TttwVLKHvXRujyllDq",
+    data_sending_type_payment: 1,
     id_contact_selected: '',
     code_verify: '',
     modalType: 1,
@@ -29,6 +31,9 @@ export default new Vuex.Store({
     getUser(state) {
       return state.user;
     },
+    getCurrentRole(state){
+      return state.currentRole;
+    },
     getCurrentPage(state) {
       return state.current_page;
     },
@@ -37,6 +42,11 @@ export default new Vuex.Store({
     },
     getUserVisible(state) {
       state.userVisible = {...state.user};
+      state.currentRole = state.user.role;
+      if(state.userVisible.role != 3){
+        delete state.userVisible.bank_balance;
+      }
+      console.log(JSON.parse(JSON.stringify(state)));
       delete state.userVisible.id;
       delete state.userVisible.role;
       return state.userVisible;
@@ -68,6 +78,9 @@ export default new Vuex.Store({
     },
     getDataSendingBankID(state){
       return state.data_sending_bank_company_id;
+    },
+    getDataSendingTypePayment(state){
+      return state.data_sending_type_payment;
     },
     getCodeVerify(state){
       return state.code_verify;
@@ -125,6 +138,9 @@ export default new Vuex.Store({
     },
     UPDATE_DATA_SENDING_BANK_ID(state, payload){
       state.data_sending_bank_company_id = payload;
+    },
+    UPDATE_DATA_SENDING_TYPE_PAYMET(state, payload){
+      state.data_sending_type_payment = payload
     },
     UPDATE_CODE_VERIFY(state, payload){
       state.code_verify = payload;
@@ -222,6 +238,9 @@ export default new Vuex.Store({
     },
     updateDataSendingBankID(ctx, query){
       ctx.commit('UPDATE_DATA_SENDING_BANK_ID', query);
+    },
+    updateDataSendingTypePayment(ctx, query){
+      ctx.commit('UPDATE_DATA_SENDING_TYPE_PAYMET', query);
     },
     updateCodeVerify(ctx, query){
       ctx.commit('UPDATE_CODE_VERIFY', query);

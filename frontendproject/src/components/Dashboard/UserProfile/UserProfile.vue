@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-4 my-border-right">
+        <div class="col-sm-4 my-border-right" v-if="getCurrentRole == 3">
           <h5>Danh sách tài khoản tiết kiệm</h5>
           <hr />
           <ListAccount />
@@ -27,7 +27,7 @@ import InfoText from './InfoText';
 import ListAccount from './ListAccount';
 export default {
     computed: {
-    ...mapGetters(['getCurrentPage', 'getUserVisible', 'getListAccount'])
+    ...mapGetters(['getCurrentPage', 'getUserVisible', 'getListAccount', 'getCurrentRole'])
   },
   mounted(){
     this.$store.dispatch("setCurrentPage", this.$route.path);

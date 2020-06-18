@@ -2,7 +2,7 @@ const db = require('../utils/db');
 // const config = require('../config/default.json')
 module.exports = {
     all: (table) => { return db.load(`select * from ${table};`) },
-    single_by_id: (table, id) => { return db.load(`select * from ${table} where id = ${id}`) },
+    single_by_id: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
     single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
     single_by_username_id: (table, username_id) => { return db.load(`select * from ${table} where username = '${username_id}'`) },
     all_by_pid: (table, id) => { return db.load(`select * from ${table} where parent_id = ${id}`) },

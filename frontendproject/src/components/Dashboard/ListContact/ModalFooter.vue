@@ -23,7 +23,8 @@ export default {
       "getDataSendingAccountName",
       "getDataSendingValue",
       "getDataSendingBankID",
-      "getCodeVerify"
+      "getCodeVerify",
+      'getDataSendingTypePayment'
     ])
   },
   methods: {
@@ -34,6 +35,7 @@ export default {
         value: this.getDataSendingValue,
         message: this.getDataSendingMyMessage,
         bank_company_id: this.getDataSendingBankID,
+        type: this.getDataSendingTypePayment,
         code: this.getCodeVerify
       };
       const url = "http://localhost:3000/customer/transferAboard";

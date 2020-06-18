@@ -1,7 +1,7 @@
 <template>
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <router-link to="/dashboard" class="sidebar-brand mb-3 my-hover">Xin chào <br>{{getUser.name}}</router-link>
+    <router-link to="/dashboard" class="sidebar-brand mb-4 my-hover">Xin chào <br>{{getUser.name}}</router-link>
 
 
     <!-- Divider -->
