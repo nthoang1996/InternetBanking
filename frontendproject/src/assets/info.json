@@ -30,7 +30,6 @@
                 "title": "Câu hỏi thường gặp",
                 "icon_class": "comments"
             }
-
         ],
         "information_2": [{
                 "title": "Lãi suất",
@@ -69,30 +68,58 @@
         }
     ],
     "dashboard": [{
-        "role": 3,
-        "elements": [{
-                "id": 2,
-                "name": "Danh bạ/Chuyển tiền",
-                "url": "/dashboard/list_contact",
+            "role": 3,
+            "elements": [{
+                    "id": 2,
+                    "name": "Danh bạ/Chuyển tiền",
+                    "url": "/dashboard/list_contact",
+                    "class": "fa fa-address-book",
+                    "display": true
+                },
+                {
+                    "id": 3,
+                    "name": "Thêm danh bạ",
+                    "url": "/dashboard/add_new_contact",
+                    "class": "",
+                    "display": false
+                },
+                {
+                    "id": 4,
+                    "name": "Cập nhật danh bạ",
+                    "url": "/dashboard/edit_contact",
+                    "class": "",
+                    "display": false
+                },
+                {
+                    "id": 5,
+                    "name": "Lịch sử giao dịch",
+                    "url": "/dashboard/list_history",
+                    "class": "fa fa-history",
+                    "display": true
+                }
+            ]
+        },
+        {
+            "role": 2,
+            "elements": [{
+                "id": 11,
+                "name": "Tạo tài khoản khách hàng",
+                "url": "/dashboard/create_customer_account",
+                "class": "fa fa-plus",
+                "display": true
+            }]
+        },
+        {
+            "role": 3,
+            "elements": [{
+                "id": 21,
+                "name": "Quản lý nhân viên",
+                "url": "/dashboard/manage_employee",
                 "class": "fa fa-address-book",
                 "display": true
-            },
-            {
-                "id": 3,
-                "name": "Thêm danh bạ",
-                "url": "/dashboard/add_new_contact",
-                "class": "",
-                "display": false
-            },
-            {
-                "id": 4,
-                "name": "Cập nhật danh bạ",
-                "url": "/dashboard/edit_contact",
-                "class": "",
-                "display": false
-            }
-        ]
-    }],
+            }]
+        }
+    ],
     "constant": {
         "name": "Họ tên",
         "phone": "Số điện thoại",

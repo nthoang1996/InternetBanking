@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-function verifyCode(res, verify, code){
+function verifyCode(res, verify, code) {
     console.log(code, verify);
     if (verify.code == code) {
         const ts = Date.now();
@@ -32,7 +32,7 @@ function verifyCode(res, verify, code){
         }
     } else {
         return "Mã bạn nhập vào không đúng";
-        return res.status(401).json({ success: false, error: "Mã bạn nhập vào không đúng"});
+        return res.status(401).json({ success: false, error: "Mã bạn nhập vào không đúng" });
     }
 }
 
@@ -48,8 +48,8 @@ router.route('/transferAboard')
         // }
         const data = req.body;
         const sender = await model.single_by_id('tbluser', req.tokenPayload.userID);
-        const message = verifyCode(res, JSON.parse(sender[0].verify),req.body.code);
-        if(message){
+        const message = verifyCode(res, JSON.parse(sender[0].verify), req.body.code);
+        if (message) {
             return res.status(401).json({ success: false, error: message });
         }
         const sder_value = parseInt(sender[0].bank_balance) - parseInt(data.value);
@@ -74,11 +74,11 @@ router.route('/transferAboard')
                     publicKeys: (await openpgp.key.readArmored(bank[0].public_key)).keys, // for verification
                 });
                 const { valid } = verified.signatures[0];
-                if(valid){
+                if (valid) {
                     let res = cleartext.slice(cleartext.indexOf('{'), cleartext.indexOf('}') + 1);
                     console.log(res);
                 }
-                else{
+                else {
                     console.log("failed");
                 }
                 break;
@@ -107,7 +107,7 @@ router.route('/transferAboard')
                 time: new Date()
             }
             const addHistory = await model.add('tblhistorytransaction', entity)
-            res.status(200).json({success: true, data: response.data});
+            res.status(200).json({ success: true, data: response.data });
         } else {
             res.status(401).json({ success: false, error: "Đã có lỗi xảy ra, vui lòng thử lại sau!" });
         }
@@ -168,9 +168,9 @@ router.route('/confirmination_Email')
             }
             transporter.sendMail(mailOption, (error, info) => {
                 if (error) {
-                    res.status(500).json({success:false, error})
+                    res.status(500).json({ success: false, error })
                 } else {
-                    res.status(200).json({success:true, error:""})
+                    res.status(200).json({ success: true, error: "" })
                 }
             })
         } catch (e) {
@@ -199,7 +199,7 @@ router.route('/user_contact')
             case 'pawGDX1Ddu':
                 api = new datbankapi({ stk: req.body.des_id });
                 response = await api.callApiGetInfo();
-                
+
                 data = JSON.parse(response);
                 if (!data.data) {
                     return res.status(400).json({ success: false, error: "Số tài khoản bạn nhập vào không tồn tại" });
@@ -221,7 +221,7 @@ router.route('/user_contact')
         }
         const add = await model.add('tblreceivercontact', entity);
         entity.id = add.insertId;
-        return res.status(200).json({ success: true, error: "", data:entity});
+        return res.status(200).json({ success: true, error: "", data: entity });
     })
     .get(async function (req, res) {
         const rows = await model.all_by_source_id('tblreceivercontact', req.tokenPayload.userID);
@@ -238,7 +238,7 @@ router.route('/user_contact')
             }
         });
         console.log(rows);
-        return res.status(200).json({ message: "Success", error: "", data: rows });
+        return res.status(200).json({ success: true, error: "", data: rows });
     })
 
 router.route('/user_contact/:contact_id')
@@ -262,7 +262,7 @@ router.route('/saving_account')
     })
 
 router.route('/user')
-    .post(async function(req,res){
+    .post(async function (req, res) {
         let response = "";
         let data = {};
         switch (req.body.bank_id) {
@@ -281,7 +281,7 @@ router.route('/user')
                 data = JSON.parse(response);
                 console.log(data);
                 if (!data.data) {
-                    return res.status(200).json({ success: true, message: "Không tìm thấy người dùng"  });
+                    return res.status(200).json({ success: true, message: "Không tìm thấy người dùng" });
                 }
                 break;
             case 'pawGDX1Ddu':
@@ -295,6 +295,40 @@ router.route('/user')
                 break;
 
         }
-        res.status(200).json({success: true, message:"Thành công", data: data.data});
+        res.status(200).json({ success: true, message: "Thành công", data: data.data });
+    })
+
+router.route('/list_history')
+    .get(async function (req, res) {
+        const rows = await model.all_by_root_id('tblhistorytransaction', req.tokenPayload.userID);
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].bank_balance = numeral(rows[i].value).format('0,0') + " ₫";
+        }
+        const listBank = await model.all('tblbank');
+        rows.forEach(element => {
+            element.date_display = moment(element.time).format('MMMM Do YYYY, h:mm:ss a');
+            if(element.type == 1){
+                element.displayName = element.des_name;
+                element.nameType = "Chuyển khoản";
+                element.accountId = element.des_username;
+                element.myClass = "my-type-send";
+            }
+            else if(element.type == 2){
+                element.displayName = element.source_name;
+                element.nameType = "Nhận tiền";
+                element.accountId = element.source_username;
+                element.myClass = "my-type-receive";
+            }
+            if (element.bank_company_id === 'TttwVLKHvXRujyllDq') {
+                element.bank_name = "Cùng ngân hàng";
+            }
+            else {
+                const bank = listBank.find(bank => bank.id === element.bank_company_id);
+                if (bank) {
+                    element.bank_name = bank.name;
+                }
+            }
+        });
+        return res.status(200).json({ success: true, error: "", data: rows });
     })
 module.exports = router;

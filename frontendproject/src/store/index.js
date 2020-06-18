@@ -14,6 +14,7 @@ export default new Vuex.Store({
     listAccount: [],
     listContact: [],
     accountQuery: '',
+    historyQuery: '',
     data_sending_des_id: '',
     data_sending_account_name: '',
     data_sending_value: '0',
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     id_contact_selected: '',
     code_verify: '',
     modalType: 1,
+    listHistory: [],
   },
   getters: {
     getUser(state) {
@@ -75,7 +77,17 @@ export default new Vuex.Store({
     },
     getModalType(state){
       return state.modalType;
-    }
+    },
+    getListHistory(state){
+      if (state.historyQuery.length === 0) {
+        return state.listHistory;
+      }
+
+      const lcQuery = state.historyQuery.toLocaleLowerCase();
+      return state.listHistory.filter(
+        t => t.displayName.toLocaleLowerCase().includes(lcQuery)
+      );
+    },
   },
   mutations: {
     INIT_USER(state, payload) {
@@ -129,7 +141,13 @@ export default new Vuex.Store({
     DELETE_CONTACT(state, payload){
       state.listContact = state.listContact.filter(function( obj ) {
         return obj.id !== payload;
-    });
+      });
+    },
+    SET_LIST_HISTORY(state, payload){
+      state.listHistory = [...payload];
+    },
+    UPDATE_HISTORY_QUERY(state, payload){
+      state. historyQuery = payload
     }
   },
   actions: {
@@ -178,8 +196,13 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
-        console.log(json);
-        ctx.commit('SET_LIST_CONTACT', json.data);
+        if(json.success){
+          console.log(json);
+          ctx.commit('SET_LIST_CONTACT', json.data);
+        }
+        else{
+          alert(json.error);
+        }
       });
     },
     updateQuery(ctx, query){
@@ -213,8 +236,30 @@ export default new Vuex.Store({
       ctx.commit('INSERT_LIST_CONTACT', data);
     },
     deleteListContact(ctx, id){
-      ctx.commit("DELETE_CONTACT", id)
-    }
+      ctx.commit("DELETE_CONTACT", id);
+    },
+    async setListHistory(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/list_history';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("SET_LIST_HISTORY", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
+    },
+    updateHistoryQuery(ctx, query){
+      ctx.commit('UPDATE_HISTORY_QUERY', query);
+    },
   },
   modules: {
   }

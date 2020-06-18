@@ -10,6 +10,7 @@ const moment = require('moment');
 const createError = require('http-errors');
 
 router.route('/login').post(async function (req, res) {
+    console.log(req.body.username);
     const rows = await model.single_by_username('tbluser', req.body.username);
     if (!rows) {
         return res.status(401).json({ "message": "Failed", "error": "Không tìm thấy tài khoản người dùng!" });

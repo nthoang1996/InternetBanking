@@ -5,6 +5,7 @@ import Dashboard from '../components/Dashboard/Body'
 import UserProfile from '../components/Dashboard/UserProfile/UserProfile'
 import ListContact from '../components/Dashboard/ListContact/ListContact'
 import NewContact from '../components/Dashboard/ListContact/NewContact'
+import ListHistory from '../components/Dashboard/History/ListHistory'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,18 @@ Vue.use(VueRouter)
         // when /user/:id/profile is matched
         path: '/dashboard/edit_contact',
         component: NewContact
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/dashboard/list_history',
+        component: ListHistory
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/dashboard/create_customer_account',
+        component: ListHistory
       }
     ],
     meta: { requiresAuth: true }

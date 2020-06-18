@@ -13,9 +13,9 @@ module.exports = (req, res, next) => {
             }
             req.tokenPayload = payload;
             const user = await model.single_by_id('tbluser', req.tokenPayload.userID);
-            if(user[0].role !==3){
-                throw createError(401, "Bạn không có quyền gọi tới tài nguyên này!")
-            }
+            // if(user[0].role !==3){
+            //     throw createError(401, "Bạn không có quyền gọi tới tài nguyên này!")
+            // }
             next();
         })
     }else{
