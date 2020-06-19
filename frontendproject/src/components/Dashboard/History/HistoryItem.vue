@@ -16,7 +16,10 @@
           <b>Thời gian: {{data.date_display}}</b>
         </b-card-text>
         <b-card-text>
-          <b>Tin nhắn:</b><br> {{data.message}}
+          <b>{{data.type_pay}}</b>
+        </b-card-text>
+        <b-card-text>
+          <i>Tin nhắn:</i><br> {{data.message}}
         </b-card-text>
       </b-card>
     </b-card-group>

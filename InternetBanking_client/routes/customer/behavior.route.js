@@ -58,9 +58,6 @@ router.route('/transferAboard')
         if (data.type == 1) {
             sder_value -= config.config.fee;
         }
-        else {
-            data.value = (parseInt(data.value) - config.config.fee).toString();
-        }
         if (sder_value < 50000) {
             return res.status(401).json({ success: false, error: "Tài khoản không đủ tiền!" });
         }
@@ -107,102 +104,24 @@ router.route('/transferAboard')
         }
         console.log("verify", verify);
         if (verify) {
-            console.log("response", response);
-            // const entity = {
-            //     type: 1,
-            //     root_id: sender[0].id,
-            //     source_username: sender[0].username,
-            //     source_name: sender[0].name,
-            //     bank_company_id: data.bank_company_id,
-            //     des_username: data.des_username,
-            //     des_name: response.data.username,
-            //     value: data.value,
-            //     type_payment: data.type,
-            //     message: data.message,
-            //     time: new Date()
-            // }
-            // const addHistory = await model.add('tblhistorytransaction', entity)
+            const entity = {
+                type: 1,
+                root_id: sender[0].id,
+                source_username: sender[0].username,
+                source_name: sender[0].name,
+                bank_company_id: data.bank_company_id,
+                des_username: data.des_username,
+                des_name: response.data.username,
+                value: data.value,
+                type_payment: data.type,
+                message: data.message,
+                time: new Date()
+            }
+            const addHistory = await model.add('tblhistorytransaction', entity)
             res.status(200).json({ success: true, data: response.data });
         } else {
             res.status(401).json({ success: false, error: "Đã có lỗi xảy ra, vui lòng thử lại sau!" });
         }
-        // const { privateKeyArmored, publicKeyArmored } = await openpgp.generateKey({
-        //   userIds: [{ name: 'Dat', email: 'NguyenThanhDat@gmail.com' }], // you can pass multiple user IDs
-        //   curve: 'ed25519', // ECC curve name
-        //   passphrase: '123456', // protects the private key
-        // });
-        // const passphrase = `123456`;
-        // console.log(privateKeyArmored);
-        // console.log(publicKeyArmored);
-        // let privateKeyArmored =
-        //     '-----BEGIN PGP PRIVATE KEY BLOCK-----\n' +
-        //     'Version: OpenPGP.js v4.10.4\n' +
-        //     'Comment: https://openpgpjs.org\n' +
-        //     '\n' +
-        //     'xYYEXucvbRYJKwYBBAHaRw8BAQdAhluyWUyT/6WtxLpAKmOyAUsUWb6F3S9H\n' +
-        //     'TJxIpxComTD+CQMIaNNkYuuSFk/gOa13n26q3nimJXR34BfaUzXvMES1RKqT\n' +
-        //     'fxulM0oIXCoOAmFQvMzKXL1m0elKwSqU7K7Qv5SEYZ86mbZhdWusApDvGKD1\n' +
-        //     'fM0eRGF0IDxOZ3V5ZW5UaGFuaERhdEBnbWFpbC5jb20+wngEEBYKACAFAl7n\n' +
-        //     'L20GCwkHCAMCBBUICgIEFgIBAAIZAQIbAwIeAQAKCRDvSgTa6mGJD7ojAP98\n' +
-        //     'miG68qV6va4DaBfTFMCHlWHoa66RveJHt5rCBdNBhQD/Vp0YSwcUamqgAK6H\n' +
-        //     'awFHlNuYJbPGNBDbQWWQTcoW6wnHiwRe5y9tEgorBgEEAZdVAQUBAQdAcKlK\n' +
-        //     '/J7a2bNGlm1LIZHOIE2aUh0CfcxzxDELerEBbWIDAQgH/gkDCLZhbLtETVIc\n' +
-        //     '4PPOphd2Q9LKERlt+7GV5f4ZOzyrsVAHWcAI2N9ClbPEQjxYCV5o42tlnvf9\n' +
-        //     'Rs19Um0eJnDe3c1SvFGB1hrF9sOZk33Qxh/CYQQYFggACQUCXucvbQIbDAAK\n' +
-        //     'CRDvSgTa6mGJD5uEAQDwkZyYcjJc23J79cV8lZ5HGgrUIVVU46abUahTqW7/\n' +
-        //     'UAEAkbbHphDamAX0IkarKic0cWt6VzGkFTDnzEnfzwos8Qk=\n' +
-        //     '=tQq3\n' +
-        //     '-----END PGP PRIVATE KEY BLOCK-----';
-
-        // const passphrase = '123456';
-        // const {
-        //     keys: [privateKey],
-        // } = await openpgp.key.readArmored(privateKeyArmored);
-        // await privateKey.decrypt(passphrase);
-
-        // let obj = {
-        //     transfer: 500000,
-        // };
-
-        // let object = JSON.stringify(obj);
-        // let { data: cleartext } = await openpgp.sign({
-        //     message: openpgp.cleartext.fromText(object), // CleartextMessage or Message object
-        //     privateKeys: [privateKey], // for signing
-        // });
-        // cleartext = '-----BEGIN PGP SIGNED MESSAGE-----\n' +
-        //     'Hash: SHA512\n\n' +
-
-        //     '{"success":true,"username":"dat"}\n' +
-        //     '-----BEGIN PGP SIGNATURE-----\n' +
-        //     'Version: OpenPGP.js v4.10.4\n' +
-        //     'Comment: https://openpgpjs.org\n\n' +
-
-        //     'wl4EARYKAAYFAl7rJ1gACgkQ70oE2uphiQ/NBAEAlRSManZcBATtKJAs906Q\n' +
-        //     'drZ40UzpZuLEvvI31fc1J7kBAOEsxOVRlDxotMTNhxkB36M6cvdnASBVehUa\n' +
-        //     'AxKT1HIC\n' +
-        //     '=M3d8\n' +
-        //     '-----END PGP SIGNATURE-----'
-
-
-        // console.log(cleartext)
-        // //console.log(cleartext.indexOf('{')); // '-----BEGIN PGP SIGNED MESSAGE ... END PGP SIGNATURE-----'
-        // //console.log(cleartext.indexOf('}'));
-        // let res1 = cleartext.slice(cleartext.indexOf('{'), cleartext.indexOf('}') + 1);
-        // console.log(res1    );
-        // //let response = JSON.parse(res);
-        // //console.log(response.transfer);
-        // const verified = await openpgp.verify({
-        //     message: await openpgp.cleartext.readArmored(cleartext1), // parse armored message
-        //     publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys, // for verification
-        // });
-
-        // const { valid } = verified.signatures[0];
-        // console.log(valid);
-        // if (valid) {
-        //     console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
-        // } else {
-        //     throw new Error('signature could not be verified');
-        // }
     })
 
 router.route('/transferInternal')
@@ -399,6 +318,12 @@ router.route('/list_history')
         const listBank = await model.all('tblbank');
         rows.forEach(element => {
             element.date_display = moment(element.time).format('MMMM Do YYYY, h:mm:ss a');
+            if(element.type_payment == 1){
+                element.type_pay = "Nguời gửi trả tiền"
+            }
+            else{
+                element.type_pay = "Nguời nhận trả tiền"
+            }
             if (element.type == 1) {
                 element.displayName = element.des_name;
                 element.nameType = "Chuyển khoản";

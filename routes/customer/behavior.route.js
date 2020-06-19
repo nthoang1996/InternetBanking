@@ -28,8 +28,12 @@ router.route('/recharge')
                             let signature = key.sign(result, 'base64');
                             return res.status(500).json({ data: result, signature });
                         }
-                        const cus_value = parseInt(customer[0].bank_balance) + parseInt(data.value);
-                        const update_cus = await model.edit('tbluser', { bank_balance: cus_value }, { username: data.des_username });
+                        const income = parseInt(data.value);
+                        if (data.type == 1) {
+                            income -= config.config.fee;
+                        }
+                        const cus_value = parseInt(customer[0].bank_balance) + income;
+                        const update_cus = await model.edit('tbluser', { bank_balance: income }, { username: data.des_username });
                         const entity = {
                             type: 2,
                             root_id: customer[0].id,
