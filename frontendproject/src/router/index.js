@@ -6,15 +6,16 @@ import UserProfile from '../components/Dashboard/UserProfile/UserProfile'
 import ListContact from '../components/Dashboard/ListContact/ListContact'
 import NewContact from '../components/Dashboard/ListContact/NewContact'
 import ListHistory from '../components/Dashboard/History/ListHistory'
-
+import store from '../store/index'
+import data from '../assets/info.json'
 Vue.use(VueRouter)
 
-  const routes = [
-    {
-      path: '/',
-      name: 'Login',
-      component: Login
-    },
+const routes = [
+  {
+    path: '/',
+    name: 'Login',
+    component: Login
+  },
   {
     path: '/dashboard',
     name: 'Dashboard',
@@ -76,10 +77,23 @@ router.beforeEach((to, from, next) => {
         query: { retUrl: to.fullPath }
       })
     } else {
-      next()
+      console.log(to.fullPath);
+      const permitRoute = data.dashboard.find(elememt => elememt.role == parseInt(store.getters.getCurrentRole)).elements;
+      const object = permitRoute.find((element) => (element.url == to.path));
+      if (!object && to.fullPath != '/dashboard') {
+        alert("Tài nguyên hiện tại không được hỗ trợ đối với tài khoản của bạn. Vui lòng đăng nhập lại tài khoản có quyền truy cập tới tài nguyên này hoặc kiểm tra lại url");
+        next({
+          path: '/',
+          
+        })
+      }
+      else{
+        next() // make sure to always call next()!
+      }
     }
-  } else {
-    next() // make sure to always call next()!
+  }
+  else{
+    next();
   }
 })
 export default router

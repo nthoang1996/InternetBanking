@@ -19,8 +19,6 @@ export default {
         handleBeforeCallServer: async function () {
             const timeExpired = parseInt(localStorage.internetbanking_timeaccesstokenexpire) + 540000;
             const localTimestamp = (new Date()).getTime();
-            console.log(timeExpired, localTimestamp);
-            console.log(timeExpired < localTimestamp);
             if (localTimestamp > timeExpired) {
                 const body = JSON.stringify({
                     accessToken: localStorage.internetbanking_accesstoken,
