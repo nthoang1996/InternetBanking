@@ -104,13 +104,27 @@
             "elements": [{
                 "id": 11,
                 "name": "Tạo tài khoản khách hàng",
-                "url": "/dashboard/create_customer_account",
+                "url": "/employee/create_customer_account",
+                "class": "fa fa-plus",
+                "display": true
+            },
+            {
+                "id": 12,
+                "name": "Danh sách tài khoản",
+                "url": "/employee/list_customer_account",
+                "class": "fa fa-list-ul",
+                "display": true
+            },
+            {
+                "id": 13,
+                "name": "Nạp tiền vào tài khoản",
+                "url": "/employee/recharge_customer_account",
                 "class": "fa fa-plus",
                 "display": true
             }]
         },
         {
-            "role": 3,
+            "role": 1,
             "elements": [{
                 "id": 21,
                 "name": "Quản lý nhân viên",

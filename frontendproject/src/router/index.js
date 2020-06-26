@@ -6,6 +6,9 @@ import UserProfile from '../components/Dashboard/UserProfile/UserProfile'
 import ListContact from '../components/Dashboard/ListContact/ListContact'
 import NewContact from '../components/Dashboard/ListContact/NewContact'
 import ListHistory from '../components/Dashboard/History/ListHistory'
+import CreateAccount from '../components/MyAccount/CreateAccount'
+import ListAccount from '../components/MyAccount/ListAccount/ListAccount'
+import RechargeAccount from '../components/MyAccount/RechargeAccount'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -59,6 +62,24 @@ const routes = [
         // when /user/:id/profile is matched
         path: '/dashboard/create_customer_account',
         component: ListHistory
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/employee/create_customer_account',
+        component: CreateAccount
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/employee/list_customer_account',
+        component: ListAccount
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/employee/recharge_customer_account',
+        component: RechargeAccount
       }
     ],
     meta: { requiresAuth: true }

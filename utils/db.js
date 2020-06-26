@@ -8,7 +8,6 @@ const pool = mysql.createPool({
     user: 'root',
     password: '',
     database: 'internet_banking'
-
 })
 
 const mysql_query = util.promisify(pool.query).bind(pool);

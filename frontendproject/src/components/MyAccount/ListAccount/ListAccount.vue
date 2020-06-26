@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="cont">
         <b-container>
             <p class="txtTitle">DANH SÁCH KHÁCH HÀNG</p>    
             <Account />
@@ -26,6 +26,10 @@ export default {
 </script>
 
 <style scoped>
+.cont{
+    margin-left: 20px;
+    margin-right: 20px;
+}
 .txtTitle{
     font-size: 30px;
     text-align: center;
