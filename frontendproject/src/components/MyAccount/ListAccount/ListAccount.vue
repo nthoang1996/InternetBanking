@@ -5,10 +5,6 @@
             <Account />
             <Account />
             <Account />
-            <div class="directionButton">
-                <span>Quay lại</span>
-                <span>Tạo tài khoản</span>
-            </div>
         </b-container>
 
     </div>
@@ -37,20 +33,5 @@ export default {
     margin-top: 15px;
     margin-bottom: 10px;
 }
-.directionButton{
-    display: flex;
-    justify-content: space-between;
-}
-.directionButton span{
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    color: #3535fb;
-    font-size: 12px;
-    font-weight: bold;
-    font-style: italic;
-    text-decoration: underline;
-}
+
 </style>

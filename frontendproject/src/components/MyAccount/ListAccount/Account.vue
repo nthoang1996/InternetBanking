@@ -10,18 +10,19 @@
                         <span class="txtName">Địa chỉ: </span>
                         <span class="txtInfor">389/10 Ngô Gia Tự, phường 3, quận 10, TP.HCM</span>
                         <br>
+                        <p>Nạp tiền</p>
+                    </div>
+                </b-col>
+                <b-col>
+                    <div class="content">
+                        <span class="txtName">Số dư tài khoản: </span>
+                        <span class="txtCoin">15,700,000</span>
+                        <br>
                         <span class="txtName">Số điện thoại: </span>
                         <span class="txtInfor">0389874562</span>
                         <br>
-                        <span class="txtName">Số dư tài khoản: </span>
-                        <span class="txtCoin">15,700,000</span>
+                        <p>Lịch sử giao dịch</p>                    
                     </div>
-                </b-col>
-                <b-col cols="1" class="col-button mr-3">
-                    <button class="btn-khoa">KHÓA</button>
-                </b-col>
-                <b-col class="col-button mr-3" cols="1">
-                    <button class="btn-naptien">NẠP TIỀN</button>
                 </b-col>
             </b-row>
         </b-card>
@@ -35,6 +36,18 @@
 <style scoped>
 .content{
     padding: 13px;
+}
+.content p{
+    margin-top: 3px;
+    color: red;
+    margin-bottom: 0px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all .5s;
+}
+.content p:hover{
+    text-decoration: underline;
 }
 .btn-naptien{
     width: 100%;
@@ -68,9 +81,9 @@
     font-size: 14px;
 }
 .txtCoin{
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
-    color: #666;
+    color: rgba(49, 4, 252, 0.973);
 }
 .col-button{
     display: flex;
