@@ -4,7 +4,7 @@
             <b-row>
                 <b-col></b-col>
                 <b-col cols="6">
-                    <p class="txtTitle mt-3 mb-3">TẠO TÀI KHOẢN KHÁCH HÀNG</p>
+                    <p class="txtTitle">TẠO TÀI KHOẢN KHÁCH HÀNG</p>
                     <b-form @submit="onSubmit" v-if="show">
                         <b-form-group class="title" label="Họ tên khách hàng:" label-for="txtname" >
                             <b-form-input id="txtname" v-model="form.name" type="text" required></b-form-input>
@@ -75,6 +75,8 @@
     font-size: 30px;
     font-weight: bold;
     text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 .title{
     font-weight:600;

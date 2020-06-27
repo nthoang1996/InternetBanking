@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card no-body class="shadow-sm mt-4">
+        <b-card no-body class="mt-4">
             <b-row no-gutters>
                 <b-col>
                     <div class="content">
