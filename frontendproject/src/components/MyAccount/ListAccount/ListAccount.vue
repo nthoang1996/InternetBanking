@@ -5,9 +5,14 @@
             <div class="divfilter">
                 <FilterAccount />
             </div>    
-            <Account />
-            <Account />
-            <Account />
+            <div class="listAccount" id="thanhcuon">
+                <Account />
+                <Account />
+                <Account />
+                <Account />
+                <Account />
+                <Account />
+            </div>
         </b-container>
 
     </div>
@@ -27,6 +32,7 @@ export default {
 </script>
 
 <style scoped>
+
 .cont{
     margin-left: 20px;
     margin-right: 20px;
@@ -43,7 +49,25 @@ export default {
     width: 100%;
     display: flex;    
     justify-content: flex-end;
-    margin-bottom: 25px;
+    margin-bottom: 0px;
 }
+
+.listAccount{
+    overflow: auto;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    height: 470px;
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #888;
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
 
 </style>

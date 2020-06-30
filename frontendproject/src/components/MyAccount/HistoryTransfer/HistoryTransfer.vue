@@ -1,14 +1,18 @@
 <template>
     <div>
         <p class="txtTitle">LỊCH SỬ GIAO DỊCH</p>
-        <b-container>
+        <b-container class="mb-3">
             <b-row>
                 <b-col class="inBank">
                     <p class="txtTitleSmall">GIAO DỊCH CÙNG NGÂN HÀNG</p>
                     <div class="divfilter">
                         <FilterItem />
                     </div>
-                    <div>
+                    <div class="listHistoryTransfer">
+                        <Transfer />
+                        <Transfer />
+                        <Transfer />
+                        <Transfer />
                         <Transfer />
                         <Transfer />
                     </div>
@@ -18,7 +22,7 @@
                     <div class="divfilter">
                         <FilterItem />
                     </div>
-                     <div>
+                     <div class="listHistoryTransfer">
                         <Transfer />
                         <Transfer />
                     </div>
@@ -40,10 +44,13 @@ export default {
 
 .inBank{
     margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .outBank{
     margin-left: 15px;
+    margin-bottom: 15px;
+
 }
 
 .txtTitleSmall{
@@ -66,4 +73,19 @@ export default {
     justify-content: flex-end;
     margin-bottom: 25px;
 }
+.listHistoryTransfer{
+    height: 450px;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #999;
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
 </style>

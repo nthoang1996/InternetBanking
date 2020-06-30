@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card no-body class="mt-4">
+        <b-card no-body class="mb-3">
             <b-row no-gutters>
                 <b-col>
                     <div class="content">
@@ -10,7 +10,7 @@
                         <span class="txtName">Địa chỉ: </span>
                         <span class="txtInfor">389/10 Ngô Gia Tự, phường 3, quận 10, TP.HCM</span>
                         <br>
-                        <p>Nạp tiền</p>
+                        <span class="btnTransfer">Nạp tiền</span>
                     </div>
                 </b-col>
                 <b-col>
@@ -21,7 +21,7 @@
                         <span class="txtName">Số điện thoại: </span>
                         <span class="txtInfor">0389874562</span>
                         <br>
-                        <p>Lịch sử giao dịch</p>                    
+                        <span class="btnViewHistory">Lịch sử giao dịch</span>                    
                     </div>
                 </b-col>
             </b-row>
@@ -37,41 +37,10 @@
 .content{
     padding: 13px;
 }
-.content p{
-    margin-top: 3px;
-    color: red;
-    margin-bottom: 0px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: all .5s;
-}
-.content p:hover{
-    text-decoration: underline;
-}
-.btn-naptien{
-    width: 100%;
-    height: 80%;
-    font-size: 14px;
-    font-weight: bold;
-    border: solid 1px #5959ff ;
-    border-radius: 7px;
-    color: white;
-    background-color: #5959ff;
-}
-.btn-khoa{
-    width: 100%;
-    height: 80%;
-    font-size: 14px;
-    font-weight: bold;
-    border: solid 1px #ff4040;
-    border-radius: 7px;
-    color: white;
-    background-color:#ff4040;
-}
+
 .txtName{
     font-size: 13px;
-    color: darkgrey;
+    color: rgb(83, 83, 83);
 }
 .name{
     font-size: 20px;
@@ -82,12 +51,38 @@
 }
 .txtCoin{
     font-size: 20px;
+    background-color: #0d6628;
+    padding: 3px 6px;
+    color: #fff;
     font-weight: bold;
-    color: rgba(49, 4, 252, 0.973);
+    border-radius: 8px;
 }
 .col-button{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.btnTransfer{
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #0070f7;
+    color: #ecf1e5;
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.btnViewHistory{
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #fe0000;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 4px;
+   cursor: pointer;
 }
 </style>
