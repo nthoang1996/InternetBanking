@@ -1,13 +1,27 @@
 <template>
     <div>
         <p class="txtTitle">LỊCH SỬ GIAO DỊCH</p>
-        <div class="divfilter">
-            <FilterItem />
-        </div>
         <b-container>
             <b-row>
-                <b-col>
-                    <Transfer />
+                <b-col class="inBank">
+                    <p class="txtTitleSmall">GIAO DỊCH CÙNG NGÂN HÀNG</p>
+                    <div class="divfilter">
+                        <FilterItem />
+                    </div>
+                    <div>
+                        <Transfer />
+                        <Transfer />
+                    </div>
+                </b-col>
+                <b-col class="outBank">
+                    <p class="txtTitleSmall">GIAO DỊCH LIÊN NGÂN HÀNG</p>
+                    <div class="divfilter">
+                        <FilterItem />
+                    </div>
+                     <div>
+                        <Transfer />
+                        <Transfer />
+                    </div>
                 </b-col>
             </b-row>
         </b-container>
@@ -23,6 +37,21 @@ export default {
 </script>
 
 <style scoped>
+
+.inBank{
+    margin-right: 15px;
+}
+
+.outBank{
+    margin-left: 15px;
+}
+
+.txtTitleSmall{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #777;
+}
 
 .txtTitle{
     font-size: 30px;

@@ -20,7 +20,6 @@
 }
 
 .divInput{
-    width: 300px;
-    margin-right: 15px;
+    width: 250px;
 }
 </style>
