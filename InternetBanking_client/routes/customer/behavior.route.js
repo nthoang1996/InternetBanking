@@ -70,19 +70,26 @@ router.route("/transferAboard").post(async function (req, res) {
   let api = {};
   let response = {};
   let verify = false;
+  let username = '';
   switch (data.bank_company_id) {
     case "pawGDX1Ddu":
       const dat_data = {
-        rgp_stk: parseInt(sender[0].username),
+        accountRequest: parseInt(sender[0].username),
+        nameRequest: sender[0].name,
         stk: parseInt(data.des_username),
         amountOfMoney: parseInt(data.value),
+        message: data.message
       };
+      console.log(dat_data);
       api = new datbankapi(dat_data);
       response = await api.callApiRecharge();
+      console.log("respond:", response);
       sleep.sleep(2);
       response = JSON.parse(response);
       const bank = await model.single_by_id("tblbank", "pawGDX1Ddu");
       let cleartext = response.cleartext;
+      console.log("respond:", response);
+      console.log("cleartext:", cleartext);
       const verified = await openpgp.verify({
         message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
         publicKeys: (await openpgp.key.readArmored(bank[0].public_key)).keys, // for verification
@@ -94,6 +101,8 @@ router.route("/transferAboard").post(async function (req, res) {
           cleartext.indexOf("{"),
           cleartext.indexOf("}") + 1
         );
+        res=JSON.parse(res);
+        username = res.username
         console.log("response", res);
       } else {
         console.log("failed");
@@ -106,6 +115,7 @@ router.route("/transferAboard").post(async function (req, res) {
       response = JSON.parse(await api.callApiRecharge());
       verify = key.verify(response.data, response.signature, "", "base64");
       console.log(verify);
+      username = response.data.username;
       break;
   }
   console.log("verify", verify);
@@ -117,7 +127,7 @@ router.route("/transferAboard").post(async function (req, res) {
       source_name: sender[0].name,
       bank_company_id: data.bank_company_id,
       des_username: data.des_username,
-      des_name: response.data.username,
+      des_name: username,
       value: data.value,
       type_payment: data.type,
       message: data.message,

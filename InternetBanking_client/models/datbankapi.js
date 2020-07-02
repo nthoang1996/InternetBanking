@@ -13,7 +13,7 @@ class DatBankAPI{
     }
 
     async callApiRecharge(){
-		const url = 'https://dacc-internet-banking.herokuapp.com/bank/rgpTransferMoney';	
+		const url = 'https://dacc-internet-banking.herokuapp.com/bank/outerTransferMoney';	
 		const dataVerify = this.data;
 		const timestamp = Date.now();
         const signature=key.sign(dataVerify, 'hex');
@@ -35,10 +35,11 @@ class DatBankAPI{
     }
 
     async callApiGetInfo(){
-		const url = 'https://dacc-internet-banking.herokuapp.com/bank/rgpGetCustomer';
+		const url = 'https://dacc-internet-banking.herokuapp.com/bank/getCustomer';
 		const secret_key = config.secret_key.secret_key;
 		const timestamp = Date.now();
 		const hash_signature = md5(this.data + timestamp + secret_key); // hash
+		console.log("company_id", this.company_id);
 		const res = request('POST',url,{
             headers: {
               'Content-Type': 'application/json',
