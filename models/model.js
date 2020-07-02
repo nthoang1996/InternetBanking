@@ -25,4 +25,5 @@ module.exports = {
         }
         return rows[0];
     },
+    update_password: async(table, password, id)=>{ return db.edit(table, password, id) },
 };

@@ -96,6 +96,13 @@
                     "url": "/dashboard/list_history",
                     "class": "fa fa-history",
                     "display": true
+                },
+                {
+                    "id": 6,
+                    "name": "Đổi mật khẩu",
+                    "url": "/dashboard/change_password",
+                    "class": "fa fa-key",
+                    "display": true
                 }
             ]
         },

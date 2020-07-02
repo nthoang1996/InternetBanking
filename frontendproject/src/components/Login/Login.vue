@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     async sendData(captcha) {
+      console.log("Enter here")
       const info = JSON.stringify({ captcha: captcha });
       await fetch("http://localhost:3000/account/verify", {
         method: "POST",

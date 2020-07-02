@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import data from "../assets/info.json";
 import myMixin from '../Mixin';
+//import { response } from 'express';
 
 Vue.use(Vuex)
 
@@ -118,6 +119,9 @@ export default new Vuex.Store({
     GET_LIST_ACCOUNT(state, payload){
       state.listAccount = [...payload];
     },
+    // GET_CURRENT_USER(state,payload){
+    //   state.user=[...payload];
+    // },
     SET_LIST_CONTACT(state, payload){
       state.listContact = [...payload];
     },
@@ -202,6 +206,19 @@ export default new Vuex.Store({
         ctx.commit('GET_LIST_ACCOUNT', json.data);
       });   
     },
+    // async getCurrentUser(ctx){
+    //   await myMixin.methods.handleBeforeCallServer();
+    //   const url = 'http://localhost:3000/customer/current_user';
+    //   return fetch(url,{
+    //     method:'get',
+    //     headers:{
+    //       'x-access-token': localStorage.internetbanking_accesstoken
+    //     },
+    //   }).then(response=>response.json())
+    //   .then(json => {
+    //     ctx.commit('GET_CURRENT_USER', json.data);
+    //   }); 
+    // },
     async setListContact(ctx){
       await myMixin.methods.handleBeforeCallServer();
       const url = 'http://localhost:3000/customer/user_contact';

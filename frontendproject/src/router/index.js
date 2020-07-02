@@ -9,6 +9,7 @@ import ListHistory from '../components/Dashboard/History/ListHistory'
 import CreateAccount from '../components/MyAccount/CreateAccount'
 import ListAccount from '../components/MyAccount/ListAccount/ListAccount'
 import RechargeAccount from '../components/MyAccount/RechargeAccount'
+import ChangePassword from '../components/Dashboard/ChangePassword.vue'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -80,7 +81,11 @@ const routes = [
         // when /user/:id/profile is matched
         path: '/employee/recharge_customer_account',
         component: RechargeAccount
-      }
+      },
+      {
+        path: '/dashboard/change_password',
+        component: ChangePassword
+      },
     ],
     meta: { requiresAuth: true }
   }

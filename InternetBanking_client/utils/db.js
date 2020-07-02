@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const util = require('util');
 const config = require('../config/config.json');
+const { value } = require('numeral');
 
 const pool = mysql.createPool(config.mysql);
 const mysql_query = util.promisify(pool.query).bind(pool);

@@ -39,5 +39,6 @@ module.exports = {
             return true;
         }
         return false;
-    }
+    },
+    update_password: async(table, password, id)=>{ return db.edit(table, password, id) },
 };
