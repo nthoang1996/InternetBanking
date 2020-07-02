@@ -20,7 +20,7 @@ export default {
     return {
       options: [
           {text: 'Người gửi trả phí', value: 1},
-          {text: 'Người gửi trả phí', value: 2}
+          {text: 'Người nhận trả phí', value: 2}
       ],
       selected: 1
     };

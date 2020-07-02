@@ -23,5 +23,16 @@
             "PWj4IelLJ84ZfAWI5QIDAQAB",
             "-----END PUBLIC KEY-----"
         ]
+    },
+    "config": {
+        "fee": 5000
+    },
+    "mysql": {
+        "connectionLimit": 50,
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "",
+        "database": "internet_banking"
     }
 }

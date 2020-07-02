@@ -13,15 +13,15 @@ const createError = require("http-errors");
 const numeral = require("numeral");
 const moment = require("moment");
 const sleep = require("sleep");
-// const transporter = require('../../utils/email')
+const transporter = require('../../utils/email')
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "hoangbankptudwnc@gmail.com",
-    pass: "12345678x@X",
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "hoangbankptudwnc@gmail.com",
+//     pass: "12345678x@X",
+//   },
+// });
 
 function verifyCode(res, verify, code) {
   console.log(code, verify);
