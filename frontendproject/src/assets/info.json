@@ -128,6 +128,13 @@
                 "url": "/employee/recharge_customer_account",
                 "class": "fa fa-plus",
                 "display": true
+            },
+            {
+                "id": 14,
+                "name": "Lịch sử giao dịch",
+                "url": "/employee/historty_transfer_customer_account",
+                "class": "fa fa-plus",
+                "display": true
             }]
         },
         {

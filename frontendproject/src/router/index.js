@@ -10,6 +10,7 @@ import CreateAccount from '../components/MyAccount/CreateAccount'
 import ListAccount from '../components/MyAccount/ListAccount/ListAccount'
 import RechargeAccount from '../components/MyAccount/RechargeAccount'
 import ChangePassword from '../components/Dashboard/ChangePassword.vue'
+import HistoryTransfer from '../components/MyAccount/HistoryTransfer/HistoryTransfer'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -61,12 +62,6 @@ const routes = [
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
-        path: '/dashboard/create_customer_account',
-        component: ListHistory
-      },
-      {
-        // UserProfile will be rendered inside User's <router-view>
-        // when /user/:id/profile is matched
         path: '/employee/create_customer_account',
         component: CreateAccount
       },
@@ -86,6 +81,12 @@ const routes = [
         path: '/dashboard/change_password',
         component: ChangePassword
       },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/employee/historty_transfer_customer_account',
+        component: HistoryTransfer
+      }
     ],
     meta: { requiresAuth: true }
   }

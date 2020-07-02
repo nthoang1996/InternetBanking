@@ -3,7 +3,7 @@
         <b-container class="bv-example-row">
             <p class="txtTitle mb-4">NẠP TIỀN TÀI KHOẢN</p> 
             <b-row>
-                <b-col class="rowLeft shadow">
+                <b-col class="rowLeft shadow-sm">
                     <p class="txtTitleSmall">Thông tin tài khoản</p>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Họ và tên: </b-col>
@@ -27,7 +27,7 @@
                     </b-row>
 
                 </b-col>
-                <b-col class="rowRight shadow">
+                <b-col class="rowRight shadow-sm">
                     <p class="txtTitleSmall">Nạp tiền</p>
                     <b-form @submit="onSubmit" v-if="show">
                         <b-form-group id="txtInputMoney" label="Nhập số tiền cần nạp:" label-for="inputMoney" >
@@ -72,18 +72,20 @@
     font-weight: bold;
     font-size: 30px;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
     margin-bottom: 20px;
 }
 .rowLeft{
     margin-right: 20px;
     border-radius: 7px;
     padding: 40px;
+    background-color: #fff;
 }
 .rowRight{
     padding: 40px;
     margin-left: 20px;
-    border-radius: 7px;    
+    border-radius: 7px; 
+    background-color: #fff;   
 }
 .txtTitleSmall{
     font-weight: bold;
