@@ -27,24 +27,26 @@ router.route("/banks").get(async function (req, res) {
 });
 
 router.route("/change_password").post(async function (req, res) {
-  const rows = await model.single_by_id("tbluser", req.tokenPayload.userID);
+  var userID = req.tokenPayload.userID;
+  var newPassword = req.body.new_password;
+  var oldPassword = req.body.old_password;
+  const rows = await model.single_by_id("tbluser", userID);
+  var passwordHash = rows[0].password;
   if (rows.length === 0) {
-    return res.status(401).json({ success: false, error: "Not found user" });
+    return res
+      .status(401)
+      .json({ success: false, error: "Không tìm thấy người dùng." });
   } else {
-    var newPassword = req.body.new_password;
-    var oldPassword = req.body.old_password;
-    var passwordHash = rows[0].password;
-    console.log(req.body);
+    console.log('req.body: '+ req.body);
     const rs = bcrypt.compareSync(oldPassword, passwordHash);
     if (!rs) {
       return res.status(401).json({
-        message: "Failed",
-        error: "Mật khẩu bạn nhập vào không đúng!",
+        success: false,
+        error: "Mật khẩu không đúng!",
       });
     } else {
-      var id = { id: req.tokenPayload.userID};
-      var passwordHash = bcrypt.hashSync(newPassword, 10);
-      var entity = { password: passwordHash };
+      var id = { id: userID };
+      var entity = { password: bcrypt.hashSync(newPassword, 10) };
       model.update_password("tbluser", entity, id);
       return res.json({ success: true, error: "" });
     }
