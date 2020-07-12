@@ -15,6 +15,7 @@ export default new Vuex.Store({
     userVisible: {},
     listAccount: [],
     listContact: [],
+    listDebit: [],
     accountQuery: '',
     historyQuery: '',
     data_sending_des_id: '',
@@ -56,6 +57,17 @@ export default new Vuex.Store({
       return state.listAccount;
     },
     getListContact(state){
+      if (state.accountQuery.length === 0) {
+        return state.listContact;
+      }
+
+      const lcQuery = state.accountQuery.toLocaleLowerCase();
+      return state.listContact.filter(
+        t => t.name_contact.toLocaleLowerCase().includes(lcQuery)
+      );
+    },
+    // edit sau
+    getListDebit(state){
       if (state.accountQuery.length === 0) {
         return state.listContact;
       }
@@ -125,6 +137,9 @@ export default new Vuex.Store({
     SET_LIST_CONTACT(state, payload){
       state.listContact = [...payload];
     },
+    SET_LIST_Debit(state, payload){
+      state.listDebit = [...payload];
+    },
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
     },
@@ -181,11 +196,13 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
-        console.log(json);
+        console.log("json: "+json.user);
         ctx.commit('INIT_USER', json.user);
       });      
     },
     setCurrentPage(ctx, query){
+      console.log("ctx:" + ctx);
+      console.log("query:" + query);
       ctx.commit('SET_CURRENT_PAGE', query);
     },
     setDashBoard(ctx){
@@ -232,6 +249,26 @@ export default new Vuex.Store({
         if(json.success){
           console.log(json);
           ctx.commit('SET_LIST_CONTACT', json.data);
+        }
+        else{
+          alert(json.error);
+        }
+      });
+    },
+    // edit lại sau
+    async setListDebit(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/user_contact';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit('SET_LIST_DEBIT', json.data);
         }
         else{
           alert(json.error);

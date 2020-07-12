@@ -27,8 +27,7 @@
 export default {
   methods: {
     handleChange(event) {
-      this.$store.dispatch("updateHistoryQuery", event.target.value);
-      // alert(event.target.tagName);
+      this.$store.dispatch("updateQuery", event.target.value);
     }
   }
 };

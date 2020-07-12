@@ -10,6 +10,7 @@ import CreateAccount from '../components/MyAccount/CreateAccount'
 import ListAccount from '../components/MyAccount/ListAccount/ListAccount'
 import RechargeAccount from '../components/MyAccount/RechargeAccount'
 import ChangePassword from '../components/Dashboard/ChangePassword.vue'
+import ManageDebit from '../components/Dashboard/ManageDebit/ManageDebit.vue'
 import HistoryTransfer from '../components/MyAccount/HistoryTransfer/HistoryTransfer'
 import store from '../store/index'
 import data from '../assets/info.json'
@@ -80,6 +81,10 @@ const routes = [
       {
         path: '/dashboard/change_password',
         component: ChangePassword
+      },
+      {
+        path: '/dashboard/manage_debit',
+        component: ManageDebit
       },
       {
         // UserProfile will be rendered inside User's <router-view>

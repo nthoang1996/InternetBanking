@@ -30,7 +30,8 @@ import mixin from "../../../Mixin";
 export default {
   mixins: [mixin],
   mounted() {
-    this.$store.dispatch("setCurrentPage", this.$route.path);
+    console.log("abc: " + this.$route.path);
+    this.$store.dispatch("setCurrentPage", this.$route.path); //query === this.$route.path === /dashboard/list_history
     this.$store.dispatch("setListHistory");
     this.clearDataSending();
   },

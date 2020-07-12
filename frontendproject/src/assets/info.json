@@ -103,6 +103,13 @@
                     "url": "/dashboard/change_password",
                     "class": "fa fa-key",
                     "display": true
+                },
+                {
+                    "id": 7,
+                    "name": "Quản lý nhắc nợ",
+                    "url": "/dashboard/manage_debit",
+                    "class": "fa fa-credit-card",
+                    "display": true
                 }
             ]
         },
