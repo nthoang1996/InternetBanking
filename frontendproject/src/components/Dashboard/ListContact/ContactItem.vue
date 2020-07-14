@@ -25,7 +25,7 @@ export default {
     methods:{
       sendMoney(){
         console.log(this.data);
-        this.$store.dispatch("updateDataSendingUserID", this.data.des_id);
+        this.$store.dispatch("updateDataSendingUserID", this.data.des_id); //STK nguoi nhan
         this.$store.dispatch("updateDataSendingAccountName", this.data.name_contact);
         this.$store.dispatch("updateDataSendingBankID", this.data.bank_company_id);
       },

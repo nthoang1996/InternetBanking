@@ -17,6 +17,7 @@ export default new Vuex.Store({
     listContact: [],
     listDebit: [],
     accountQuery: '',
+    debitQuery:'',
     historyQuery: '',
     data_sending_des_id: '',
     data_sending_account_name: '',
@@ -66,15 +67,15 @@ export default new Vuex.Store({
         t => t.name_contact.toLocaleLowerCase().includes(lcQuery)
       );
     },
-    // edit sau
-    getListDebit(state){
+    // Bổ sung search theo stk người nhận sau.
+    getListDebit(state){ // search theo tên người nhận 
       if (state.accountQuery.length === 0) {
-        return state.listContact;
+        return state.listDebit;
       }
 
-      const lcQuery = state.accountQuery.toLocaleLowerCase();
-      return state.listContact.filter(
-        t => t.name_contact.toLocaleLowerCase().includes(lcQuery)
+      const lcQuery = state.debitQuery.toLocaleLowerCase();
+      return state.listDebit.filter(
+        t => t.des_name.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getDataSendingUserID(state){
@@ -131,13 +132,10 @@ export default new Vuex.Store({
     GET_LIST_ACCOUNT(state, payload){
       state.listAccount = [...payload];
     },
-    // GET_CURRENT_USER(state,payload){
-    //   state.user=[...payload];
-    // },
     SET_LIST_CONTACT(state, payload){
       state.listContact = [...payload];
     },
-    SET_LIST_Debit(state, payload){
+    SET_LIST_DEBIT(state, payload){
       state.listDebit = [...payload];
     },
     UPDATE_QUERY(state, payload){
@@ -201,8 +199,6 @@ export default new Vuex.Store({
       });      
     },
     setCurrentPage(ctx, query){
-      console.log("ctx:" + ctx);
-      console.log("query:" + query);
       ctx.commit('SET_CURRENT_PAGE', query);
     },
     setDashBoard(ctx){
@@ -223,19 +219,6 @@ export default new Vuex.Store({
         ctx.commit('GET_LIST_ACCOUNT', json.data);
       });   
     },
-    // async getCurrentUser(ctx){
-    //   await myMixin.methods.handleBeforeCallServer();
-    //   const url = 'http://localhost:3000/customer/current_user';
-    //   return fetch(url,{
-    //     method:'get',
-    //     headers:{
-    //       'x-access-token': localStorage.internetbanking_accesstoken
-    //     },
-    //   }).then(response=>response.json())
-    //   .then(json => {
-    //     ctx.commit('GET_CURRENT_USER', json.data);
-    //   }); 
-    // },
     async setListContact(ctx){
       await myMixin.methods.handleBeforeCallServer();
       const url = 'http://localhost:3000/customer/user_contact';
@@ -258,7 +241,7 @@ export default new Vuex.Store({
     // edit lại sau
     async setListDebit(ctx){
       await myMixin.methods.handleBeforeCallServer();
-      const url = 'http://localhost:3000/customer/user_contact';
+      const url = 'http://localhost:3000/customer/list_debit';
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -267,7 +250,6 @@ export default new Vuex.Store({
       }).then(response => response.json())
       .then(json => {
         if(json.success){
-          console.log(json);
           ctx.commit('SET_LIST_DEBIT', json.data);
         }
         else{

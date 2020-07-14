@@ -4,7 +4,7 @@ const config = require('../config/config.json');
 
 module.exports = (req, res, next) => {
     const token = req.headers['x-access-token'];
-    console.log("token", token);
+    console.log("access-token: ", token);
     if(token){
         jwt.verify(token, config.JWT.secret_key,function(err, payload){
             if(err){
@@ -14,6 +14,7 @@ module.exports = (req, res, next) => {
             next();
         })
     }else{
-        throw createError(401, 'Không tìm thấy token!');
+        throw createError(401, 'Không tìm thấy access token!');
+        
     }
 }

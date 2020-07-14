@@ -1,13 +1,12 @@
 <template>
   <div>
-    <b-card :title="data.name_contact" :sub-title="data.des_id" class="my-card">
+    <b-card :title="data.des_name" :sub-title="data.des_id" class="my-card">
       <b-card-text>
-        <em>Ngân hàng: {{data.bank_name}}</em><br/>
-        <em>Số tiền nợ: {{data.bank_name}}</em><br/>
-        <em>Lí do: {{data.bank_name}}</em><br/>
-        <em>Ngày mượn: {{data.bank_name}}</em>
+        <em>Ngân hàng: {{data.des_bank_name}}</em><br/>
+        <em>Số tiền nợ: {{data.value}}</em><br/>
+        <em>Tin nhắn: {{data.message}}</em><br/>
       </b-card-text>
-      <b-button variant="danger" class="mr-1" @click="deleteContact">
+      <b-button variant="danger" class="mr-1" @click="deleteDebit">
         <i class="fa fa-trash"></i>&nbsp;Hủy Nhắc Nợ
       </b-button>
       <b-button variant="success" @click="sendMoney()">
@@ -24,20 +23,11 @@ export default {
     props: ['data'],
     methods:{
       sendMoney(){
-        console.log(this.data);
         this.$store.dispatch("updateDataSendingUserID", this.data.des_id);
         this.$store.dispatch("updateDataSendingAccountName", this.data.name_contact);
         this.$store.dispatch("updateDataSendingBankID", this.data.bank_company_id);
       },
-      editContact(){
-        this.clearDataSending();
-        this.$store.dispatch("updateDataSendingUserID", this.data.des_id);
-        this.$store.dispatch("updateDataSendingAccountName", this.data.name_contact);
-        this.$store.dispatch("updateDataSendingBankID", this.data.bank_company_id);
-        this.$store.dispatch("updateIdContactSelected", this.data.id);
-        return this.$router.push("/dashboard/edit_contact");
-      },
-      async deleteContact(){
+      async deleteDebit(){
         await this.handleBeforeCallServer();
         const url = "http://localhost:3000/customer/user_contact/"+ this.data.id;
       fetch(url, {

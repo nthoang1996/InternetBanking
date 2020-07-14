@@ -13,7 +13,7 @@ const createError = require("http-errors");
 const numeral = require("numeral");
 const moment = require("moment");
 const sleep = require("sleep");
-const transporter = require('../../utils/email')
+const transporter = require("../../utils/email");
 
 // const transporter = nodemailer.createTransport({
 //   service: "gmail",
@@ -70,7 +70,7 @@ router.route("/transferAboard").post(async function (req, res) {
   let api = {};
   let response = {};
   let verify = false;
-  let username = '';
+  let username = "";
   switch (data.bank_company_id) {
     case "pawGDX1Ddu":
       const dat_data = {
@@ -78,7 +78,7 @@ router.route("/transferAboard").post(async function (req, res) {
         nameRequest: sender[0].name,
         stk: parseInt(data.des_username),
         amountOfMoney: parseInt(data.value),
-        message: data.message
+        message: data.message,
       };
       console.log(dat_data);
       api = new datbankapi(dat_data);
@@ -101,8 +101,8 @@ router.route("/transferAboard").post(async function (req, res) {
           cleartext.indexOf("{"),
           cleartext.indexOf("}") + 1
         );
-        res=JSON.parse(res);
-        username = res.username
+        res = JSON.parse(res);
+        username = res.username;
         console.log("response", res);
       } else {
         console.log("failed");
@@ -136,12 +136,10 @@ router.route("/transferAboard").post(async function (req, res) {
     const addHistory = await model.add("tblhistorytransaction", entity);
     res.status(200).json({ success: true, data: response.data });
   } else {
-    res
-      .status(401)
-      .json({
-        success: false,
-        error: "Đã có lỗi xảy ra, vui lòng thử lại sau!",
-      });
+    res.status(401).json({
+      success: false,
+      error: "Đã có lỗi xảy ra, vui lòng thử lại sau!",
+    });
   }
 });
 
@@ -231,12 +229,10 @@ router
         data = JSON.parse(response);
         console.log("data", data);
         if (!data.data) {
-          return res
-            .status(400)
-            .json({
-              success: false,
-              error: "Số tài khoản bạn nhập vào không tồn tại",
-            });
+          return res.status(400).json({
+            success: false,
+            error: "Số tài khoản bạn nhập vào không tồn tại",
+          });
         }
         break;
       case "pawGDX1Ddu":
@@ -245,12 +241,10 @@ router
 
         data = JSON.parse(response);
         if (!data.data) {
-          return res
-            .status(400)
-            .json({
-              success: false,
-              error: "Số tài khoản bạn nhập vào không tồn tại",
-            });
+          return res.status(400).json({
+            success: false,
+            error: "Số tài khoản bạn nhập vào không tồn tại",
+          });
         }
         break;
     }
@@ -264,13 +258,11 @@ router
         o.bank_company_id == req.body.bank_company_id
     );
     if (obj) {
-      return res
-        .status(409)
-        .json({
-          success: false,
-          error:
-            "Số tài khoản liên hệ bạn nhập vào đã tồn tại trong danh bạ của bạn",
-        });
+      return res.status(409).json({
+        success: false,
+        error:
+          "Số tài khoản liên hệ bạn nhập vào đã tồn tại trong danh bạ của bạn",
+      });
     }
     const entity = {
       source_id: req.tokenPayload.userID,
@@ -415,9 +407,17 @@ router.route("/list_history").get(async function (req, res) {
 });
 router.route("/current_user").get(async function (req, res) {
   const rows = await model.single_by_id("tbluser", req.tokenPayload.userID);
-  if(rows.length === 0){
-      return res.status(401).json({success: false, error: "Not found user"})
+  if (rows.length === 0) {
+    return res.status(401).json({ success: false, error: "Not found user" });
   }
   return res.status(200).json({ success: true, error: "", data: rows });
 });
+
+router.route("/list_debit").get(async function (req, res) {
+  const userID = req.tokenPayload.userID;
+  const rows = await model.all_by_source_id("tbldebtreminder", userID);
+  console.log('list_debit: '+rows);
+  return res.status(200).json({ success: true, error: "", data: rows });
+});
+
 module.exports = router;
