@@ -83,19 +83,9 @@ router.route("/transferAboard").post(async function (req, res) {
       console.log(dat_data);
       api = new datbankapi(dat_data);
       response = await api.callApiRecharge();
-      console.log("respond:", response);
-      sleep.sleep(2);
+      verify = await verifyResult(response);
       response = JSON.parse(response);
-      const bank = await model.single_by_id("tblbank", "pawGDX1Ddu");
-      let cleartext = response.cleartext;
-      console.log("respond:", response);
-      console.log("cleartext:", cleartext);
-      const verified = await openpgp.verify({
-        message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
-        publicKeys: (await openpgp.key.readArmored(bank[0].public_key)).keys, // for verification
-      });
-
-      verify = verified.signatures[0].valid;
+      cleartext = response.cleartext;
       if (verify) {
         let res = cleartext.slice(
           cleartext.indexOf("{"),
@@ -142,6 +132,20 @@ router.route("/transferAboard").post(async function (req, res) {
     });
   }
 });
+
+async function verifyResult(response) {
+  response = JSON.parse(response);
+  const bank = await model.single_by_id("tblbank", "pawGDX1Ddu");
+  let cleartext = response.cleartext;
+  console.log("respond:", response);
+  console.log("cleartext:", cleartext);
+  const verified = await openpgp.verify({
+    message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
+    publicKeys: (await openpgp.key.readArmored(bank[0].public_key)).keys, // for verification
+  });
+
+  return verified.signatures[0].valid;
+}
 
 router.route("/transferInternal").post(async function (req, res) {
   console.log(req.tokenPayload);
@@ -416,7 +420,7 @@ router.route("/current_user").get(async function (req, res) {
 router.route("/list_debit").get(async function (req, res) {
   const userID = req.tokenPayload.userID;
   const rows = await model.all_by_source_id("tbldebtreminder", userID);
-  console.log('list_debit: '+rows);
+  console.log('list_debit: ' + rows);
   return res.status(200).json({ success: true, error: "", data: rows });
 });
 
