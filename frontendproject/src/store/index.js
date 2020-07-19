@@ -176,6 +176,16 @@ export default new Vuex.Store({
         return obj.id !== payload;
       });
     },
+    DELETE_DEBIT_ITEM(state,payload){
+      state.listDebit.forEach(function(element){
+        if(element.id === payload){
+          element.status = -1;
+        }
+      });
+      //state.listDebit = state.listDebit.slice();
+      console.log("Actiong", JSON.parse(JSON.stringify(state.listDebit)));
+      state.listDebit = [...state.listDebit];
+    },
     SET_LIST_HISTORY(state, payload){
       state.listHistory = [...payload];
     },
@@ -238,7 +248,6 @@ export default new Vuex.Store({
         }
       });
     },
-    // edit lại sau
     async setListDebit(ctx){
       await myMixin.methods.handleBeforeCallServer();
       const url = 'http://localhost:3000/customer/list_debit';
@@ -249,6 +258,7 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
+        console.log("debit:" + json.data);
         if(json.success){
           ctx.commit('SET_LIST_DEBIT', json.data);
         }
@@ -292,6 +302,9 @@ export default new Vuex.Store({
     },
     deleteListContact(ctx, id){
       ctx.commit("DELETE_CONTACT", id);
+    },
+    deleteDebitItem(ctx, id){
+      ctx.commit("DELETE_DEBIT_ITEM", id);
     },
     async setListHistory(ctx){
       await myMixin.methods.handleBeforeCallServer();

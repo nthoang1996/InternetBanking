@@ -15,9 +15,9 @@
           <FilterItem />
         </div>
         
-          <b-button variant="info" @click="editContact">
+          <!-- <b-button variant="info" @click="editContact">
             <i class="fa fa-plus-circle"></i>&nbsp;Tạo Nhắc Nợ
-          </b-button>
+          </b-button> -->
         
       </div>
       <hr />

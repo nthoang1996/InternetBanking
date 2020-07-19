@@ -40,5 +40,6 @@ module.exports = {
         }
         return false;
     },
-    update_password: async(table, password, id)=>{ return db.edit(table, password, id) },
+    update_password: async(table, password, id)=>{ return await db.edit(table, password, id) },
+    update_status_debitItem: async (table, status,id)=> await db.edit(table,status,id),
 };

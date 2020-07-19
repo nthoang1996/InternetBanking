@@ -1,58 +1,94 @@
 <template>
   <div>
-    <b-card :title="data.des_name" :sub-title="data.des_id" class="my-card">
+    <b-card
+      :title="data.des_name"
+      :sub-title="data.des_id"
+      class="my-card"
+      v-bind:class="{deleted: this.is_delete}"
+    >
       <b-card-text>
-        <em>Ngân hàng: {{data.des_bank_name}}</em><br/>
-        <em>Số tiền nợ: {{data.value}}</em><br/>
-        <em>Tin nhắn: {{data.message}}</em><br/>
+        <em>Ngân hàng: {{data.des_bank_name}}</em>
+        <br />
+        <em>Số tiền nợ: {{data.value}}</em>
+        <br />
+        <em>Tin nhắn: {{data.message}}</em>
+        <br />
       </b-card-text>
-      <b-button variant="danger" class="mr-1" @click="deleteDebit">
+      <b-button :disabled="is_delete" variant="danger" class="mr-1" @click="deleteDebit">
         <i class="fa fa-trash"></i>&nbsp;Hủy Nhắc Nợ
       </b-button>
-      <b-button variant="success" @click="sendMoney()">
+      <b-button :disabled="is_delete" variant="success" @click="sendMoney()">
         <i class="fa fa-paper-plane"></i>&nbsp;Thanh Toán
       </b-button>
     </b-card>
   </div>
 </template>
 
+
 <script>
 import mixin from "../../../Mixin";
 export default {
   mixins: [mixin],
-    props: ['data'],
-    methods:{
-      sendMoney(){
-        this.$store.dispatch("updateDataSendingUserID", this.data.des_id);
-        this.$store.dispatch("updateDataSendingAccountName", this.data.name_contact);
-        this.$store.dispatch("updateDataSendingBankID", this.data.bank_company_id);
-      },
-      async deleteDebit(){
-        await this.handleBeforeCallServer();
-        const url = "http://localhost:3000/customer/user_contact/"+ this.data.id;
-      fetch(url, {
-        method: "delete", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "x-access-token": localStorage.internetbanking_accesstoken,
-        },
-      })
-        .then(response => response.json())
-        .then(json => {
-          console.log(json);
-          if (!json.success) {
-            alert(json.error);
-          } else {
-            this.$store.dispatch("deleteListContact", this.data.id);
-          }
-        });
-        
+  created() {
+    console.log("state", this.data)
+    this.checkDebitStatus(this.data);
+  },
+  data() {
+    return {
+      is_delete: false
+    };
+  },
+  props: ["data"],
+  computed: {
+    
+  },
+  methods: {
+     checkDebitStatus(data) {
+      if (data.status === -1) {
+        this.is_delete = true;
       }
-    }
+    },
+    sendMoney() {
+    this.$store.dispatch("updateDataSendingUserID", this.data.des_id);
+    this.$store.dispatch(
+      "updateDataSendingAccountName",
+      this.data.name_contact
+    );
+    this.$store.dispatch("updateDataSendingBankID", this.data.bank_company_id);
+  },
+  async deleteDebit(){
+    await this.handleBeforeCallServer();
+    const url = "http://localhost:3000/customer/delete_debit/" + this.data.id;
+    fetch(url, {
+      method: "delete", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "x-access-token": localStorage.internetbanking_accesstoken
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (!json.success) {
+          alert(json.error);
+        } else {
+          this.$store.dispatch("deleteDebitItem", this.data.id);
+          this.checkDebitStatus(this.data);
+        }
+      });
+  }
+  },
 };
 </script>
 
 <style scoped>
 .my-card {
   width: 100%;
+}
+
+.deleted {
+  background-color: gray;
+}
+
+h6.card-subtitle{
+  color: #CCC !important;
 }
 </style>
