@@ -9,14 +9,26 @@ key.setOptions({ encryptionScheme: 'pkcs1' });
 key.importKey(config.secret_key.private_key.join('\n'), 'pkcs1');
 const sleep = require('sleep');
 const router = express.Router();
+// const myPublickey =  '-----BEGIN PUBLIC KEY-----\n' +
+//     'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDF9PFzaqogWK6urJi5825h2o6d\n' +
+//     'k4wuH6VV37k1oxnZA7cm23ynoQUK8Y9XpvfBKheCQLw30MwQBtQXXHUuNZva1dxd\n' +
+//     '66tYERJwURIsldzZtwGPQD6azyh0gkaebadTzrz2LH/iWrxshWBPHhyU47Mink6E\n' +
+//     'UhmVRO9Qh/dddovCGQIDAQAB\n' +
+//     '-----END PUBLIC KEY-----';
+// async function call(){
+//     console.log("run00");
+//     await model.edit("tblbank",{public_key: myPublickey}, {id: "7APW008iv5sSF1EWskRd"});
+// }
+// call();
 router.route('/recharge')
     .post(async function (req, res) {
         try {
             const data = req.body.data;
             let verify = false;
+            const dataVerify = {};
+            let income = 0;
             switch (req.headers.company_id) {
                 case 'TttwVLKHvXRujyllDq':
-                    const dataVerify = {};
                     dataVerify.ts = parseInt(req.headers.timestamp);
                     dataVerify.source_username = data.source_username;
                     dataVerify.value = data.value;
@@ -28,8 +40,8 @@ router.route('/recharge')
                             let signature = key.sign(result, 'base64');
                             return res.status(500).json({ data: result, signature });
                         }
-                        const income = parseInt(data.value);
-                        if (data.type == 1) {
+                        income = parseInt(data.value);
+                        if (data.type == 2) {
                             income -= config.config.fee;
                         }
                         const cus_value = parseInt(customer[0].bank_balance) + income;
@@ -49,7 +61,7 @@ router.route('/recharge')
                         const insert_his = await model.add('tblhistorytransaction', entity);
                         let result = { success: true, error: "", username: customer[0].name };
                         let signature = key.sign(result, 'base64');
-                        console.log(signature);
+                        console.log("my-sig", signature);
                         return res.status(200).json({ data: result, signature });
                     } else {
                         let result = { success: false, error: "Xác thực thất bại" };
@@ -68,7 +80,7 @@ router.route('/recharge')
 
                     verify = verified.signatures[0].valid;
                     if (verify === true) {
-                        let serial_data = cleartext.slice(cleartext.indexOf('{'), cleartext.lastIndexOf('}')+1);
+                        let serial_data = cleartext.slice(cleartext.indexOf('{'), cleartext.lastIndexOf('}') + 1);
                         serial_data = JSON.parse(serial_data).data;
                         console.log("data", serial_data);
                         const customer = await model.single_by_username_id('tbluser', serial_data.des_username);
@@ -92,7 +104,7 @@ router.route('/recharge')
                             message: serial_data.message,
                             time: new Date()
                         }
-                        // const insert_his = await model.add('tblhistorytransaction', entity);
+                        const insert_his = await model.add('tblhistorytransaction', entity);
                         let result = { success: true, error: "", username: customer[0].name };
                         let signature = key.sign(result, 'hex');
                         console.log("sig", signature);
@@ -103,11 +115,55 @@ router.route('/recharge')
                         return res.status(400).json({ data: result, signature });
                     }
                     break;
+                case '7APW008iv5sSF1EWskRd':
+                    const hoaBank = await model.single_by_id('tblbank', '7APW008iv5sSF1EWskRd');
+                    const hoaKey = new NodeRSA(hoaBank[0].public_key);
+                    hoaKey.setOptions({ encryptionScheme: 'pkcs1' });
+                    dataVerify.ts = parseInt(req.headers.timestamp);
+                    dataVerify.source_username = data.source_username;
+                    dataVerify.value = data.value;
+                    verify = hoaKey.verify(dataVerify, data.signature, '', 'base64');
+                    if (verify === true) {
+                        const customer = await model.single_by_username_id('tbluser', data.des_username);
+                        if (customer.length == 0) {
+                            let result = { success: false, error: "Tài khoản nạp không tồn tại" };
+                            let signature = key.sign(result, 'base64');
+                            return res.status(500).json({ data: result, signature });
+                        }
+                        income = parseInt(data.value);
+                        if (data.type == 2) {
+                            income -= config.config.fee;
+                        }
+                        const cus_value = parseInt(customer[0].bank_balance) + income;
+                        const update_cus = await model.edit('tbluser', { bank_balance: income }, { username: data.des_username });
+                        const entity = {
+                            type: 2,
+                            root_id: customer[0].id,
+                            source_username: data.source_username,
+                            source_name: data.source_name,
+                            bank_company_id: data.bank_company_id,
+                            des_username: customer[0].username,
+                            des_name: customer[0].name,
+                            value: data.value,
+                            message: data.message,
+                            time: new Date()
+                        }
+                        const insert_his = await model.add('tblhistorytransaction', entity);
+                        let result = { success: true, error: "", username: customer[0].name };
+                        let signature = key.sign(result, 'base64');
+                        console.log("my-sig", signature);
+                        return res.status(200).json({ data: result, signature });
+                    } else {
+                        let result = { success: false, error: "Xác thực thất bại" };
+                        let signature = key.sign(result, 'base64');
+                        return res.status(400).json({ data: result, signature });
+                    }
+                    break;
             }
         }
         catch (err) {
             console.log(err);
-            return res.status(400).json({ success:false, error: err});
+            return res.status(400).json({ success: false, error: err });
         }
 
     })
