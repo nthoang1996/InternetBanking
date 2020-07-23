@@ -40,20 +40,21 @@
 
 .txtName{
     font-size: 13px;
-    color: rgb(83, 83, 83);
+    color: #000;
+    font-weight: 600;
 }
 .name{
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
+    color: #000;
 }
 .txtInfor{
     font-size: 14px;
 }
 .txtCoin{
-    font-size: 20px;
-    background-color: #0d6628;
+    font-size: 17px;
     padding: 3px 6px;
-    color: #fff;
+    color: #000;
     font-weight: bold;
     border-radius: 8px;
 }
@@ -79,7 +80,7 @@
     margin: 0px;
     font-size: 14px;
     font-weight: 600;
-    background-color: #fe0000;
+    background-color: #0070f7;
     color: #fff;
     padding: 2px 5px;
     border-radius: 4px;
