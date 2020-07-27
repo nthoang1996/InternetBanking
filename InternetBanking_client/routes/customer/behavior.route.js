@@ -537,7 +537,7 @@ router.route("/recharge_coin").post(async function(req, res){
   const newMoney = money + moneyInstance;
   const entity = {bank_balance: newMoney};
   model.update_coin_customer('tbluser', entity, newid);
-  return res.json({ success: true, error: "" });
+  return res.status(200).json({ success: true, error: "" });
 
 });
 
@@ -549,7 +549,7 @@ router.route("/create_customer_account").post(async function(req, res){
 
     var usernamelong = Date.now();
     var usernameTemp = usernamelong + '';
-    var username = usernameTemp.slice(-10,12);
+    var username = usernameTemp.slice(-11,12);
     var passwordHash = parseInt(Math.random()*(999999-100000) + 100000);
     var passwordTemp = passwordHash + '';
     var password = bcrypt.hashSync(passwordTemp, 10);
