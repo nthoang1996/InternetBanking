@@ -6,12 +6,9 @@
                 <FilterAccount />
             </div>    
             <div class="listAccount" id="thanhcuon">
-                <Account />
-                <Account />
-                <Account />
-                <Account />
-                <Account />
-                <Account />
+                <div v-for="item in getListAccountCustomer" :key="item.id">
+                    <Account :data="item" />
+                </div>
             </div>
         </b-container>
 
@@ -20,14 +17,21 @@
 
 
 <script>
-import Account from './Account'
-import FilterAccount from './FilterAccount'
+import Account from './Account';
+import FilterAccount from './FilterAccount';
+import { mapGetters } from "vuex";
+import mixin from '../../../Mixin';
 export default {
-    name: 'ListAccount',
-    components:{
-        Account,
-        FilterAccount
-    }
+    mixins: [mixin],
+    mounted(){
+        console.log("mounted list account");
+        this.$store.dispatch("setListAccountCustomer");
+        this.clearDataSending();
+    },
+    components:{ Account, FilterAccount },
+    computed: {
+    ...mapGetters(["getListAccountCustomer"])
+    },
 }
 </script>
 

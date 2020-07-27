@@ -13,26 +13,26 @@
                             TÀI KHOẢN KHÁCH HÀNG
                         </div>
 
-                        <div class="card-content">
+                        <div v-for="item in getAccountCustomerActive" :key="item.id" class="card-content">
                             <b-row class="divInfor">
                                 <b-col cols="4" class="divInforTitle">Họ tên khách hàng: </b-col>
-                                <b-col cols="6" class="txtName">Phan Công Minh</b-col>
+                                <b-col cols="6" class="txtName">{{item.name}}</b-col>
                             </b-row>
                             <b-row class="divInfor">
                                 <b-col cols="4" class="divInforTitle">Số điện thoại: </b-col>
-                                <b-col cols="6" class="txtPhone">012645315</b-col>
+                                <b-col cols="6" class="txtPhone">{{item.phone}}</b-col>
                             </b-row>
                             <b-row class="divInfor">
                                 <b-col cols="4" class="divInforTitle">Địa chỉ: </b-col>
-                                <b-col cols="6" class="txtAddress">71 Xuân Hồng, quận Tân Bình, Tp. HCM</b-col>
+                                <b-col cols="6" class="txtAddress">{{item.address}}</b-col>
                             </b-row>
                             <b-row class="divInfor">
                                 <b-col cols="4" class="divInforTitle">Email: </b-col>
-                                <b-col cols="6" class="txtEmail">anhsida@gc.com</b-col>
+                                <b-col cols="6" class="txtEmail">{{item.email}}</b-col>
                             </b-row>
                             <b-row class="divInfor">
                                 <b-col cols="4" class="divInforTitle">Số dư khả dụng: </b-col>
-                                <b-col cols="6" class="txtMoney">100,000,000</b-col>
+                                <b-col cols="6" class="txtMoney">{{item.bank_balance}}</b-col>
                             </b-row>
                         </div>
                     </div>
@@ -42,12 +42,10 @@
                         <FilterItem />
                     </div>
                     <div class="listHistoryTransfer">
-                        <Transfer />
-                        <Transfer />
-                        <Transfer />
-                        <Transfer />
-                        <Transfer />
-                        <Transfer />
+                        <div class="andi" v-if="getListHistoryAccountCustomer.length === 0" >Tài khoản chưa có lịch sử giao dịch</div>
+                        <div v-for="item in getListHistoryAccountCustomer" :key="item.id" >
+                            <Transfer :data=item />
+                        </div>
                     </div>
                 </b-col>
                 
@@ -59,7 +57,17 @@
 <script>
 import FilterItem from './Filter'
 import Transfer from './Transfer'
+import mixin from '../../../Mixin';
+import { mapGetters } from "vuex";
+
 export default {
+    mixins: [mixin],
+    mounted(){
+        this.$store.dispatch("updateHistortAccountCustomer","");
+    },
+    computed: {
+    ...mapGetters(["getAccountCustomerActive", "getListHistoryAccountCustomer"])
+    },
     components: { FilterItem, Transfer },
 }
 </script>
@@ -177,5 +185,12 @@ font-size: 14px;
     color: black;
 }
 
+.andi{
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
 
 </style>

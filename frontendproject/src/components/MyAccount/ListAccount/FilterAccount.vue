@@ -4,14 +4,19 @@
             type="text"
             placeholder="Tìm kiếm..."
             class="inputSearch"
+            @keyup="handleChange($event)"
         ></b-form-input>
     </div>
 </template>
 
 <script>
-    export default {
-        
+export default {
+    methods: {
+        handleChange(event) {
+            this.$store.dispatch("updateListAccountCustomer", event.target.value);
+        }
     }
+}
 </script>
 
 <style scoped>

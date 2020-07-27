@@ -1,70 +1,56 @@
 <template>
     <div>
         <b-container class="bv-example-row">
-            <p class="txtTitle mb-4">NẠP TIỀN TÀI KHOẢN</p> 
+            <p class="txtTitle">NẠP TIỀN TÀI KHOẢN</p> 
             <b-row>
                 <b-col class="rowLeft shadow-sm">
+                    <div v-for="item in getAccountCustomerActive" :key="item.id">
                     <p class="txtTitleSmall">Thông tin tài khoản</p>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Họ và tên: </b-col>
-                        <b-col cols="6" class="">Phan Công Minh</b-col>
+                        <b-col cols="8" class="">{{item.name}}</b-col>
                     </b-row>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Số điện thoại: </b-col>
-                        <b-col cols="6" class="">0356845512</b-col>
+                        <b-col cols="8" class="">{{item.phone}}</b-col>
                     </b-row>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Email: </b-col>
-                        <b-col cols="6" class="">congminhphan@gmail.com </b-col>
+                        <b-col cols="8" class="">{{item.email}}</b-col>
                     </b-row>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Địa chỉ: </b-col>
-                        <b-col cols="6" class="">389/10 Ngô Gia Tự, phường 3, quận 10, Tp. HCM </b-col>
+                        <b-col cols="8" class="">{{item.address}}</b-col>
                     </b-row>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Số dư tài khoản: </b-col>
-                        <b-col cols="6" class="txtmoney">25,000,000</b-col>
+                        <b-col cols="8" class="txtmoney">{{item.bank_balance}}</b-col>
                     </b-row>
-
+                    </div>
                 </b-col>
-                <b-col class="rowRight shadow-sm">
-                    <p class="txtTitleSmall">Nạp tiền</p>
-                    <b-form @submit="onSubmit" v-if="show">
-                        <b-form-group id="txtInputMoney" label="Nhập số tiền cần nạp:" label-for="inputMoney" >
-                            <b-form-input id="inputMoney" v-model="form.money" type="text"></b-form-input>
-                            <span class="txtInputInvalid">Input Invalid</span>
-                        </b-form-group>
-                        <div class="divButtonSubmit">
-                            <b-button type="submit" variant="primary">Nạp tiền</b-button>
-                        </div>
-                    </b-form>
-                </b-col>
+                
+                <Recharge :data="getAccountCustomerActive" />
             </b-row>
-            <div class="divChangAccount">  
-                <p class="txtChangeAccount">Đổi tài khoản >></p>
 
+            <div class="divChangAccount">  
+                <p class="txtChangeAccount">Quay lại >></p>
             </div>
+            
         </b-container>
     </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                form: {
-                    money: '',    
-                },
-                show: true
-            }
-        },
-        methods: {
-            onSubmit(evt) {
-                evt.preventDefault()
-                alert(JSON.stringify(this.form))
-            },
-        }
-    }
+import mixin from "../../../Mixin";
+import { mapGetters } from "vuex";
+import Recharge from "./Recharge";
+export default {
+    mixins: [mixin],
+    computed: {
+    ...mapGetters(["getAccountCustomerActive"])
+    },
+    components:{Recharge}
+}
 </script>
 
 <style scoped>
@@ -72,8 +58,8 @@
     font-weight: bold;
     font-size: 30px;
     text-align: center;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    margin-top: 35px;
+    margin-bottom: 35px;
 }
 .rowLeft{
     margin-right: 20px;

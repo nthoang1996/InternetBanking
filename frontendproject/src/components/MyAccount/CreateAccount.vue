@@ -5,7 +5,7 @@
                 <b-col></b-col>
                 <b-col cols="6">
                     <p class="txtTitle">TẠO TÀI KHOẢN KHÁCH HÀNG</p>
-                    <b-form @submit="onSubmit" v-if="show">
+                    <b-form @submit="onSubmit">
                         <b-form-group class="title" label="Họ tên khách hàng:" label-for="txtname" >
                             <b-form-input id="txtname" v-model="form.name" type="text" required></b-form-input>
                         </b-form-group>
@@ -16,18 +16,6 @@
 
                          <b-form-group class="title" label="Địa chỉ:" label-for="txtaddress" >
                             <b-form-input id="txtaddress" v-model="form.address" type="text" required></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group class="title" label="Tên tài khoản:" label-for="txtaccount" >
-                            <b-form-input id="txtaccount" v-model="form.account" type="text" required></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group class="title" label="Mật khẩu:" label-for="txtpassword" >
-                            <b-form-input id="txtpassword" v-model="form.password" type="password" required></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group class="title" label="Nhập lại mật khẩu:" label-for="txtrepeatpassword" >
-                            <b-form-input id="txtrepeatpassword" v-model="form.repeatpassword" type="password" required></b-form-input>
                         </b-form-group>
 
                         <b-form-group class="title" label="Email:" label-for="txtemail" >
@@ -44,29 +32,48 @@
     </div>
 </template>
 
+
 <script>
-  export default {
+import mixin from '../../Mixin';
+export default {
+    mixins: [mixin],
     data() {
-      return {
+        return {
         form: {
             name: '',
-            account: '',
-            password: '',
-            repeatpassword: '',
             email: '',
             address: '',
             phone: '',
-        },
-        show: true
-      }
+        }
+        }
     },
     methods: {
-        onSubmit(evt) {
+        async onSubmit(evt) {
             evt.preventDefault()
-            alert(JSON.stringify(this.form))
+            this.handleBeforeCallServer();
+            const url = "http://localhost:3000/customer/create_customer_account";
+
+            const data = JSON.stringify(this.form);
+            console.log(data);
+            await fetch(url, {
+                method: "post",
+                headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.internetbanking_accesstoken
+                },
+                body: data
+            }).then(res => res.json()) .then(data => {
+                if (data.success) {
+                    console.log("success");
+                    alert('Tạo tài khoản khách hàng thành công. Thông tin tài khoản đã được gởi đến email của bạn.');
+                    return this.$router.push("/employee/list_customer_account");
+                } else {
+                    return;
+                }
+            });
         },
     }
-  }
+}
 </script>
 
 
