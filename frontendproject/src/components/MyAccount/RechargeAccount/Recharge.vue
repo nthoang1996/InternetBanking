@@ -44,7 +44,7 @@ export default {
                 cancelButtonText: 'Không'
                 }).then(async (result) => {
                     if (result.value) {
-                        const url = "http://localhost:3000/customer/recharge_coin";
+                        const url = "http://localhost:3000/employee/recharge_coin";
                         const data = JSON.stringify({dataSend});
                         //console.log(data);
                         await fetch(url, {

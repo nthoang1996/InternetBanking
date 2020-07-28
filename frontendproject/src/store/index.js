@@ -35,6 +35,7 @@ export default new Vuex.Store({
     listHistoryTransferQuery: '',
     accountCustomerActive: [],
     listHistoryAccountCustomer: [],
+    listAccountEmployee: []
   },
   getters: {
     getUser(state) {
@@ -149,6 +150,10 @@ export default new Vuex.Store({
           return t.source_name.toLocaleLowerCase().includes(lcQuery)
         }
       });
+    },
+
+    getListAccountEmployee(state){
+      return state.listAccountEmployee;
     }
   },
   mutations: {
@@ -253,6 +258,10 @@ export default new Vuex.Store({
 
     UPDATE_HISTORY_ACCOUNT_CUSTOMER(state, payload){
       state.listHistoryAccountCustomer = payload;
+    },
+
+    SET_LIST_ACCOUNT_EMPLOYEE(state, payload){
+      state.listAccountEmployee = [...payload];
     }
   },
   actions: {
@@ -405,7 +414,7 @@ export default new Vuex.Store({
     async updateAccountCustomerActive(ctx, id){
       await myMixin.methods.handleBeforeCallServer();
       const idString = id.toString();
-      const  url = 'http://localhost:3000/customer/account_customer/' + idString;
+      const  url = 'http://localhost:3000/employee/account_customer/' + idString;
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -427,7 +436,7 @@ export default new Vuex.Store({
       await myMixin.methods.handleBeforeCallServer();
       const idString = id.toString();
       console.log(idString);
-      const  url = 'http://localhost:3000/customer/list_history_account_customer/' + idString;
+      const  url = 'http://localhost:3000/employee/list_history_account_customer/' + idString;
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -448,7 +457,7 @@ export default new Vuex.Store({
     // SET danh sach tai khoan khach hang 
     async setListAccountCustomer(ctx){
       await myMixin.methods.handleBeforeCallServer();
-      const  url = 'http://localhost:3000/customer/list_account_customer';
+      const  url = 'http://localhost:3000/employee/list_account_customer';
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -465,6 +474,26 @@ export default new Vuex.Store({
         }
       });
     },
+
+    async setListAccountEmployee(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const  url = 'http://localhost:3000/admin/list_account_employee';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("SET_LIST_ACCOUNT_EMPLOYEE", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
+    }
 
    
   },

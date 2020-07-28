@@ -149,9 +149,15 @@
             "elements": [{
                 "id": 21,
                 "name": "Quản lý nhân viên",
-                "url": "/dashboard/manage_employee",
+                "url": "/admin/manage_employee",
                 "class": "fa fa-address-book",
                 "display": true
+            },{
+                "id": 22,
+                "name": "Tạo tài khoản nhân viên",
+                "url": "/admin/create_account_employee",
+                "class": "fa fa-plus",
+                "display": false
             }]
         }
     ],

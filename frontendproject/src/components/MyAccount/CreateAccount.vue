@@ -40,12 +40,12 @@ export default {
     mixins: [mixin],
     data() {
         return {
-        form: {
-            name: '',
-            email: '',
-            address: '',
-            phone: '',
-        }
+            form: {
+                name: '',
+                email: '',
+                address: '',
+                phone: '',
+            }
         }
     },
     methods: {
@@ -61,7 +61,7 @@ export default {
             }).then( async (result) => {
                 if (result.value) {
                     this.handleBeforeCallServer();
-                    const url = "http://localhost:3000/customer/create_customer_account";
+                    const url = "http://localhost:3000/employee/create_customer_account";
                     const data = JSON.stringify(this.form);
                     //console.log(data);
                     await fetch(url, {

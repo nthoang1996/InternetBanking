@@ -2,7 +2,7 @@
     <div>
         <b-card no-body class="mb-3">
             <b-row no-gutters>
-                <b-col>
+                <b-col cols="7">
                     <div class="content">
                         <span class="txtName">Họ tên khách hàng: </span>
                         <span class="name">{{data.name}}</span>
@@ -13,7 +13,7 @@
                         <span class="btnTransfer" @click="addCoin(data.id)">Nạp tiền</span>
                     </div>
                 </b-col>
-                <b-col>
+                <b-col cols="5">
                     <div class="content">
                         <span class="txtName">Số dư tài khoản: </span>
                         <span class="txtCoin">{{data.bank_balance}}</span>
