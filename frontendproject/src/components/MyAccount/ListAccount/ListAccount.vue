@@ -24,8 +24,8 @@ import mixin from '../../../Mixin';
 export default {
     mixins: [mixin],
     mounted(){
-        console.log("mounted list account");
         this.$store.dispatch("setListAccountCustomer");
+        this.$store.dispatch("updateListAccountCustomer", "");
         this.clearDataSending();
     },
     components:{ Account, FilterAccount },

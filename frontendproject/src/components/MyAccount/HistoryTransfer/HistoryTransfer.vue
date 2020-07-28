@@ -63,6 +63,7 @@ import { mapGetters } from "vuex";
 export default {
     mixins: [mixin],
     mounted(){
+        this.$store.dispatch("updateListHistoryTransfer", "");
         this.$store.dispatch("updateHistortAccountCustomer","");
     },
     computed: {

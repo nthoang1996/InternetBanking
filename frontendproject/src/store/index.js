@@ -32,7 +32,7 @@ export default new Vuex.Store({
 
     listAccountCustomer:[],
     accountCustomerQuery: '',
-    listHistoryCustomerQuery: '',
+    listHistoryTransferQuery: '',
     accountCustomerActive: [],
     listHistoryAccountCustomer: [],
   },
@@ -127,15 +127,28 @@ export default new Vuex.Store({
       }
       
       const lcQuery = state.accountCustomerQuery.toLocaleLowerCase();
+      console.log(state.listAccountCustomer);
       return state.listAccountCustomer.filter(
-        t => t.displayName.toLocaleLowerCase().includes(lcQuery)
+        t => t.name.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getAccountCustomerActive(state){
       return state.accountCustomerActive;
     },
     getListHistoryAccountCustomer(state){
-      return state.listHistoryAccountCustomer;
+      if(state.listHistoryAccountCustomer.length === 0){
+        return state.listHistoryAccountCustomer;
+      }
+      const lcQuery = state.listHistoryTransferQuery.toLocaleLowerCase();
+
+      return state.listHistoryAccountCustomer.filter((t) => {
+        console.log("Account: ",state.listHistoryAccountCustomer );
+        if(t.type === 1 ){
+          return t.des_name.toLocaleLowerCase().includes(lcQuery)
+        }else{
+          return t.source_name.toLocaleLowerCase().includes(lcQuery)
+        }
+      });
     }
   },
   mutations: {
@@ -219,7 +232,7 @@ export default new Vuex.Store({
     // --
 
     UPDATE_HISTORY_QUERY(state, payload){
-      state. historyQuery = payload;
+      state.historyQuery = payload;
     },
 
     UPDATE_LIST_ACCOUNT_CUSTOMER(state, payload){
@@ -228,7 +241,11 @@ export default new Vuex.Store({
 
     UPDATE_ACCOUNT_CUSTOMER_ACTIVE(state, payload){
       state.accountCustomerActive = [...payload];
-    }, 
+    },
+    
+    UPDATE_LIST_HISTORY_TRANSFER(state, payload){
+      state.listHistoryTransferQuery = payload;
+    },
 
     GET_HISTORY_ACCOUNT_CUSTOMER(state, payload){
       state.listHistoryAccountCustomer = [...payload];
@@ -379,7 +396,10 @@ export default new Vuex.Store({
 
     updateListAccountCustomer(ctx, query){
       ctx.commit('UPDATE_LIST_ACCOUNT_CUSTOMER', query);
+    },
 
+    updateListHistoryTransfer(ctx, query){
+      ctx.commit('UPDATE_LIST_HISTORY_TRANSFER', query);
     },
 
     async updateAccountCustomerActive(ctx, id){
