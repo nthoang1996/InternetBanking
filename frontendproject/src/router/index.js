@@ -8,12 +8,14 @@ import NewContact from '../components/Dashboard/ListContact/NewContact'
 import ListHistory from '../components/Dashboard/History/ListHistory'
 import CreateAccount from '../components/MyAccount/CreateAccount'
 import ListAccount from '../components/MyAccount/ListAccount/ListAccount'
-import RechargeAccount from '../components/MyAccount/RechargeAccount'
+import RechargeAccount from '../components/MyAccount/RechargeAccount/RechargeAccount'
 import ChangePassword from '../components/Dashboard/ChangePassword.vue'
 import ManageDebit from '../components/Dashboard/ManageDebit/ManageDebit.vue'
 import HistoryTransfer from '../components/MyAccount/HistoryTransfer/HistoryTransfer'
 import CreateDebtReminder from '../components/Dashboard/ManageDebit/CreateDebtReminder.vue'
-
+import ManageEmployee from '../components/Admin/ManageEmployee/ManageEmployee.vue'
+import CreateEmployee from '../components/Admin/CreateAccount/CreateEmployee.vue'
+import EditEmployee from '../components/Admin/EditAccount/EditAccount.vue'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -97,6 +99,24 @@ const routes = [
         // when /user/:id/profile is matched
         path: '/employee/historty_transfer_customer_account',
         component: HistoryTransfer
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/admin/manage_employee',
+        component: ManageEmployee
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/admin/create_account_employee',
+        component: CreateEmployee
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/admin/edit_account_employee',
+        component: EditEmployee
       }
     ],
     meta: { requiresAuth: true }

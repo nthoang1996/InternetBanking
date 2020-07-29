@@ -11,6 +11,9 @@ module.exports = {
     all_by_root_id: (table, root_id) => {
         return db.load(`select * from ${table} where root_id = ${root_id};`);
     },
+    all_by_role: (table, role) => {
+        return db.load(`select * from ${table} where role = ${role};`);
+    },
     single_by_id: (table, id) => { return db.load(`select * from ${table} where id = "${id}"`) },
     single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
     single_by_username_id: (table, username_id) => { return db.load(`select * from ${table} where username = '${username_id}'`) },
@@ -49,4 +52,6 @@ module.exports = {
         }
         return rows[0];
     },
+    update_coin_customer: async (table, newMoney, id)=> {return await db.edit(table, newMoney, id)},
+    update_account_employee: async (table, entity, id)=> {return await db.edit(table, entity, id)}
 };

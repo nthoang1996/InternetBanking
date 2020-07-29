@@ -141,14 +141,14 @@
                 "name": "Nạp tiền vào tài khoản",
                 "url": "/employee/recharge_customer_account",
                 "class": "fa fa-plus",
-                "display": true
+                "display": false
             },
             {
                 "id": 14,
                 "name": "Lịch sử giao dịch",
                 "url": "/employee/historty_transfer_customer_account",
                 "class": "fa fa-plus",
-                "display": true
+                "display": false
             }]
         },
         {
@@ -156,9 +156,21 @@
             "elements": [{
                 "id": 21,
                 "name": "Quản lý nhân viên",
-                "url": "/dashboard/manage_employee",
+                "url": "/admin/manage_employee",
                 "class": "fa fa-address-book",
                 "display": true
+            },{
+                "id": 22,
+                "name": "Tạo tài khoản nhân viên",
+                "url": "/admin/create_account_employee",
+                "class": "fa fa-plus",
+                "display": false
+            },{
+                "id": 23,
+                "name": "Chỉnh sửa tài khoản nhân viên",
+                "url": "/admin/edit_account_employee",
+                "class": "fa fa-plus",
+                "display": false
             }]
         }
     ],

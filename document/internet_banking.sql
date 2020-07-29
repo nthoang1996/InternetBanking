@@ -237,6 +237,8 @@ INSERT INTO `tbluser` (`id`, `name`, `phone`, `address`, `email`, `username`, `p
 (13, 'Đỗ Quang Thịnh', '(08) 3932 5', '38 Tú Xương, Phường 7, Quận 3, Sài Gòn - TP HCM', 'dqthinh@gmail.com', '1478523690', '$2a$10$BSy/3DGcTEz7Nu/4hVbNWuWCqvVuq2cQ3jELH509Y/8i2/iHO/tTu', 3, '1014760000', '', 1);
 
 -- --------------------------------------------------------
+INSERT INTO `tbluser` (`name`, `phone`, `address`, `email`, `username`, `password`, `role`, `bank_balance`, `verify`, `is_active`) VALUES
+('Đỗ Quang Thịnh', '(08) 3932 5', '389/10 Ngô Gia Tự, phường 3, quận 10, TP HCM', 'kyou@gmail.com', '1986523690', '$2a$10$BSy/3DGcTEz7Nu/4hVbNWuWCqvVuq2cQ3jELH509Y/8i2/iHO/tTu', 3, '1014760000', '', 1);
 
 --
 -- Cấu trúc bảng cho bảng `userrefreshtokenext`

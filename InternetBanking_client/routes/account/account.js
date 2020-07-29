@@ -29,7 +29,7 @@ router.route("/login").post(async function (req, res) {
   }
 
   const token = generateAccessToken(rows.id);
-
+  console.log("token", token);
   const refreshToken = await createRefreshToken(rows.id);
 
   res
@@ -52,7 +52,7 @@ async function createRefreshToken(id) {
     rdt: moment().format("YYYY-MM-DD HH:mm:ss"),
   };
   const add = await model.add("userrefreshtokenext", entity);
-  console.log(add);
+  console.log("refresh", add);
   return refreshToken;
 }
 

@@ -34,6 +34,13 @@ export default new Vuex.Store({
     customerName:'',
     debtMessage:'',
     moneyNumber: '0', 
+    listAccountCustomer:[],
+    accountCustomerQuery: '',
+    listHistoryTransferQuery: '',
+    accountCustomerActive: [],
+    listHistoryAccountCustomer: [],
+    listAccountEmployee: [],
+    accountEmployeeActive: []
   },
   getters: {
     getDebtMessage(state){
@@ -134,6 +141,43 @@ export default new Vuex.Store({
         t => t.displayName.toLocaleLowerCase().includes(lcQuery)
       );
     },
+    getListAccountCustomer(state){
+      if(state.accountCustomerQuery.length === 0){
+        return state.listAccountCustomer;
+      }
+      
+      const lcQuery = state.accountCustomerQuery.toLocaleLowerCase();
+      console.log(state.listAccountCustomer);
+      return state.listAccountCustomer.filter(
+        t => t.name.toLocaleLowerCase().includes(lcQuery)
+      );
+    },
+    getAccountCustomerActive(state){
+      return state.accountCustomerActive;
+    },
+    getAccountEmployeeActive(state){
+      console.log("Employee Active Main", state.accountEmployeeActive);
+      return state.accountEmployeeActive;
+    },
+    getListHistoryAccountCustomer(state){
+      if(state.listHistoryAccountCustomer.length === 0){
+        return state.listHistoryAccountCustomer;
+      }
+      const lcQuery = state.listHistoryTransferQuery.toLocaleLowerCase();
+
+      return state.listHistoryAccountCustomer.filter((t) => {
+        //console.log("Account: ",state.listHistoryAccountCustomer );
+        if(t.type === 1 ){
+          return t.des_name.toLocaleLowerCase().includes(lcQuery)
+        }else{
+          return t.source_name.toLocaleLowerCase().includes(lcQuery)
+        }
+      });
+    },
+
+    getListAccountEmployee(state){
+      return state.listAccountEmployee;
+    }
   },
   mutations: {
     INIT_USER(state, payload) {
@@ -206,6 +250,13 @@ export default new Vuex.Store({
     SET_LIST_HISTORY(state, payload){
       state.listHistory = [...payload];
     },
+
+    // --- 
+    SET_LIST_ACCOUNT_CUSTOMER(state, payload){
+      state.listAccountCustomer = [...payload];
+    },
+    // --
+
     UPDATE_HISTORY_QUERY(state, payload){
       state. historyQuery = payload
     },
@@ -223,6 +274,35 @@ export default new Vuex.Store({
     },
     UPDATE_MONEY_NUMBER(state,payload){
       state.moneyNumber = payload;
+      state.historyQuery = payload;
+    },
+
+    UPDATE_LIST_ACCOUNT_CUSTOMER(state, payload){
+      state.accountCustomerQuery = payload;
+    },
+
+    UPDATE_ACCOUNT_CUSTOMER_ACTIVE(state, payload){
+      state.accountCustomerActive = [...payload];
+    },
+    
+    UPDATE_LIST_HISTORY_TRANSFER(state, payload){
+      state.listHistoryTransferQuery = payload;
+    },
+
+    GET_HISTORY_ACCOUNT_CUSTOMER(state, payload){
+      state.listHistoryAccountCustomer = [...payload];
+    },
+
+    UPDATE_HISTORY_ACCOUNT_CUSTOMER(state, payload){
+      state.listHistoryAccountCustomer = payload;
+    },
+
+    SET_LIST_ACCOUNT_EMPLOYEE(state, payload){
+      state.listAccountEmployee = [...payload];
+    },
+
+    SET_ACCOUNT_EMPLOYEE_ACTIVE(state, payload){
+      state.accountEmployeeActive = [...payload];
     }
   },
   actions: {
@@ -325,6 +405,9 @@ export default new Vuex.Store({
     updateModalType(ctx,query){
       ctx.commit('UPDATE_MODAL_TYPE', query);
     },
+    updateHistortAccountCustomer(ctx, query){
+      ctx.commit('UPDATE_HISTORY_ACCOUNT_CUSTOMER', query);
+    },
     insertListContact(ctx,data){
       ctx.commit('INSERT_LIST_CONTACT', data);
     },
@@ -369,8 +452,121 @@ export default new Vuex.Store({
     },
     updateMoneyNumber(ctx,query){
       ctx.commit('UPDATE_MONEY_NUMBER',query);
+    },
+    updateListAccountCustomer(ctx, query){
+      ctx.commit('UPDATE_LIST_ACCOUNT_CUSTOMER', query);
+    },
+
+    updateListHistoryTransfer(ctx, query){
+      ctx.commit('UPDATE_LIST_HISTORY_TRANSFER', query);
+    },
+
+    async updateAccountCustomerActive(ctx, id){
+      await myMixin.methods.handleBeforeCallServer();
+      const idString = id.toString();
+      const  url = 'http://localhost:3000/employee/account_customer/' + idString;
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("UPDATE_ACCOUNT_CUSTOMER_ACTIVE", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
+    },
+
+    async getHistoryAccountCustomer(ctx, id){
+      await myMixin.methods.handleBeforeCallServer();
+      const idString = id.toString();
+      console.log(idString);
+      const  url = 'http://localhost:3000/employee/list_history_account_customer/' + idString;
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("GET_HISTORY_ACCOUNT_CUSTOMER", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
+    },
+
+    // SET danh sach tai khoan khach hang 
+    async setListAccountCustomer(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const  url = 'http://localhost:3000/employee/list_account_customer';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("SET_LIST_ACCOUNT_CUSTOMER", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
+    },
+
+    async setListAccountEmployee(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const  url = 'http://localhost:3000/admin/list_account_employee';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("SET_LIST_ACCOUNT_EMPLOYEE", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
+    },
+
+    async setAccountEmployeeActive(ctx, id){
+      await myMixin.methods.handleBeforeCallServer();
+      const  url = 'http://localhost:3000/admin/account_employee/' + id;
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          //console.log("Tai khoan nhan vien active", json);
+          ctx.commit("SET_ACCOUNT_EMPLOYEE_ACTIVE", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
     }
   },
+
+
   modules: {
   }
 })

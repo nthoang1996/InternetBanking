@@ -4,18 +4,13 @@
             type="text"
             placeholder="Tìm kiếm..."
             class="inputSearch"
-            @keyup="handleChange($event)"
         ></b-form-input>
     </div>
 </template>
 
 <script>
 export default {
-    methods: {
-        handleChange(event) {
-            this.$store.dispatch("updateListAccountCustomer", event.target.value);
-        }
-    }
+    
 }
 </script>
 
@@ -25,6 +20,8 @@ export default {
 }
 
 .divInput{
-    width: 300px;
+    float: right;
+    margin-right: 15px;
+    width: 250px;
 }
 </style>

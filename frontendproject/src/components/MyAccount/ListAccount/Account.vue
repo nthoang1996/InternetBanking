@@ -2,26 +2,26 @@
     <div>
         <b-card no-body class="mb-3">
             <b-row no-gutters>
-                <b-col>
+                <b-col cols="7">
                     <div class="content">
                         <span class="txtName">Họ tên khách hàng: </span>
-                        <span class="name">Ngô Văn Kiều</span>
+                        <span class="name">{{data.name}}</span>
                         <br>
                         <span class="txtName">Địa chỉ: </span>
-                        <span class="txtInfor">389/10 Ngô Gia Tự, phường 3, quận 10, TP.HCM</span>
+                        <span class="txtInfor">{{data.address}}</span>
                         <br>
-                        <span class="btnTransfer">Nạp tiền</span>
+                        <span class="btnTransfer" @click="addCoin(data.id)">Nạp tiền</span>
                     </div>
                 </b-col>
-                <b-col>
+                <b-col cols="5">
                     <div class="content">
                         <span class="txtName">Số dư tài khoản: </span>
-                        <span class="txtCoin">15,700,000</span>
+                        <span class="txtCoin">{{data.bank_balance}}</span>
                         <br>
                         <span class="txtName">Số điện thoại: </span>
-                        <span class="txtInfor">0389874562</span>
+                        <span class="txtInfor">{{data.phone}}</span>
                         <br>
-                        <span class="btnViewHistory">Lịch sử giao dịch</span>                    
+                        <span class="btnViewHistory" @click="viewHistory(data.id)">Lịch sử giao dịch</span>                    
                     </div>
                 </b-col>
             </b-row>
@@ -30,7 +30,23 @@
 </template>
 
 <script>
-    export default {}
+import mixin from "../../../Mixin";
+export default {
+    mixins: [mixin],
+    props: ["data"],
+    methods: {
+        addCoin(id){
+            this.$store.dispatch("updateAccountCustomerActive", id);
+            return this.$router.push("/employee/recharge_customer_account");
+        },
+
+        viewHistory(id){
+            this.$store.dispatch("updateAccountCustomerActive", id);
+            this.$store.dispatch("getHistoryAccountCustomer", id);
+            return this.$router.push("/employee/historty_transfer_customer_account");
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -69,7 +85,7 @@
     font-size: 14px;
     font-weight: 600;
     background-color: #0070f7;
-    color: #ecf1e5;
+    color: #fff;
     padding: 2px 5px;
     border-radius: 4px;
     margin-top: 5px;
