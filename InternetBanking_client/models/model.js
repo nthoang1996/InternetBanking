@@ -42,4 +42,11 @@ module.exports = {
     },
     update_password: async(table, password, id)=>{ return await db.edit(table, password, id) },
     update_status_debitItem: async (table, status,id)=> await db.edit(table,status,id),
+    single_by_account_number: async (table,account_number) =>{
+        const rows = await db.load(`select * from ${table} where username = '${account_number}'`);
+        if (rows.length === 0) {
+            return null;
+        }
+        return rows[0];
+    },
 };

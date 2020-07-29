@@ -319,7 +319,7 @@ router
 
 router.route("/delete_debit/:itemDeleted_id").delete(async function (req, res) {
   var itemDeleted_id = req.params.itemDeleted_id;
-  console.log("itemDeleted_id: ",itemDeleted_id);
+  console.log("itemDeleted_id: ", itemDeleted_id);
   const del = await model.update_status_debitItem(
     "tbldebtreminder",
     {
@@ -435,8 +435,46 @@ router.route("/current_user").get(async function (req, res) {
 router.route("/list_debit").get(async function (req, res) {
   const userID = req.tokenPayload.userID;
   const rows = await model.all_by_source_id("tbldebtreminder", userID);
-  console.log('list_debit: ' + rows);
+  console.log("list_debit: " + rows);
   return res.status(200).json({ success: true, error: "", data: rows });
 });
 
+router.route("/get_customer_name").post(async function (req, res) {
+  const bankID = req.body.bankID;
+  const accountNumber = req.body.accountNumber;
+  if (bankID === "TttwVLKHvXRujyllDq") {
+    let customer = await model.single_by_account_number("tbluser", accountNumber);
+    if (customer === null)
+      return res
+        .status(404)
+        .json({ success: false, error: "Not found customer", customerName: "" });
+    return res
+      .status(200)
+      .json({ success: true, error: "", customerName: customer.name });
+  }
+  else{
+    console.log('Xu ly goi API truy van thong tin khach hang.............');
+  }
+});
+
+router.route("/create_debt_reminder").post(async function(req,res){
+  var userID = req.tokenPayload.userID;
+  var entity = {
+    source_id: userID,
+    des_id: req.body.accountNumber,
+    des_name: req.body.customerName,
+    des_bank_id: req.body.bankID,
+    des_bank_name:"Cùng Ngân Hàng",
+    value: req.body.moneyNumber,
+    message:req.body.debtMessage,
+    status:1
+  };
+  var rows = await model.add("tbldebtreminder",entity);
+  if(rows){
+    return res.status(201).json({ success:true, error:''});
+  }
+  else{
+    return res.status(500).json({success:false, error:"Thêm nhắc nợ thất bại."});
+  }
+})
 module.exports = router;

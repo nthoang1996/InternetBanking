@@ -110,6 +110,13 @@
                     "url": "/dashboard/manage_debit",
                     "class": "fa fa-credit-card",
                     "display": true
+                },
+                {
+                    "id": 8,
+                    "name": "Tạo nhắc nợ",
+                    "url": "/dashboard/create_debt_reminder",
+                    "class": "",
+                    "display": false
                 }
             ]
         },

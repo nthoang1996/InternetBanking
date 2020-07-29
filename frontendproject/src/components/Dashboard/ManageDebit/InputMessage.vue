@@ -1,19 +1,17 @@
 <template>
   <div class="row mt-2 form-group">
     <div class="col-sm-2 text-right">
-      <label for="account-id" class="my-label">Số tài khoản</label>
+      <label for="debt-message" class="my-label">Tin nhắn</label>
     </div>
     <div class="col-sm-3">
       <input
+        id="debt-message"
         type="text"
-        name="account-id"
         class="my-input"
-        id="account-id"
-        placeholder="Số tài khoản"
+        placeholder="Nội dung tin nhắn"
         @keyup="handleChange($event)"
         autofocus
-        :value="getDataSendingUserID"
-        :disabled="isDisabled"
+        :value="getDebtMessage"
       />
     </div>
   </div>
@@ -22,26 +20,14 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-    data(){
-        return{
-            isDisabled: false
-        }
-    },
-    computed: {
-    ...mapGetters(["getDataSendingUserID"]),
-  },
-  mounted(){
-      if(this.$route.path == '/dashboard/edit_contact'){
-          console.log(this.$route.path);
-          this.isDisabled = true;
-      }
+  computed: {
+    ...mapGetters(["getDebtMessage"]),
   },
   methods: {
     handleChange(event) {
-      this.$store.dispatch("updateDataSendingUserID", event.target.value);
-      // gia tri trong input form.
+      this.$store.dispatch("updateDebtMessage", event.target.value);
     },
-  }
+  },
 };
 </script>
 
@@ -62,7 +48,7 @@ export default {
   outline: none;
 }
 
-.my-input:disabled{
+.my-input:disabled {
   background: transparent;
   cursor: not-allowed;
 }

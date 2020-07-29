@@ -16,6 +16,13 @@ export default {
             this.$store.dispatch("updateDataSendingBankID", "TttwVLKHvXRujyllDq");
             this.$store.dispatch("updateDataSendingMyMessage", "");
         },
+        resetDataDebtReminder: function(){
+            this.$store.dispatch("updateAccountNumber", "");
+            this.$store.dispatch("updateCustomerName", "");
+            this.$store.dispatch("updateDebtMessage", "");
+            this.$store.dispatch("updateBankID", "TttwVLKHvXRujyllDq");
+            this.$store.dispatch("updateMoneyNumber", "0");
+        },
         handleBeforeCallServer: async function () {
             const timeExpired = parseInt(localStorage.internetbanking_timeaccesstokenexpire) + 540000;
             const localTimestamp = (new Date()).getTime();

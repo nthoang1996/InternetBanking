@@ -29,8 +29,28 @@ export default new Vuex.Store({
     code_verify: '',
     modalType: 1,
     listHistory: [],
+    account_number:'',
+    bankID:'',
+    customerName:'',
+    debtMessage:'',
+    moneyNumber: '0', 
   },
   getters: {
+    getDebtMessage(state){
+      return state.debtMessage;
+    },
+    getMoneyNumber(state){
+      return state.moneyNumber;
+    },
+    getCustomerName(state){
+      return state.customerName;
+    },
+    getBankID(state){
+      return state.bankID;
+    },
+    getAccountNumber(state){
+      return state.account_number;
+    },
     getUser(state) {
       return state.user;
     },
@@ -49,7 +69,6 @@ export default new Vuex.Store({
       if(state.userVisible.role != 3){
         delete state.userVisible.bank_balance;
       }
-      console.log(JSON.parse(JSON.stringify(state)));
       delete state.userVisible.id;
       delete state.userVisible.role;
       return state.userVisible;
@@ -182,8 +201,6 @@ export default new Vuex.Store({
           element.status = -1;
         }
       });
-      //state.listDebit = state.listDebit.slice();
-      console.log("Actiong", JSON.parse(JSON.stringify(state.listDebit)));
       state.listDebit = [...state.listDebit];
     },
     SET_LIST_HISTORY(state, payload){
@@ -191,6 +208,21 @@ export default new Vuex.Store({
     },
     UPDATE_HISTORY_QUERY(state, payload){
       state. historyQuery = payload
+    },
+    UPDATE_ACCOUNT_NUMBER(state,payload){
+      state.account_number = payload;
+    },
+    UPDATE_BANK_ID(state, payload){
+      state.bankID = payload;
+    },
+    UPDATE_CUSTOMER_NAME(state, payload){
+      state.customerName = payload;
+    },
+    UPDATE_DEBT_MESSAGE(state,payload){
+      state.debtMessage = payload;
+    },
+    UPDATE_MONEY_NUMBER(state,payload){
+      state.moneyNumber = payload;
     }
   },
   actions: {
@@ -204,7 +236,6 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
-        console.log("json: "+json.user);
         ctx.commit('INIT_USER', json.user);
       });      
     },
@@ -225,7 +256,6 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
-        console.log(json);
         ctx.commit('GET_LIST_ACCOUNT', json.data);
       });   
     },
@@ -240,7 +270,6 @@ export default new Vuex.Store({
       }).then(response => response.json())
       .then(json => {
         if(json.success){
-          console.log(json);
           ctx.commit('SET_LIST_CONTACT', json.data);
         }
         else{
@@ -258,7 +287,6 @@ export default new Vuex.Store({
         },
       }).then(response => response.json())
       .then(json => {
-        console.log("debit:" + json.data);
         if(json.success){
           ctx.commit('SET_LIST_DEBIT', json.data);
         }
@@ -317,7 +345,6 @@ export default new Vuex.Store({
       }).then(response => response.json())
       .then(json => {
         if(json.success){
-          console.log(json);
           ctx.commit("SET_LIST_HISTORY", json.data);
         }
         else{
@@ -328,6 +355,21 @@ export default new Vuex.Store({
     updateHistoryQuery(ctx, query){
       ctx.commit('UPDATE_HISTORY_QUERY', query);
     },
+    updateBankID(ctx,query){
+      ctx.commit('UPDATE_BANK_ID', query);
+    },
+    updateAccountNumber(ctx,query){
+      ctx.commit('UPDATE_ACCOUNT_NUMBER',query);
+    },
+    updateCustomerName(ctx,query){
+      ctx.commit('UPDATE_CUSTOMER_NAME',query);
+    },
+    updateDebtMessage(ctx,query){
+      ctx.commit('UPDATE_DEBT_MESSAGE',query);
+    },
+    updateMoneyNumber(ctx,query){
+      ctx.commit('UPDATE_MONEY_NUMBER',query);
+    }
   },
   modules: {
   }

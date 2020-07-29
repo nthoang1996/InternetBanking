@@ -14,11 +14,10 @@
         <div class="col-sm-10">
           <FilterItem />
         </div>
-        
-          <!-- <b-button variant="info" @click="editContact">
-            <i class="fa fa-plus-circle"></i>&nbsp;Tạo Nhắc Nợ
-          </b-button> -->
-        
+
+        <b-button variant="info" @click="CreateDebtReminder">
+          <i class="fa fa-plus-circle"></i>&nbsp;Tạo Nhắc Nợ
+        </b-button>
       </div>
       <hr />
 
@@ -45,9 +44,15 @@ export default {
     this.clearDataSending();
   },
   computed: {
-    ...mapGetters(["getCurrentPage", "getListDebit"])
+    ...mapGetters(["getCurrentPage", "getListDebit"]),
   },
-  components: { FilterItem, DebitItem }
+  methods: {
+    CreateDebtReminder() {
+      this.clearDataSending();
+      return this.$router.push("/dashboard/create_debt_reminder");
+    }
+  },
+  components: { FilterItem, DebitItem },
 };
 </script>
 
@@ -57,13 +62,12 @@ export default {
   border-radius: 1.5rem;
 }
 
-.myBtn button{
+.myBtn button {
   border-radius: 1.5rem;
 }
 
-.debitItem{
+.debitItem {
   display: flex;
   justify-content: space-around;
 }
-
 </style>
