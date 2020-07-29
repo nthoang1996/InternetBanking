@@ -341,18 +341,6 @@ router.route("/delete_debit/:itemDeleted_id").delete(async function (req, res) {
     }
   );
   return res.status(200).json({ success: true, error: "" });
-	var itemDeleted_id = req.params.itemDeleted_id;
-	console.log("itemDeleted_id: ", itemDeleted_id);
-	const del = await model.update_status_debitItem(
-		"tbldebtreminder",
-		{
-			status: -1,
-		},
-		{
-			id: itemDeleted_id,
-		}
-	);
-	return res.status(200).json({ success: true, error: "" });
 });
 
 router.route("/saving_account").get(async function (req, res) {
@@ -471,10 +459,6 @@ router.route("/list_debit").get(async function (req, res) {
   const rows = await model.all_by_source_id("tbldebtreminder", userID);
   console.log("list_debit: " + rows);
   return res.status(200).json({ success: true, error: "", data: rows });
-	const userID = req.tokenPayload.userID;
-	const rows = await model.all_by_source_id("tbldebtreminder", userID);
-	console.log('list_debit: ' + rows);
-	return res.status(200).json({ success: true, error: "", data: rows });
 });
 
 router.route("/get_customer_name").post(async function (req, res) {
