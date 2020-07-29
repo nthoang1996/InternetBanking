@@ -35,7 +35,8 @@ export default new Vuex.Store({
     listHistoryTransferQuery: '',
     accountCustomerActive: [],
     listHistoryAccountCustomer: [],
-    listAccountEmployee: []
+    listAccountEmployee: [],
+    accountEmployeeActive: []
   },
   getters: {
     getUser(state) {
@@ -136,6 +137,10 @@ export default new Vuex.Store({
     getAccountCustomerActive(state){
       return state.accountCustomerActive;
     },
+    getAccountEmployeeActive(state){
+      console.log("Employee Active Main", state.accountEmployeeActive);
+      return state.accountEmployeeActive;
+    },
     getListHistoryAccountCustomer(state){
       if(state.listHistoryAccountCustomer.length === 0){
         return state.listHistoryAccountCustomer;
@@ -143,7 +148,7 @@ export default new Vuex.Store({
       const lcQuery = state.listHistoryTransferQuery.toLocaleLowerCase();
 
       return state.listHistoryAccountCustomer.filter((t) => {
-        console.log("Account: ",state.listHistoryAccountCustomer );
+        //console.log("Account: ",state.listHistoryAccountCustomer );
         if(t.type === 1 ){
           return t.des_name.toLocaleLowerCase().includes(lcQuery)
         }else{
@@ -262,6 +267,10 @@ export default new Vuex.Store({
 
     SET_LIST_ACCOUNT_EMPLOYEE(state, payload){
       state.listAccountEmployee = [...payload];
+    },
+
+    SET_ACCOUNT_EMPLOYEE_ACTIVE(state, payload){
+      state.accountEmployeeActive = [...payload];
     }
   },
   actions: {
@@ -493,10 +502,32 @@ export default new Vuex.Store({
           alert(json.error)
         }
       });
+    },
+
+    async setAccountEmployeeActive(ctx, id){
+      await myMixin.methods.handleBeforeCallServer();
+      const  url = 'http://localhost:3000/admin/account_employee/' + id;
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          //console.log("Tai khoan nhan vien active", json);
+          ctx.commit("SET_ACCOUNT_EMPLOYEE_ACTIVE", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
     }
 
    
   },
+
+
   modules: {
   }
 })

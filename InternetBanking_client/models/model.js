@@ -45,5 +45,6 @@ module.exports = {
     },
     update_password: async(table, password, id)=>{ return await db.edit(table, password, id) },
     update_status_debitItem: async (table, status,id)=> await db.edit(table,status,id),
-    update_coin_customer: async (table, newMoney, id)=> {return await db.edit(table, newMoney, id)}
+    update_coin_customer: async (table, newMoney, id)=> {return await db.edit(table, newMoney, id)},
+    update_account_employee: async (table, entity, id)=> {return await db.edit(table, entity, id)}
 };

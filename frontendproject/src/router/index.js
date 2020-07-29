@@ -14,6 +14,7 @@ import ManageDebit from '../components/Dashboard/ManageDebit/ManageDebit.vue'
 import HistoryTransfer from '../components/MyAccount/HistoryTransfer/HistoryTransfer'
 import ManageEmployee from '../components/Admin/ManageEmployee/ManageEmployee.vue'
 import CreateEmployee from '../components/Admin/CreateAccount/CreateEmployee.vue'
+import EditEmployee from '../components/Admin/EditAccount/EditAccount.vue'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -105,6 +106,12 @@ const routes = [
         // when /user/:id/profile is matched
         path: '/admin/create_account_employee',
         component: CreateEmployee
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/admin/edit_account_employee',
+        component: EditEmployee
       }
     ],
     meta: { requiresAuth: true }

@@ -54,5 +54,29 @@ router.route("/delete_employee_account").delete(async function(req, res){
     return res.status(200).json({success: true, error: "", data: rows});
 });
 
+router.route("/account_employee/:id").get(async function(req, res){
+    const id = req.params.id;
+    const rows = await model.single_by_id('tbluser', id);
+    if (rows.length === 1){
+        console.log(rows);
+        return res.status(200).json({success: true, error: "", data: rows});
+    }else{
+        return res.status(401).json({ success: false, error: "Not found user" });
+    }
+});
+
+router.route("/edit_employee_account").post(async function(req, res){
+    //console.log("Data", req.body.id);
+    console.log(req.body);
+    const newId = {id: req.body.id};
+    const entity = {
+        name: req.body.form.name,
+        email: req.body.form.email,
+        address: req.body.form.address,
+        phone: req.body.form.phone,
+    }
+    model.update_account_employee('tbluser', entity, newId);
+    return res.status(200).json({ success: true, error: "" });
+});
 
 module.exports = router;

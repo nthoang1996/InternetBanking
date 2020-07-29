@@ -7,7 +7,7 @@
                     <b-button 
                         pill 
                         variant="primary" 
-                        class="ml-2"
+                        class="ml-3"
                         @click="handleClick"
                     >
                     <i class="fa fa-plus"></i>

@@ -158,6 +158,12 @@
                 "url": "/admin/create_account_employee",
                 "class": "fa fa-plus",
                 "display": false
+            },{
+                "id": 23,
+                "name": "Chỉnh sửa tài khoản nhân viên",
+                "url": "/admin/edit_account_employee",
+                "class": "fa fa-plus",
+                "display": false
             }]
         }
     ],
