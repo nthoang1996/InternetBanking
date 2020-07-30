@@ -6,7 +6,7 @@
     <div class="col-sm-3">
       <input
         id="debt-message"
-        type="text"
+        type="textarea"
         class="my-input"
         placeholder="Nội dung tin nhắn"
         @keyup="handleChange($event)"

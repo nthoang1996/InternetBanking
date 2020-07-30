@@ -94,14 +94,14 @@ export default new Vuex.Store({
       );
     },
     // Bổ sung search theo stk người nhận sau.
-    getListDebit(state){ // search theo tên người nhận 
-      if (state.accountQuery.length === 0) {
+    getListDebit(state){
+      if (state.debitQuery.length === 0) {
         return state.listDebit;
       }
 
       const lcQuery = state.debitQuery.toLocaleLowerCase();
       return state.listDebit.filter(
-        t => t.des_name.toLocaleLowerCase().includes(lcQuery)
+        t => t.source_name.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getDataSendingUserID(state){
@@ -203,6 +203,9 @@ export default new Vuex.Store({
     },
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
+    },
+    UPDATE_DEBT_QUERY(state, payload){
+      state.debitQuery = payload;
     },
     UPDATE_DATA_SENDING_USER_ID(state, payload){
       state.data_sending_des_id = payload;
@@ -377,6 +380,9 @@ export default new Vuex.Store({
     },
     updateQuery(ctx, query){
       ctx.commit('UPDATE_QUERY', query);
+    },
+    updateDebtQuery(ctx, query){
+      ctx.commit('UPDATE_DEBT_QUERY', query);
     },
     updateDataSendingUserID(ctx, query){
       ctx.commit('UPDATE_DATA_SENDING_USER_ID', query);

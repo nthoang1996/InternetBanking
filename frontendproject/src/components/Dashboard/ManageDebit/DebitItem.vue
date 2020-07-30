@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-card
-      :title="data.des_name"
-      :sub-title="data.des_id"
+      :title="data.source_name"
+      :sub-title="data.source_STK"
       class="my-card"
       v-bind:class="{deleted: this.is_delete}"
     >
@@ -46,6 +46,9 @@ export default {
   created() {
     console.log("state", this.data);
     this.checkDebitStatus(this.data);
+  },
+  async mounted () {
+    
   },
   data() {
     return {
