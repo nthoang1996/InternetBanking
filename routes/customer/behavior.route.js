@@ -72,13 +72,7 @@ router.route('/recharge')
                 case 'pawGDX1Ddu':
                     const cleartext = req.body.cleartext;
                     const bank = await model.single_by_id('tblbank', 'pawGDX1Ddu');
-                    sleep.sleep(2);
-                    const verified = await openpgp.verify({
-                        message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
-                        publicKeys: (await openpgp.key.readArmored(bank[0].public_key)).keys, // for verification
-                    });
-
-                    verify = verified.signatures[0].valid;
+                    verify = await verifySignature(cleartext, bank[0].public_key);
                     if (verify === true) {
                         let serial_data = cleartext.slice(cleartext.indexOf('{'), cleartext.lastIndexOf('}') + 1);
                         serial_data = JSON.parse(serial_data).data;
@@ -167,6 +161,14 @@ router.route('/recharge')
         }
 
     })
+
+async function verifySignature(cleartext, public_key){
+    const verified = await openpgp.verify({
+        message: await openpgp.cleartext.readArmored(cleartext), // parse armored message
+        publicKeys: (await openpgp.key.readArmored(public_key)).keys, // for verification
+    });
+    return verified.signatures[0].valid;
+}
 
 router.route('/query_information')
     .post(async function (req, res) {
