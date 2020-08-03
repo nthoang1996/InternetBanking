@@ -463,7 +463,7 @@ router.route("/current_user").get(async function (req, res) {
 
 router.route("/list_debit").get(async function (req, res) {
   const userID = req.tokenPayload.userID;
-  const rows = await model.all_by_source_id("tbldebtreminder", userID);
+  const rows = await model.all_by_des_idUser("tbldebtreminder", userID);
   // lấy đc tên người gửi nhắc nợ (source_name)
   var debtReminder;
   for (let i = 0; i < rows.length; i++) {

@@ -8,6 +8,21 @@ const request = require("request");
 const randToken = require("rand-token");
 const moment = require("moment");
 const createError = require("http-errors");
+const transporter = require("../../utils/email");
+
+function verifyCode(verify, code) {
+  console.log(code, verify);
+  if (verify.code == code) {
+    const ts = Date.now();
+    if (ts - verify.ts <= 300000) {
+      return;
+    } else {
+      return "Hết thời gian xác thực";
+    }
+  } else {
+    return "Mã bạn nhập vào không đúng";
+  }
+}
 
 router.route("/login").post(async function (req, res) {
   console.log(req.body.username);
@@ -145,4 +160,75 @@ const generateAccessToken = (userID) => {
 
   return token;
 };
+
+router.route("/check_email").post(async function (req, res) {
+  const email = req.body.email;
+  console.log(email);
+  const result = await model.single_by_email("tbluser", email);
+  if (result === null) {
+    return res
+      .status(401)
+      .json({ success: false, error: "Email không tồn tài trong hệ thống." });
+  }
+  return res.status(200).json({ success: true });
+});
+
+router.route("/send_otp").post(async function (req, res) {
+  try {
+    const email = req.body.email;
+    const OTP = Math.floor(Math.random() * 1000000 + 1);
+    const timestamp = Date.now();
+    const entity = { verify: JSON.stringify({ code: OTP, ts: timestamp }) };
+    const entityEmail = { email: email };
+    model.edit("tbluser", entity, entityEmail);
+    const mailOption = {
+      from: "hoangbankptudwnc@gmail.com", // sender this is your email here
+      to: `${email}`, // receiver email2
+      subject: "Xác thực tài khoản",
+      html: `<h3>Chào bạn,</h3> <br>
+                <p>Chúng tôi là công ty cổ phần USTechBank</p> 
+                <p>Có vẻ như bạn vừa gửi yêu cầu lấy lại mật khẩu</p>
+                <p>Mã xác nhận của bạn là ${OTP} </p>
+                <p>Mã có thời hạn hiệu lực trong 5 phút</p>
+                <p>Vui lòng sử dụng mã nay để xác thực các bước tiếp theo của bạn!</p>
+                <p>Cám ơn đã sử dụng dịch vụ của chúng tôi!</p>
+                <h2>Trân trọng!</h2>`,
+    };
+    transporter.sendMail(mailOption, (error, info) => {
+      if (error) {
+        return res.status(500).json({ success: false, error });
+      } else {
+        return res.status(200).json({ success: true, error: "" });
+      }
+    });
+  } catch (e) {
+    createError("500", e);
+  }
+});
+
+router.route("/confirm_otp").post(async function (req, res) {
+  const OTP = req.body.otp;
+  const email = req.body.email
+  const user = await model.single_by_email('tbluser',email);
+  const message = verifyCode(JSON.parse(user.verify), OTP);
+  if(message){
+    return res.status(401).json({success:false, error: message});
+  }
+  return res.status(200).json({success:true});
+});
+
+router.route('/create_new_password').post(async function(req, res){
+  const newPassword = req.body.password;
+  const email = req.body.email;
+  const user = await model.single_by_email("tbluser", email);
+  var id = { id:user.id};
+  var entity = {
+    password: bcrypt.hashSync(newPassword,10)
+  };
+  const temp = model.update_password('tbluser', entity,id);
+  if(temp === null){
+    return res.status(500).json({success:false, error: "Tạo mật khẩu mới thất bại, vui lòng thử lại."});
+  }
+  return res.status(200).json({success: true, error: ""});
+})
 module.exports = router;

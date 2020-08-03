@@ -25,7 +25,7 @@
         <input type="submit" class="fadeIn fourth" defaultValue="Log In" value="Đăng nhập" />
       </form>
       <div id="formFooter">
-        <a class="underlineHover my-login-link" href="#">Quên mật khẩu</a>
+        <a class="underlineHover my-login-lin" href="#/retrieve_password">Quên mật khẩu</a>
       </div>
     </div>
   </div>
@@ -101,7 +101,7 @@ export default {
       self.sendData(token);
 
       // Do stuff with the received token.
-    }
+    },
   }
 };
 </script>
@@ -323,6 +323,9 @@ input[type="text"]:placeholder {
 }
 
 /* Simple CSS3 Fade-in Animation */
+.underlineHover{
+  text-decoration: none;
+}
 
 .underlineHover:after {
   display: block;

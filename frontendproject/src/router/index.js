@@ -16,6 +16,8 @@ import CreateDebtReminder from '../components/Dashboard/ManageDebit/CreateDebtRe
 import ManageEmployee from '../components/Admin/ManageEmployee/ManageEmployee.vue'
 import CreateEmployee from '../components/Admin/CreateAccount/CreateEmployee.vue'
 import EditEmployee from '../components/Admin/EditAccount/EditAccount.vue'
+import RetrievePassword from '../components/RetrievePassword/RetrievePassword.vue'
+import CreateNewPassword from '../components/RetrievePassword/CreateNewPassword.vue'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -25,6 +27,17 @@ const routes = [
     path: '/',
     name: 'Login',
     component: Login
+  },
+  {
+    path:'/retrieve_password',
+    name: 'Retrieve Password',
+    component: RetrievePassword,
+    children:[
+      {
+        path:'/retrieve_password/create_newPassword',
+        component: CreateNewPassword
+      }
+    ]
   },
   {
     path: '/dashboard',

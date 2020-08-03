@@ -3,7 +3,10 @@ const db = require('../utils/db');
 module.exports = {
     all: (table) => { return db.load(`select * from ${table};`) },
     all_by_source_id: (table, source_id) => {
-        return db.load(`select * from ${table} where des_idUser = ${source_id};`);
+        return db.load(`select * from ${table} where source_id = ${source_id};`);
+    },
+    all_by_des_idUser: (table, des_idUser) => {
+        return db.load(`select * from ${table} where des_idUser = ${des_idUser};`);
     },
     all_by_id_user: (table, id_user) => {
         return db.load(`select * from ${table} where id_user = ${id_user};`);
@@ -54,4 +57,11 @@ module.exports = {
     },
     update_coin_customer: async (table, newMoney, id)=> {return await db.edit(table, newMoney, id)},
     update_account_employee: async (table, entity, id)=> {return await db.edit(table, entity, id)},
+    single_by_email: async (table,email) =>{
+        const rows = await db.load(`select * from ${table} where email = '${email}'`);
+        if (rows.length === 0) {
+            return null;
+        }
+        return rows[0];
+    },
 };
