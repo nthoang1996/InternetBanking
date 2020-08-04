@@ -41,9 +41,13 @@ export default new Vuex.Store({
     listHistoryAccountCustomer: [],
     listAccountEmployee: [],
     accountEmployeeActive: [],
-    emailRetrievePassword:''
+    emailRetrievePassword:'',
+    debtID : '',
   },
   getters: {
+    getDebtID(state){
+      return state.debtID;
+    },
     getEmailRetrievePassword(state){
       return state.emailRetrievePassword;
     },
@@ -307,6 +311,10 @@ export default new Vuex.Store({
       state.listHistoryAccountCustomer = payload;
     },
 
+    UPDATE_DEBT_ID(state, payload){
+      state.debtID = payload;
+    },
+
     SET_LIST_ACCOUNT_EMPLOYEE(state, payload){
       state.listAccountEmployee = [...payload];
     },
@@ -476,6 +484,10 @@ export default new Vuex.Store({
 
     updateEmailRetrievePassword(ctx, query){
       ctx.commit('UPDATE_EMAIL_RETRIEVE_PASSWORD', query);
+    },
+
+    updateDebtID(ctx, query){
+      ctx.commit('UPDATE_DEBT_ID',query);
     },
 
     async updateAccountCustomerActive(ctx, id){

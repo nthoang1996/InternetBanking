@@ -75,7 +75,6 @@ export default {
         new_password: self.form.new_password,
         old_password: self.form.old_password
       });
-      console.log(info);
       if (self.form.new_password !== self.form.confirm_password) {
         //alert("Xác thực mật khẩu không khớp.");
         self.error = "Mật khẩu mới không khớp.";

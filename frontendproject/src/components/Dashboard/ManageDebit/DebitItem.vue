@@ -4,7 +4,7 @@
       :title="data.source_name"
       :sub-title="data.source_STK"
       class="my-card"
-      v-bind:class="{deleted: this.is_delete}"
+      v-bind:class="{deleted: this.is_delete, paid: this.paid}"
     >
       <b-card-text>
         <em>Ngân hàng: {{data.des_bank_name}}</em>
@@ -47,12 +47,13 @@ export default {
     console.log("state", this.data);
     this.checkDebitStatus(this.data);
   },
-  async mounted () {
-    
+  async mounted() {
+    this.checkDebitStatus(this.data);
   },
   data() {
     return {
       is_delete: false,
+      paid: false,
       message_content: "",
       visible: false,
     };
@@ -63,18 +64,16 @@ export default {
     checkDebitStatus(data) {
       if (data.status === -1) {
         this.is_delete = true;
+      }else if(data.status === 0){
+        this.paid = true;
       }
     },
     sendMoney() {
-      this.$store.dispatch("updateDataSendingUserID", this.data.des_id);
-      this.$store.dispatch(
-        "updateDataSendingAccountName",
-        this.data.name_contact
-      );
-      this.$store.dispatch(
-        "updateDataSendingBankID",
-        this.data.bank_company_id
-      );
+      this.$store.dispatch("updateDebtID", this.data.id);
+      this.$store.dispatch("updateAccountNumber", this.data.source_STK);
+      this.$store.dispatch("updateCustomerName", this.data.source_name);
+      this.$store.dispatch("updateMoneyNumber", this.data.value);
+      return this.$router.push('/dashboard/transaction_information');
     },
     async deleteDebit() {
       await this.handleBeforeCallServer();
@@ -110,6 +109,10 @@ export default {
 
 .deleted {
   background-color: gray;
+}
+
+.paid{
+  background-color: rgba(13, 185, 13, 0.829);
 }
 
 h6.card-subtitle {

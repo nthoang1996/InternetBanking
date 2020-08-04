@@ -105,26 +105,6 @@ router.route("/verify").post(function (req, res) {
   });
 });
 
-// router.route("/change_password").post(async function (req, res) {
-//   const rows = await model.single_by_id("tbluser", req.tokenPayload.userID);
-//   if (rows.length === 0) {
-//     return res.status(401).json({ success: false, error: "Not found user" });
-//   } else {
-//     var newPassword = req.body.new_password;
-//     var oldPassword = req.body.old_password;
-//     var passwordHash = rows.password;
-//     const rs = bcrypt.compareSync(oldPassword, passwordHash);
-//     if(!rs){
-//         return res.status(401).json({
-//             message: "Failed",
-//             error: "Mật khẩu bạn nhập vào không đúng!"
-//         });
-//     }else{
-//         model.update_password("tbluser", newPassword, req.tokenPayload.userID);
-//         return res.json({ success: true, error: "" });
-//     };
-// }})
-
 router.route("/refresh").post(async function (req, res) {
   jwt.verify(
     req.body.accessToken,
@@ -187,12 +167,11 @@ router.route("/send_otp").post(async function (req, res) {
       subject: "Xác thực tài khoản",
       html: `<h3>Chào bạn,</h3> <br>
                 <p>Chúng tôi là công ty cổ phần USTechBank</p> 
-                <p>Có vẻ như bạn vừa gửi yêu cầu lấy lại mật khẩu</p>
                 <p>Mã xác nhận của bạn là ${OTP} </p>
                 <p>Mã có thời hạn hiệu lực trong 5 phút</p>
                 <p>Vui lòng sử dụng mã nay để xác thực các bước tiếp theo của bạn!</p>
                 <p>Cám ơn đã sử dụng dịch vụ của chúng tôi!</p>
-                <h2>Trân trọng!</h2>`,
+                <h2>Trân trọng!</h2>`
     };
     transporter.sendMail(mailOption, (error, info) => {
       if (error) {

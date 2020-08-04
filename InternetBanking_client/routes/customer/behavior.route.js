@@ -468,8 +468,8 @@ router.route("/list_debit").get(async function (req, res) {
   var debtReminder;
   for (let i = 0; i < rows.length; i++) {
     debtReminder = await model.single_by_id("tbluser", rows[i].source_id);
-	rows[i].source_name = debtReminder[0].name;
-	rows[i].source_STK = debtReminder[0].username;
+    rows[i].source_name = debtReminder[0].name;
+    rows[i].source_STK = debtReminder[0].username;
   }
   console.log(rows);
   return res.status(200).json({ success: true, error: "", data: rows });
@@ -526,5 +526,63 @@ router.route("/create_debt_reminder").post(async function (req, res) {
       .status(500)
       .json({ success: false, error: "Thêm nhắc nợ thất bại." });
   }
+});
+
+router.route("/pay_debt").post(async function (req, res) {
+  const FEE = 5000;
+  const OTP = req.body.otp;
+  const receiver_STK = req.body.receiver_STK;
+  const money_number = req.body.money_number;
+  const type_payment = req.body.type_payment;
+  const userID = req.tokenPayload.userID;
+  const debtID = req.body.debtID;
+
+  // Xác thực mã OTP
+  const user = await model.single_by_id("tbluser", userID);
+  const message = verifyCode(res, JSON.parse(user[00].verify), OTP);
+  if (message) {
+    return res.status(401).json({ success: false, error: message });
+  }
+
+  // Xử lý thao tác chuyển khoản.
+  const receiver = await model.single_by_account_number(
+    "tbluser",
+    receiver_STK
+  );
+  if (type_payment == 1) {
+    // Người gửi trả phí:
+    // Nguời gửi: số tiền hiện tại - tiền chuyển - phí dịch vụ
+    // Người nhân: số tiền hiện tại + tiền chuyển
+    var user_balance = user[0].bank_balance - money_number - FEE;
+    var receiver_balance =
+      parseInt(receiver.bank_balance, 10) + parseInt(money_number, 10);
+  } else if (type_payment == 2) {
+    // Người gửi: số tiền hiện tại - tiền chuyển
+    // Người nhận: số tiền hiện tại + tiền chuyển - phí dịch vụ
+    var user_balance = user[0].bank_balance - money_number;
+    var receiver_balance =
+      parseInt(receiver.bank_balance, 10) + parseInt(money_number, 10) - FEE;
+  }
+
+  // Cập nhập lại Database
+  await model.update_coin_customer(
+    "tbluser",
+    { bank_balance: user_balance },
+    { id: userID }
+  );
+  await model.update_coin_customer(
+    "tbluser",
+    { bank_balance: receiver_balance },
+    { id: receiver.id }
+  );
+
+  // Cập nhập lại nhắc nợ
+  await model.update_status_debitItem(
+    "tbldebtreminder",
+    { status: 0 },
+    { id: debtID }
+  );
+
+  return res.status(200).json({ success: true });
 });
 module.exports = router;
