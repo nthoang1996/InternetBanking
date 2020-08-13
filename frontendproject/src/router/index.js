@@ -16,6 +16,7 @@ import CreateDebtReminder from '../components/Dashboard/ManageDebit/CreateDebtRe
 import ManageEmployee from '../components/Admin/ManageEmployee/ManageEmployee.vue'
 import CreateEmployee from '../components/Admin/CreateAccount/CreateEmployee.vue'
 import EditEmployee from '../components/Admin/EditAccount/EditAccount.vue'
+import TotalTransfer from '../components/Admin/Chart/Chart.vue'
 import store from '../store/index'
 import data from '../assets/info.json'
 Vue.use(VueRouter)
@@ -117,6 +118,12 @@ const routes = [
         // when /user/:id/profile is matched
         path: '/admin/edit_account_employee',
         component: EditEmployee
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: '/admin/total_transfer_bank',
+        component: TotalTransfer
       }
     ],
     meta: { requiresAuth: true }

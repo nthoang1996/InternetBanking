@@ -79,4 +79,20 @@ router.route("/edit_employee_account").post(async function(req, res){
     return res.status(200).json({ success: true, error: "" });
 });
 
+router.route("/total_transfer/:bank/:time").get(async function(req, res){
+    /*const id = req.params.id;
+    const rows = await model.single_by_id('tbluser', id);
+    if (rows.length === 1){
+        console.log(rows);
+        return res.status(200).json({success: true, error: "", data: rows});
+    }else{
+        return res.status(401).json({ success: false, error: "Not found user" });
+    }*/
+    const bank = req.params.bank;
+    const time = req.params.time;
+    //console.log("Bank + Time: ", bank + ' ' + time);
+    //const rows = await model.a
+});
+
+
 module.exports = router;

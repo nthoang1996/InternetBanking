@@ -32,6 +32,9 @@ router.route("/account_customer/:id").get(async function(req, res){
 router.route("/list_history_account_customer/:id").get(async function(req, res){
   const id = +req.params.id;
   const rows = await model.all_by_root_id( "tblhistorytransaction", id);
+  //const arraySort = [...rows];
+  rows.sort((a, b)=>{return b.time - a.time});
+  //console.log("Mang sap xep: ", arraySort);
   for (let i = 0; i < rows.length; i++) {
     rows[i].value = numeral(rows[i].value).format("0,0") + " VNĐ";
   }

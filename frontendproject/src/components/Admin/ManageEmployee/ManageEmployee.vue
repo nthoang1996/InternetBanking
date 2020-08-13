@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="txtTitle">QUẢN LÝ NHÂN VIÊN</p>
+        <p class="txtTitle">DANH SÁCH NHÂN VIÊN</p>
         <b-container class="content">
             <b-row class="mb-3">
                 <b-col>

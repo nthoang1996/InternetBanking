@@ -171,6 +171,12 @@
                 "url": "/admin/edit_account_employee",
                 "class": "fa fa-plus",
                 "display": false
+            },{
+                "id": 24,
+                "name": "Thống kê giao dịch",
+                "url": "/admin/total_transfer_bank",
+                "class": "fa fa-list",
+                "display": true
             }]
         }
     ],

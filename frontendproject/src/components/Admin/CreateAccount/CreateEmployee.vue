@@ -34,7 +34,15 @@
                     </b-form-group>
 
                     <div class="divButton">
-                        <b-button pill class="text-center mt-2 mb-4" type="submit" variant="primary">Tạo tài khoản</b-button>
+                        <b-button pill class="text-center mt-2 mb-4 mr-2" variant="danger" @click="handleClickCancel">
+                            <i class="fa fa-arrow-left"></i>
+                            Quay lại
+                        </b-button>
+                        <b-button pill class="text-center mt-2 mb-4 ml-2" type="submit" variant="primary">
+                            <i class="fa fa-plus"></i>
+                            Tạo tài khoản
+                        </b-button>
+
                     </div>
                 </b-form>
             </b-col>
@@ -117,6 +125,9 @@ export default {
                     }   
                 })    
             }
+        },
+        handleClickCancel(){
+            return this.$router.push("/admin/manage_employee");
         }
     }
 }

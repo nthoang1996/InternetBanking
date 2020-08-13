@@ -22,7 +22,14 @@
                             <b-form-input id="txtemail" v-model="form.email" type="email" required></b-form-input>
                         </b-form-group>
                         <div class="divButton">
-                            <b-button class="text-center mt-3" type="submit" variant="primary">Tạo tài khoản</b-button>
+                            <b-button class="text-center mt-3 mr-2" variant="danger" @click="hanldeCancelClick">
+                                <i class="fa fa-arrow-left"></i>
+                                Quay lại
+                            </b-button>
+                            <b-button class="text-center mt-3 ml-2" type="submit" variant="primary">
+                                <i class="fa fa-plus"></i>
+                                Tạo tài khoản
+                            </b-button>
                         </div>
                     </b-form>
                 </b-col>
@@ -91,6 +98,9 @@ export default {
                 }   
             })    
         },
+        hanldeCancelClick(){
+            return this.$router.push("/employee/list_customer_account");
+        }
     }
 }
 </script>

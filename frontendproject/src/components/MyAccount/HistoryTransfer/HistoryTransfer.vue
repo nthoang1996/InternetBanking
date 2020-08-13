@@ -7,36 +7,35 @@
                     <div class="divfilter hide">
                         <FilterItem />
                     </div>
-                    
-                    <div class="card">
-                        <div class="card-header title">
-                            TÀI KHOẢN KHÁCH HÀNG
-                        </div>
-
-                        <div v-for="item in getAccountCustomerActive" :key="item.id" class="card-content">
-                            <b-row class="divInfor">
-                                <b-col cols="4" class="divInforTitle">Họ tên khách hàng: </b-col>
-                                <b-col cols="6" class="txtName">{{item.name}}</b-col>
-                            </b-row>
-                            <b-row class="divInfor">
-                                <b-col cols="4" class="divInforTitle">Số điện thoại: </b-col>
-                                <b-col cols="6" class="txtPhone">{{item.phone}}</b-col>
-                            </b-row>
-                            <b-row class="divInfor">
-                                <b-col cols="4" class="divInforTitle">Địa chỉ: </b-col>
-                                <b-col cols="6" class="txtAddress">{{item.address}}</b-col>
-                            </b-row>
-                            <b-row class="divInfor">
-                                <b-col cols="4" class="divInforTitle">Email: </b-col>
-                                <b-col cols="6" class="txtEmail">{{item.email}}</b-col>
-                            </b-row>
-                            <b-row class="divInfor">
-                                <b-col cols="4" class="divInforTitle">Số dư khả dụng: </b-col>
-                                <b-col cols="6" class="txtMoney">{{item.bank_balance}}</b-col>
-                            </b-row>
-                        </div>
-                    </div>
+                    <p class="txtInfor">THÔNG TIN KHÁCH HÀNG</p>   
+                    <div v-for="item in getAccountCustomerActive" :key="item.id" class="card-content">
+                        <p>
+                            <span class="txtTitleAccount">Họ tên khách hàng: </span>
+                            <span class="txtName">{{item.name}}</span>
+                        </p>
+                        <p>
+                            <span class="txtTitleAccount">Số tài khoản: </span>
+                            <span class="txtUsername">{{item.username}}</span>
+                        </p>
+                        <p>
+                            <span class="txtTitleAccount">Số điện thoại: </span>
+                            <span class="txtPhone">{{item.phone}}</span>
+                        </p>
+                        <p>
+                            <span class="txtTitleAccount">Địa chỉ: </span>
+                            <span class="txtAddress">{{item.address}}</span>
+                        </p>
+                        <p>
+                            <span class="txtTitleAccount">Email: </span>
+                            <span class="txtEmail">{{item.email}}</span>
+                        </p>
+                        <p>
+                            <span class="txtTitleAccount">Số dư khả dụng: </span>
+                            <span class="txtMoney">{{item.bank_balance}}</span>
+                        </p>
+                    </div> 
                 </b-col>
+
                 <b-col class="inBank">
                     <div class="divfilter">
                         <FilterItem />
@@ -64,6 +63,7 @@ export default {
     mixins: [mixin],
     mounted(){
         this.$store.dispatch("updateListHistoryTransfer", "");
+        this.$store.dispatch("updateAccountCustomerActiveTwo", "");        
         this.$store.dispatch("updateHistortAccountCustomer","");
     },
     computed: {
@@ -136,13 +136,8 @@ export default {
 }
 
 .card-content {
-    padding: 20px;    
-}
-
-
-.divInfor{
-    margin-bottom: 10px;
-    margin-top: 10px;
+    padding: 20px;
+    margin-left: 30px;    
 }
 
 .divInforTitle{
@@ -159,31 +154,36 @@ export default {
 }
 
 .txtName {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     color: black;
 }
 
 .txtPhone{
-font-size: 14px;
+    font-size: 17px;
     color: black;
 }
 
 .txtAddress{
-font-size: 14px;
+    font-size: 17px;
     color: black;
 }
 
 .txtMoney{
-font-size: 14px;
-    color: #07a041;
+    font-size: 17px;
+    color: blue;
     font-weight: bold;
 }
 
 .txtEmail{
-font-size: 14px;
+    font-size: 17px;
     font-style: italic;
     color: black;
+}
+
+.txtUsername{
+    color: black;
+    font-weight: bold;
 }
 
 .andi{
@@ -192,6 +192,18 @@ font-size: 14px;
     font-weight: bold;
     text-align: center;
     margin-top: 10px;
+}
+
+.txtInfor{
+    font-weight: bold;
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+}
+
+.txtTitleAccount{
+    font-size: 17px;
+    font-weight: bold;
 }
 
 </style>
