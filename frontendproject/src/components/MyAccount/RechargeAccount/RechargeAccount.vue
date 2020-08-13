@@ -8,7 +8,11 @@
                     <p class="txtTitleSmall">Thông tin tài khoản</p>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Họ và tên: </b-col>
-                        <b-col cols="8" class="">{{item.name}}</b-col>
+                        <b-col cols="8" class="txtName">{{item.name}}</b-col>
+                    </b-row>
+                    <b-row class="divInfor">
+                        <b-col cols="4" class="divInforTitle">Số tài khoản: </b-col>
+                        <b-col cols="8" class="divBold">{{item.username}}</b-col>
                     </b-row>
                     <b-row class="divInfor">
                         <b-col cols="4" class="divInforTitle">Số điện thoại: </b-col>
@@ -31,11 +35,6 @@
                 
                 <Recharge :data="getAccountCustomerActive" />
             </b-row>
-
-            <div class="divChangAccount">  
-                <p class="txtChangeAccount">Quay lại >></p>
-            </div>
-            
         </b-container>
     </div>
 </template>
@@ -117,5 +116,13 @@ export default {
 .divButtonSubmit{
     display: flex;
     justify-content: center;
+}
+.divBold{
+    font-weight: bold;
+    color: #000;
+}
+.txtName{
+    font-weight: bold;
+    color: blue;
 }
 </style>

@@ -7,10 +7,16 @@
                         <span class="txtName">Họ tên khách hàng: </span>
                         <span class="name">{{data.name}}</span>
                         <br>
+                        <span class="txtName">Số tài khoản: </span>
+                        <span class="txtInfor">{{data.username}}</span>
+                        <br>
                         <span class="txtName">Địa chỉ: </span>
                         <span class="txtInfor">{{data.address}}</span>
                         <br>
-                        <span class="btnTransfer" @click="addCoin(data.id)">Nạp tiền</span>
+                        <span class="btnTransfer" @click="addCoin(data.id)">
+                            <i class="fa fa-share"></i>
+                            Nạp tiền
+                        </span>
                     </div>
                 </b-col>
                 <b-col cols="5">
@@ -21,7 +27,13 @@
                         <span class="txtName">Số điện thoại: </span>
                         <span class="txtInfor">{{data.phone}}</span>
                         <br>
-                        <span class="btnViewHistory" @click="viewHistory(data.id)">Lịch sử giao dịch</span>                    
+                        <span class="txtName">Email: </span>
+                        <span class="txtInfor">{{data.email}}</span>
+                        <br>
+                        <span class="btnViewHistory" @click="viewHistory(data.id)">
+                            <i class="fa fa-history"></i>
+                            Lịch sử giao dịch
+                        </span>                    
                     </div>
                 </b-col>
             </b-row>
@@ -86,9 +98,8 @@ export default {
     font-weight: 600;
     background-color: #0070f7;
     color: #fff;
-    padding: 2px 5px;
+    padding: 4px 8px;
     border-radius: 4px;
-    margin-top: 5px;
     cursor: pointer;
 }
 
@@ -98,8 +109,8 @@ export default {
     font-weight: 600;
     background-color: #0070f7;
     color: #fff;
-    padding: 2px 5px;
+    padding: 4px 8px;
     border-radius: 4px;
-   cursor: pointer;
+    cursor: pointer;
 }
 </style>

@@ -235,7 +235,7 @@ export default {
             this.form.email = email;
         },
         handleCancel(){
-            return this.$router.push("/dashboard");
+            return this.$router.push("/admin/manage_employee");
         }
     },
     computed:{

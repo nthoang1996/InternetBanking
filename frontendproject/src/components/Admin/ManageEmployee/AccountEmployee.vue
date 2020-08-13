@@ -6,6 +6,9 @@
                     <span class="txtName">Họ tên nhân viên: </span>
                     <span class="name">{{data.name}}</span>
                     <br>
+                    <span class="txtName">Email: </span>
+                    <span class="txtInfor">{{data.email}}</span>
+                    <br>
                     <span class="txtName">Địa chỉ: </span>
                     <span class="txtInfor">{{data.address}}</span>
                     <br>
@@ -14,6 +17,9 @@
             </b-col>
             <b-col>
                 <div class="content">
+                    <span class="txtAndi">Số dư khả dụng: </span>
+                    <span class="txtAndi">{{data.bank_balance}}</span>
+                    <br>
                     <span class="txtName">Tên tài khoản: </span>
                     <span class="txtCoin">{{data.username}}</span>
                     <br>
@@ -136,5 +142,10 @@ export default {
     padding: 4px 8px;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.txtAndi{
+    opacity: 0;
+    visibility: hidden;
 }
 </style>

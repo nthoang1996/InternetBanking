@@ -1,7 +1,10 @@
 <template>
     <div class="mb-3">
         <div class="card">
-            <div class="card-header title">
+            <div class="card-header title" v-if="data.type === 1">
+                {{data.nameType}}
+            </div>
+            <div class="card-header titleSend" v-else>
                 {{data.nameType}}
             </div>
             <div class="card-content">
@@ -14,9 +17,13 @@
                 <p class="txtAccount" v-if="data.type === 1">{{data.des_username}}</p>
                 <p class="txtAccount" v-else>{{data.source_username}}</p>
 
-                <p class="txtCoin">
+                <p class="txtCoin" v-if="data.type === 1">
                     <span>Số tiền: </span>
-                    <span class="txtMoney">{{data.value}}</span>
+                    <span class="txtMoneySend">- {{data.value}}</span>
+                </p>
+                <p class="txtCoin" v-else>
+                    <span>Số tiền: </span>
+                    <span class="txtMoney">+ {{data.value}}</span>
                 </p>
                 <p class="txtDate">
                     <span>Ngân hàng: </span>
@@ -43,9 +50,15 @@ export default {
 
 <style scoped>
 .title{
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
-    background-color: #295490;
+    background-color: #e20000;
+    color: white;
+}
+.titleSend{
+    font-size: 17px;
+    font-weight: bold;
+    background-color: green;
     color: white;
 }
 .card-content{
@@ -59,15 +72,17 @@ export default {
 .txtName{
     font-size: 20px;
     font-weight: bold;
-    color: dimgrey;
+    color: #000;
 }
 .txtAccount{
-    font-size: 14px;
+    font-size: 15px;
+    color: #000;
 }
 .txtCoin{
     font-size: 14px;
     font-weight: bold;
 }
+
 .txtDate{
     font-size: 15px;
     font-weight: bold;
@@ -77,10 +92,12 @@ export default {
     font-style: italic;
 }
 .txtMoney{
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: #fff;
-    background-color: dodgerblue;
+    
+    color: #05d405;
+    font-size: 18px;
+}
+.txtMoneySend{
+    color: red;
     font-size: 18px;
 }
 </style>

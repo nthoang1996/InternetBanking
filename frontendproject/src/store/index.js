@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import data from "../assets/info.json";
 import myMixin from '../Mixin';
-//import { response } from 'express';
 
 Vue.use(Vuex)
 
@@ -171,7 +170,7 @@ export default new Vuex.Store({
       const lcQuery = state.accountCustomerQuery.toLocaleLowerCase();
       console.log(state.listAccountCustomer);
       return state.listAccountCustomer.filter(
-        t => t.name.toLocaleLowerCase().includes(lcQuery)
+        t => t.username.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getAccountCustomerActive(state){
@@ -521,6 +520,9 @@ export default new Vuex.Store({
     updateListHistoryTransfer(ctx, query){
       ctx.commit('UPDATE_LIST_HISTORY_TRANSFER', query);
     },
+    updateAccountCustomerActiveTwo(ctx, query){
+      ctx.commit('UPDATE_ACCOUNT_CUSTOMER_ACTIVE', query);
+    },
 
     updateEmailRetrievePassword(ctx, query){
       ctx.commit('UPDATE_EMAIL_RETRIEVE_PASSWORD', query);
@@ -636,7 +638,29 @@ export default new Vuex.Store({
           alert(json.error)
         }
       });
+    },
+
+    async setTotalTransferBank(ctx, data){
+      await myMixin.methods.handleBeforeCallServer();
+      const  url = 'http://localhost:3000/admin/total_transfer/' + data.bank + '/' + data.time;
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          console.log(json);
+          ctx.commit("SET_TOTAL_TRANSFER_BANK", json.data);
+        }
+        else{
+          alert(json.error)
+        }
+      });
     }
+
+    
   },
 
 
