@@ -475,6 +475,12 @@ router.route("/list_debit").get(async function (req, res) {
   return res.status(200).json({ success: true, error: "", data: rows });
 });
 
+router.route("/mine_list_debit").get(async function (req, res) {
+  const userID = req.tokenPayload.userID;
+  const rows = await model.all_by_source_id("tbldebtreminder", userID);
+  return res.status(200).json({ success: true, error: "", data: rows });
+});
+
 router.route("/get_customer_name").post(async function (req, res) {
   const bankID = req.body.bankID;
   const accountNumber = req.body.accountNumber;

@@ -43,8 +43,12 @@ export default new Vuex.Store({
     accountEmployeeActive: [],
     emailRetrievePassword:'',
     debtID : '',
+    createdListDebit:[],
   },
   getters: {
+    getDebtStatus(state){
+      return state.debtStatus;
+    },
     getDebtID(state){
       return state.debtID;
     },
@@ -110,6 +114,16 @@ export default new Vuex.Store({
       const lcQuery = state.debitQuery.toLocaleLowerCase();
       return state.listDebit.filter(
         t => t.source_name.toLocaleLowerCase().includes(lcQuery)
+      );
+    },
+    getCreatedListDebit(state){
+      if (state.debitQuery.length === 0) {
+        return state.createdListDebit;
+      }
+
+      const lcQuery = state.debitQuery.toLocaleLowerCase();
+      return state.createdListDebit.filter(
+        t => t.des_name.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getDataSendingUserID(state){
@@ -208,6 +222,9 @@ export default new Vuex.Store({
     },
     SET_LIST_DEBIT(state, payload){
       state.listDebit = [...payload];
+    },
+    SET_MINE_LIST_DEBIT(state, payload){
+      state.createdListDebit = [...payload];
     },
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
@@ -321,6 +338,11 @@ export default new Vuex.Store({
 
     SET_ACCOUNT_EMPLOYEE_ACTIVE(state, payload){
       state.accountEmployeeActive = [...payload];
+    },
+
+    UPDATE_DEBT_STATUS(state, payload){
+      //id===???
+      state.listDebit[payload.id] = payload.status;
     }
   },
   actions: {
@@ -387,6 +409,24 @@ export default new Vuex.Store({
       .then(json => {
         if(json.success){
           ctx.commit('SET_LIST_DEBIT', json.data);
+        }
+        else{
+          alert(json.error);
+        }
+      });
+    },
+    async setTheCreatedDebitList(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/mine_list_debit';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          ctx.commit('SET_MINE_LIST_DEBIT', json.data);
         }
         else{
           alert(json.error);
@@ -488,6 +528,10 @@ export default new Vuex.Store({
 
     updateDebtID(ctx, query){
       ctx.commit('UPDATE_DEBT_ID',query);
+    },
+
+    updateDebitStatus(ctx, query){
+      ctx.commit('UPDATE_DEBT_STATUS', query);
     },
 
     async updateAccountCustomerActive(ctx, id){

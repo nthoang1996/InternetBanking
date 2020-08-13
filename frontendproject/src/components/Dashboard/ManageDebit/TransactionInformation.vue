@@ -101,6 +101,7 @@ export default {
               alert(json.error);
             }
             alert("Thao tác thành công.");
+            this.$store.dispatch('updateDebitStatus', {id:self.getDebtID, status:0});
             return this.$router.push("/dashboard/manage_debit");
           });
       });

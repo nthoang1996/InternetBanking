@@ -1,7 +1,7 @@
 <template>
   <div class="row mt-2">
     <div class="col-sm-5 d-flex justify-content-end">
-      <b-button variant="success" @click="save" class="mr-2 myBtn">
+      <b-button variant="success" @click="sendDebt" class="mr-2 myBtn">
         <i class="fa fa-paper-plane"></i>&nbsp;Gửi nhăc nợ
       </b-button>
       <b-button variant="danger" @click="back" class="myBtn">
@@ -27,9 +27,9 @@ export default {
   },
   methods: {
     back() {
-      return this.$router.push("/dashboard/manage_debit");
+      return this.$router.push("/dashboard/mine_debt_reminder");
     },
-    async save() {
+    async sendDebt() {
       if(this.getCustomerName === 'Not Found'){
         alert("Thông tin người dùng chưa chính xác. Vui lòng thử lại.")
         return;
@@ -61,7 +61,7 @@ export default {
             return;
           } else {
             this.resetDataDebtReminder();
-            return this.$router.push("/dashboard/manage_debit");
+            return this.$router.push("/dashboard/mine_debt_reminder");
           }
         });
     },

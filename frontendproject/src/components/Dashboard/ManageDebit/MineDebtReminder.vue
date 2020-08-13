@@ -5,9 +5,6 @@
         <div class="col-sm-12 text-center myHeader">
           <h2>
             <b>{{getCurrentPage}}</b>
-            <i class="fa fa-bell float-right notify">
-              <span v-if="this.n_notify > 0" class="badge badge-danger count_notify">{{n_notify}}</span>
-            </i>
           </h2>
           <hr />
         </div>
@@ -18,16 +15,19 @@
           <FilterItem />
         </div>
         <div class="col-sm-6 flex-right">
-          <b-button variant="primary" @click="ShowMineDebtReminder">
-            <i class="fa fa-user"></i>&nbsp;Nhắc nợ đã tạo
+          <b-button variant="danger" @click="back">
+            <i class="fa fa-arrow-left"></i>&nbsp;Quay lại
+          </b-button>
+          <b-button variant="info" @click="CreateDebtReminder">
+            <i class="fa fa-plus-circle"></i>&nbsp;Tạo nhắc nợ
           </b-button>
         </div>
       </div>
       <hr />
 
       <div class="row overflow-auto full-width setup-layout">
-        <div v-for="item in getListDebit" :key="item.id">
-          <DebitItem :data="item" class="full-width debit-item" />
+        <div v-for="item in getCreatedListDebit" :key="item.id">
+          <DebitItem_1 :data="item" class="full-width debit-item" />
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import DebitItem from "./DebitItem";
+import DebitItem_1 from "./DebitItem_1";
 import FilterItem from "./FilterItem";
 // import SendMoney from './SendMoney';
 import mixin from "../../../Mixin";
@@ -44,7 +44,7 @@ export default {
   mixins: [mixin],
   mounted() {
     this.$store.dispatch("setCurrentPage", this.$route.path);
-    this.$store.dispatch("setListDebit");
+    this.$store.dispatch("setTheCreatedDebitList");
     this.clearDataSending();
   },
   data() {
@@ -53,19 +53,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCurrentPage", "getListDebit"]),
+    ...mapGetters(["getCurrentPage", "getCreatedListDebit"]),
   },
   methods: {
     CreateDebtReminder() {
       this.clearDataSending();
       return this.$router.push("/dashboard/create_debt_reminder");
     },
-    ShowMineDebtReminder(){
+    back(){
       this.$store.dispatch("updateDebtQuery", '');
-      return this.$router.push("/dashboard/mine_debt_reminder");
+      return this.$router.push("/dashboard/manage_debit");
     }
   },
-  components: { FilterItem, DebitItem },
+  components: { FilterItem, DebitItem_1 },
 };
 </script>
 

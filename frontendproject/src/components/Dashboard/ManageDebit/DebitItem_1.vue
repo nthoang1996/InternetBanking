@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-card
-      :title="data.source_name"
-      :sub-title="data.source_STK"
+      :title="data.des_name"
+      :sub-title="data.des_id"
       class="my-card"
       v-bind:class="{deleted: this.data.status === -1, paid: this.data.status === 0}"
     >
@@ -17,7 +17,7 @@
       <b-button v-b-toggle="'collapse-2'" :disabled="this.data.status !== 1" variant="danger" class="mr-2">
         <i class="fa fa-trash"></i>&nbsp;Hủy Nhắc Nợ
       </b-button>
-      <b-button :disabled="this.data.status !== 1" variant="success" @click="sendMoney()">
+      <b-button disabled variant="success" @click="sendMoney()">
         <i class="fa fa-paper-plane"></i>&nbsp;Thanh Toán
       </b-button>
       <b-collapse v-model="visible" id="collapse-2" class="mt-2 cancelReminder">
