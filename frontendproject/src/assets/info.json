@@ -117,6 +117,13 @@
                     "url": "/dashboard/create_debt_reminder",
                     "class": "",
                     "display": false
+                },
+                {
+                    "id": 9,
+                    "name": "Thông tin giao dịch",
+                    "url": "/dashboard/transaction_information",
+                    "class": "",
+                    "display": false
                 }
             ]
         },

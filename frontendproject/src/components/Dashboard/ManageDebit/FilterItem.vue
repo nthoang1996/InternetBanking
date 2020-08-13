@@ -27,7 +27,7 @@
 export default {
   methods: {
     handleChange(event) {
-      this.$store.dispatch("updateQuery", event.target.value);
+      this.$store.dispatch("updateDebtQuery", event.target.value);
     }
   }
 };

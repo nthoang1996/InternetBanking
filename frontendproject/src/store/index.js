@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import data from "../assets/info.json";
 import myMixin from '../Mixin';
-//import { response } from 'express';
 
 Vue.use(Vuex)
 
@@ -40,9 +39,17 @@ export default new Vuex.Store({
     accountCustomerActive: [],
     listHistoryAccountCustomer: [],
     listAccountEmployee: [],
-    accountEmployeeActive: []
+    accountEmployeeActive: [],
+    emailRetrievePassword:'',
+    debtID : '',
   },
   getters: {
+    getDebtID(state){
+      return state.debtID;
+    },
+    getEmailRetrievePassword(state){
+      return state.emailRetrievePassword;
+    },
     getDebtMessage(state){
       return state.debtMessage;
     },
@@ -94,14 +101,14 @@ export default new Vuex.Store({
       );
     },
     // Bổ sung search theo stk người nhận sau.
-    getListDebit(state){ // search theo tên người nhận 
-      if (state.accountQuery.length === 0) {
+    getListDebit(state){
+      if (state.debitQuery.length === 0) {
         return state.listDebit;
       }
 
       const lcQuery = state.debitQuery.toLocaleLowerCase();
       return state.listDebit.filter(
-        t => t.des_name.toLocaleLowerCase().includes(lcQuery)
+        t => t.source_name.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getDataSendingUserID(state){
@@ -204,6 +211,9 @@ export default new Vuex.Store({
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
     },
+    UPDATE_DEBT_QUERY(state, payload){
+      state.debitQuery = payload;
+    },
     UPDATE_DATA_SENDING_USER_ID(state, payload){
       state.data_sending_des_id = payload;
     },
@@ -274,7 +284,10 @@ export default new Vuex.Store({
     },
     UPDATE_MONEY_NUMBER(state,payload){
       state.moneyNumber = payload;
-      state.historyQuery = payload;
+      //state.historyQuery = payload;
+    },
+    UPDATE_EMAIL_RETRIEVE_PASSWORD(state, payload){
+      state.emailRetrievePassword = payload;
     },
 
     UPDATE_LIST_ACCOUNT_CUSTOMER(state, payload){
@@ -295,6 +308,10 @@ export default new Vuex.Store({
 
     UPDATE_HISTORY_ACCOUNT_CUSTOMER(state, payload){
       state.listHistoryAccountCustomer = payload;
+    },
+
+    UPDATE_DEBT_ID(state, payload){
+      state.debtID = payload;
     },
 
     SET_LIST_ACCOUNT_EMPLOYEE(state, payload){
@@ -377,6 +394,9 @@ export default new Vuex.Store({
     },
     updateQuery(ctx, query){
       ctx.commit('UPDATE_QUERY', query);
+    },
+    updateDebtQuery(ctx, query){
+      ctx.commit('UPDATE_DEBT_QUERY', query);
     },
     updateDataSendingUserID(ctx, query){
       ctx.commit('UPDATE_DATA_SENDING_USER_ID', query);
@@ -463,6 +483,15 @@ export default new Vuex.Store({
     updateAccountCustomerActiveTwo(ctx, query){
       ctx.commit('UPDATE_ACCOUNT_CUSTOMER_ACTIVE', query);
     },
+
+    updateEmailRetrievePassword(ctx, query){
+      ctx.commit('UPDATE_EMAIL_RETRIEVE_PASSWORD', query);
+    },
+
+    updateDebtID(ctx, query){
+      ctx.commit('UPDATE_DEBT_ID',query);
+    },
+
     async updateAccountCustomerActive(ctx, id){
       await myMixin.methods.handleBeforeCallServer();
       const idString = id.toString();
