@@ -43,6 +43,8 @@ export default new Vuex.Store({
     emailRetrievePassword:'',
     debtID : '',
     createdListDebit:[],
+    n_notify: 0,
+    listNotify:[],
   },
   getters: {
     getDebtStatus(state){
@@ -195,9 +197,14 @@ export default new Vuex.Store({
         }
       });
     },
-
     getListAccountEmployee(state){
       return state.listAccountEmployee;
+    },
+    getTotalNotify(state){
+      return state.n_notify;
+    },
+    getListNotify(state){
+      return state.listNotify;
     }
   },
   mutations: {
@@ -340,9 +347,24 @@ export default new Vuex.Store({
     },
 
     UPDATE_DEBT_STATUS(state, payload){
-      //id===???
-      state.listDebit[payload.id] = payload.status;
-    }
+      state.listDebit.forEach(function(item){
+        if(item.id === payload.id){
+          item.status = payload.status;
+        }
+      });
+    },
+
+    UPDATE_DEBT_STATUS_1(state, payload){
+      state.createdListDebit.forEach(function(item){
+        if(item.id === payload.id){
+          item.status = payload.status;
+        }
+      });
+    },
+
+    SET_LIST_NOTIFY(state, payload){
+      state.listNotify = [...payload];
+    },
   },
   actions: {
     async initSidebar(ctx) {
@@ -536,6 +558,10 @@ export default new Vuex.Store({
       ctx.commit('UPDATE_DEBT_STATUS', query);
     },
 
+    updateDebitStatus_1(ctx, query){
+      ctx.commit('UPDATE_DEBT_STATUS_1', query);
+    },
+
     async updateAccountCustomerActive(ctx, id){
       await myMixin.methods.handleBeforeCallServer();
       const idString = id.toString();
@@ -658,7 +684,26 @@ export default new Vuex.Store({
           alert(json.error)
         }
       });
-    }
+    },
+
+    async setListNotify(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/list_notify';
+      return fetch(url, {
+        method: 'get',
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          ctx.commit('SET_LIST_NOTIFY', json.data);
+        }
+        else{
+          alert(json.error);
+        }
+      });
+    },
 
     
   },

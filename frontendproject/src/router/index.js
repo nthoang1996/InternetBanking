@@ -140,7 +140,9 @@ const routes = [
       },
       {
         path: "/dashboard/mine_debt_reminder",
-        component: MineDebtReminder,
+        component: MineDebtReminder
+      },
+      {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
         path: '/admin/total_transfer_bank',

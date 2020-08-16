@@ -5,9 +5,15 @@
         <div class="col-sm-12 text-center myHeader">
           <h2>
             <b>{{getCurrentPage}}</b>
-            <i class="fa fa-bell float-right notify">
-              <span v-if="this.n_notify > 0" class="badge badge-danger count_notify">{{n_notify}}</span>
+            <button @click="showNotify" class="float-right my-custom-btn">
+            <i class="fa fa-bell notify">
+              <span
+                v-if="getTotalNotify > 0"
+                class="badge badge-danger count_notify"
+              >{{getTotalNotify}}</span>
             </i>
+            <TaskNotify v-if="visible" class="notify-container" />
+            </button>
           </h2>
           <hr />
         </div>
@@ -17,7 +23,7 @@
         <div class="col-sm-6">
           <FilterItem />
         </div>
-        <div class="col-sm-6 flex-right">
+        <div v-if="!visible" class="col-sm-6 flex-right">
           <b-button variant="primary" @click="ShowMineDebtReminder">
             <i class="fa fa-user"></i>&nbsp;Nhắc nợ đã tạo
           </b-button>
@@ -38,7 +44,8 @@
 import { mapGetters } from "vuex";
 import DebitItem from "./DebitItem";
 import FilterItem from "./FilterItem";
-// import SendMoney from './SendMoney';
+import TaskNotify from "./TaskNotify";
+//import SendMoney from './SendMoney';
 import mixin from "../../../Mixin";
 export default {
   mixins: [mixin],
@@ -49,32 +56,35 @@ export default {
   },
   data() {
     return {
-      n_notify: 9,
-    };
+      visible: false
+    }
   },
   computed: {
-    ...mapGetters(["getCurrentPage", "getListDebit"]),
+    ...mapGetters(["getCurrentPage", "getListDebit", "getTotalNotify"]),
   },
   methods: {
     CreateDebtReminder() {
       this.clearDataSending();
       return this.$router.push("/dashboard/create_debt_reminder");
     },
-    ShowMineDebtReminder(){
-      this.$store.dispatch("updateDebtQuery", '');
+    ShowMineDebtReminder() {
+      this.$store.dispatch("updateDebtQuery", "");
       return this.$router.push("/dashboard/mine_debt_reminder");
-    }
+    },
+    showNotify() {
+      this.visible = !this.visible;
+    },
   },
-  components: { FilterItem, DebitItem },
+  components: { FilterItem, DebitItem, TaskNotify },
 };
 </script>
 
 <style scoped>
-.card-body{
+.card-body {
   padding-top: 10px;
 }
 
-.myHeader{
+.myHeader {
   box-sizing: border-box;
   height: 80%;
 }
@@ -125,8 +135,25 @@ export default {
   left: 60%;
 }
 
-.flex-right{
+.flex-right {
   display: flex;
   justify-content: flex-end;
+}
+
+.my-custom-btn{
+  border: none;
+  background-color: #FFF;
+  outline: none;
+  position: relative;
+}
+
+.notify-container{
+  position: absolute;
+  background-color: #DDD; 
+  width: 250px;
+  height: 400px;
+  left:-220px;
+  top: 80%;
+  z-index: 1;
 }
 </style>

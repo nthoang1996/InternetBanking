@@ -22,10 +22,10 @@ function verifyCode(res, verify, code) {
     if (ts - verify.ts <= 180000) {
       return;
     } else {
-      return "Hết thời gian xác thực";
+      return "Hết thời gian xác thực. Vui lòng thử lại!";
     }
   } else {
-    return "Mã bạn nhập vào không đúng";
+    return "Mã OTP bạn nhập vào không đúng";
   }
 }
 
@@ -335,8 +335,11 @@ router
     return res.status(200).json({ success: true, error: "" });
   });
 
-router.route("/delete_debit/:itemDeleted_id").delete(async function (req, res) {
-  var itemDeleted_id = req.params.itemDeleted_id;
+router.route("/delete_debit").post(async function (req, res) {
+  var itemDeleted_id = req.body.id;
+  const userID = req.tokenPayload.userID;
+  const message = req.body.message;
+  const des_idUser = req.body.reminderId; //Id của người đã nhắc nợ == người sẽ nhận được thông báo.
   console.log("itemDeleted_id: ", itemDeleted_id);
   const del = await model.update_status_debitItem(
     "tbldebtreminder",
@@ -545,7 +548,7 @@ router.route("/pay_debt").post(async function (req, res) {
 
   // Xác thực mã OTP
   const user = await model.single_by_id("tbluser", userID);
-  const message = verifyCode(res, JSON.parse(user[00].verify), OTP);
+  const message = verifyCode(res, JSON.parse(user[0].verify), OTP);
   if (message) {
     return res.status(401).json({ success: false, error: message });
   }
@@ -570,6 +573,11 @@ router.route("/pay_debt").post(async function (req, res) {
       parseInt(receiver.bank_balance, 10) + parseInt(money_number, 10) - FEE;
   }
 
+  // Kiểm tra tài khoản có đủ tiền hay không?
+  if(user_balance < 50000){
+    return res.status(401).json({ success: false, error: "Tài khoản không đủ tiền để thanh toán giao dịch này." });
+  }
+
   // Cập nhập lại Database
   await model.update_coin_customer(
     "tbluser",
@@ -590,5 +598,32 @@ router.route("/pay_debt").post(async function (req, res) {
   );
 
   return res.status(200).json({ success: true });
+});
+
+router.route("/list_notify").get(async function (req, res) {
+  const userID = req.tokenPayload.userID;
+  const rows = await model.all_by_des_idUser("tblnotify", userID);
+  // lấy tên người gửi đi thông báo
+  for (let i = 0; i < rows.length; i++) {
+    sender = await model.single_by_id("tbluser", rows[i].source_id);
+    rows[i].source_name = sender[0].name;
+  }
+  
+  return res.status(200).json({ success: true, error: "", data: rows });
+});
+
+router.route("/create_notify").post(async function (req, res) {
+  const rows = await model.add('tblnotify',{
+    source_id: req.tokenPayload.userID,
+    des_idUser: req.body.des_id,
+    message: req.body.message,
+    type: req.body.type,
+    status: 1
+  });
+
+   if(rows !== null){
+    return res.status(200).json({ success: true, error: "" });
+   }
+   return res.status(500).json({ success: false, error: "Internal Server Error"});
 });
 module.exports = router;
