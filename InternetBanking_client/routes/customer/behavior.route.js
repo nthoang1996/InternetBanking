@@ -597,6 +597,15 @@ router.route("/pay_debt").post(async function (req, res) {
     { id: debtID }
   );
 
+  // Tạo thông báo
+  const rows = await model.add('tblnotify',{
+    source_id: userID,
+    des_idUser: receiver.id,
+    message: req.body.message,
+    type: 0,
+    status: 1
+  });
+
   return res.status(200).json({ success: true });
 });
 
@@ -610,6 +619,23 @@ router.route("/list_notify").get(async function (req, res) {
   }
   
   return res.status(200).json({ success: true, error: "", data: rows });
+});
+
+router.route("/total_notify").get(async function (req, res) {
+  const userID = req.tokenPayload.userID;
+  const rows = await model.all_by_des_idUser("tblnotify", userID);
+  let count = 0;
+  for(i = 0; i<rows.length;i++){
+    if(rows[i].status === 1)
+      count++;
+  }
+  return res.status(200).json({ success: true, error: "", data: count });
+});
+
+router.route("/resert_notify").get(async function (req, res) {
+  const userID = req.tokenPayload.userID;
+  await model.update_status_notify('tblnotify',{status:0},{des_idUser:userID});
+  return res.status(200).json({ success: true, error: ""});
 });
 
 router.route("/create_notify").post(async function (req, res) {

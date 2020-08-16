@@ -1,5 +1,5 @@
 <template>
-  <div class="row custom-font-size">
+  <div v-bind:class="{myNotify: this.data.status}" class="row custom-font-size">
     <div v-if="this.data.type == 1" class="col-sm-2">
       <i class="fa fa-trash fa-3x bg1" ></i>
      
@@ -62,5 +62,9 @@ export default {
 img {
   background-position: center;
   background-size: 100%;
+}
+
+.myNotify{
+  background-color: rgba(46, 206, 206, 0.637);
 }
 </style>

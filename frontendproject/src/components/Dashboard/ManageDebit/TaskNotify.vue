@@ -1,7 +1,7 @@
 <template>
   <div>
       <h3>Thông báo</h3>
-      <div v-for="item in getListNotify" :key="item.id">
+      <div v-for="item in getListNotify.slice().reverse()" :key="item.id">
           <ItemNotify :data="item" />
       </div>
   </div>

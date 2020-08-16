@@ -64,4 +64,5 @@ module.exports = {
         }
         return rows[0];
     },
+    update_status_notify: async (table, status,des_idUser)=> await db.edit(table,status,des_idUser),
 };

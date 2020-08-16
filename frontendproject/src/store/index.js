@@ -201,6 +201,7 @@ export default new Vuex.Store({
       return state.listAccountEmployee;
     },
     getTotalNotify(state){
+      console.log('đang gettotalNotify');
       return state.n_notify;
     },
     getListNotify(state){
@@ -365,6 +366,20 @@ export default new Vuex.Store({
     SET_LIST_NOTIFY(state, payload){
       state.listNotify = [...payload];
     },
+
+    SET_TOTAL_NOTIFY(state, payload){
+      state.n_notify = payload;
+    },
+
+    UPDATE_TOTAL_NOTIFY(state,payload){
+      console.log(state.n_notify);
+      if(payload.value === false){
+        state.n_notify = state.n_notify+payload.count;
+      }else{
+      state.n_notify = payload.value + payload.count;
+      }
+      console.log(state.n_notify);
+    }
   },
   actions: {
     async initSidebar(ctx) {
@@ -562,6 +577,10 @@ export default new Vuex.Store({
       ctx.commit('UPDATE_DEBT_STATUS_1', query);
     },
 
+    updateTotalNotify(ctx, query){
+      ctx.commit('UPDATE_TOTAL_NOTIFY', query);
+    },
+
     async updateAccountCustomerActive(ctx, id){
       await myMixin.methods.handleBeforeCallServer();
       const idString = id.toString();
@@ -705,6 +724,21 @@ export default new Vuex.Store({
       });
     },
 
+    async setTotalNotify(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/total_notify';
+      return fetch(url, {
+        method: 'get',
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          ctx.commit('SET_TOTAL_NOTIFY', json.data);
+        }
+      });
+    }
     
   },
 
