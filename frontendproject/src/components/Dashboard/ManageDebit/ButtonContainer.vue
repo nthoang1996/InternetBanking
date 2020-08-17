@@ -1,7 +1,7 @@
 <template>
   <div class="row mt-2">
     <div class="col-sm-5 d-flex justify-content-end">
-      <b-button variant="success" @click="save" class="mr-2 myBtn">
+      <b-button variant="success" @click="sendDebt" class="mr-2 myBtn">
         <i class="fa fa-paper-plane"></i>&nbsp;Gửi nhăc nợ
       </b-button>
       <b-button variant="danger" @click="back" class="myBtn">
@@ -27,17 +27,28 @@ export default {
   },
   methods: {
     back() {
-      return this.$router.push("/dashboard/manage_debit");
+      return this.$router.push("/dashboard/mine_debt_reminder");
     },
-    async save() {
-      if(this.getCustomerName === 'Not Found'){
-        alert("Thông tin người dùng chưa chính xác. Vui lòng thử lại.")
+    async sendDebt() {
+      await this.handleBeforeCallServer();
+
+      /** Xử lý hành vi nhập thông tin của người dùng */
+      if (this.getCustomerName === "Not Found" || this.getCustomerName === "") {
+        this.$swal.fire({
+          icon: "error",
+          text: "Thông tin người dùng chưa chính xác. Vui lòng thử lại.",
+        });
         return;
-      }else if(this.getMoneyNumber <= 0){
-        alert("Số tiền không hợp lệ.")
+      } else if (this.getMoneyNumber <= 0) {
+        this.$swal.fire({
+          icon: "error",
+          text: "Số tiền không hợp lệ.",
+        });
         return;
       }
-      await this.handleBeforeCallServer();
+
+      /** Tạo nhắc nợ */
+      const url = "http://localhost:3000/customer/create_debt_reminder";
       const formData = {
         bankID: this.getBankID,
         accountNumber: this.getAccountNumber,
@@ -45,9 +56,9 @@ export default {
         moneyNumber: this.getMoneyNumber,
         debtMessage: this.getDebtMessage,
       };
-      const url = "http://localhost:3000/customer/create_debt_reminder";
+
       fetch(url, {
-        method: "post", // *GET, POST, PUT, DELETE, etc.
+        method: "post",
         headers: {
           "x-access-token": localStorage.internetbanking_accesstoken,
           "Content-Type": "application/json",
@@ -55,13 +66,22 @@ export default {
         body: JSON.stringify(formData),
       })
         .then((response) => response.json())
-        .then((json) => {
+        .then(async (json) => { 
+          // Tạo nhắc nợ thất bại
           if (!json.success) {
-            alert(json.error);
+            this.$swal.fire({
+              icon: "error",
+              text: json.error,
+            });
             return;
           } else {
+            // Tạo nhắc nợ thành công.
             this.resetDataDebtReminder();
-            return this.$router.push("/dashboard/manage_debit");
+            await this.$swal.fire({
+              icon: "success",
+              text: "Nhắc nợ đã được tạo thành công.",
+            });
+            return this.$router.push("/dashboard/mine_debt_reminder");
           }
         });
     },

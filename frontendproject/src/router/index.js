@@ -19,6 +19,7 @@ import EditEmployee from "../components/Admin/EditAccount/EditAccount.vue";
 import RetrievePassword from "../components/RetrievePassword/RetrievePassword.vue";
 import CreateNewPassword from "../components/RetrievePassword/CreateNewPassword.vue";
 import TransactionInformation from "../components/Dashboard/ManageDebit/TransactionInformation.vue";
+import MineDebtReminder from "../components/Dashboard/ManageDebit/MineDebtReminder.vue"
 import TotalTransfer from "../components/Admin/Chart/Chart.vue"
 import store from "../store/index";
 import data from "../assets/info.json";
@@ -136,6 +137,10 @@ const routes = [
         // when /user/:id/profile is matched
         path: '/admin/edit_account_employee',
         component: EditEmployee
+      },
+      {
+        path: "/dashboard/mine_debt_reminder",
+        component: MineDebtReminder
       },
       {
         // UserProfile will be rendered inside User's <router-view>

@@ -97,8 +97,10 @@ export default {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            console.log("success");
-            alert('Mật khẩu mới đã được cập nhập.');
+            this.$swal.fire({
+              icon: "success",
+              text: "Đổi mật khẩu thành công.",
+            });
           } else {
             self.error = data.error;
             self.isError = true;

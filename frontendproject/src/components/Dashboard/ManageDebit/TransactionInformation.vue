@@ -53,7 +53,8 @@ export default {
       "getAccountNumber",
       "getDataSendingTypePayment",
       "getUser",
-      "getDebtID"
+      "getDebtID",
+      "getTotalNotify",
     ]),
   },
   mounted() {
@@ -85,8 +86,10 @@ export default {
           receiver_STK: self.getAccountNumber,
           money_number: self.getMoneyNumber,
           type_payment: self.getDataSendingTypePayment,
-          debtID : self.getDebtID
+          debtID: self.getDebtID,
+          message: this.message,
         };
+        // Xử lý thao tác thanh toán
         fetch(url_1, {
           method: "post",
           headers: {
@@ -96,11 +99,28 @@ export default {
           body: JSON.stringify(formData),
         })
           .then((response) => response.json())
-          .then((json) => {
+          .then(async (json) => {
             if (!json.success) {
-              alert(json.error);
+              this.$swal.fire({
+                icon: "error",
+                text: json.error,
+              });
+              return;
             }
-            alert("Thao tác thành công.");
+            await this.$swal.fire({
+              icon: "success",
+              text: "Thao tác thành công.",
+            });
+
+            // Tạo thông báo
+
+            // Cập nhập lại Vuex
+            this.$store.dispatch("updateDebitStatus", {
+              id: self.getDebtID,
+              status: 0,
+            });
+            this.$store.dispatch("updateTotalNotify", { value: 1, count: 1 });
+            console.log("time_1", this.getTotalNotify);
             return this.$router.push("/dashboard/manage_debit");
           });
       });

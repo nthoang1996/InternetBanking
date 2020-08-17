@@ -124,6 +124,13 @@
                     "url": "/dashboard/transaction_information",
                     "class": "",
                     "display": false
+                },
+                {
+                    "id": 10,
+                    "name": "Nhắc nợ đã tạo",
+                    "url": "/dashboard/mine_debt_reminder",
+                    "class": "",
+                    "display": false
                 }
             ]
         },

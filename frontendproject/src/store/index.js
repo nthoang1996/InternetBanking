@@ -43,9 +43,17 @@ export default new Vuex.Store({
     emailRetrievePassword:'',
     debtID : '',
 
-    listTotalTransaction: {}
+    listTotalTransaction: {},
+
+    createdListDebit:[],
+    n_notify: 0,
+    listNotify:[],
+
   },
   getters: {
+    getDebtStatus(state){
+      return state.debtStatus;
+    },
     getDebtID(state){
       return state.debtID;
     },
@@ -111,6 +119,16 @@ export default new Vuex.Store({
       const lcQuery = state.debitQuery.toLocaleLowerCase();
       return state.listDebit.filter(
         t => t.source_name.toLocaleLowerCase().includes(lcQuery)
+      );
+    },
+    getCreatedListDebit(state){
+      if (state.debitQuery.length === 0) {
+        return state.createdListDebit;
+      }
+
+      const lcQuery = state.debitQuery.toLocaleLowerCase();
+      return state.createdListDebit.filter(
+        t => t.des_name.toLocaleLowerCase().includes(lcQuery)
       );
     },
     getDataSendingUserID(state){
@@ -183,13 +201,20 @@ export default new Vuex.Store({
         }
       });
     },
-
     getListAccountEmployee(state){
       return state.listAccountEmployee;
     },
 
     getListTotalTransaction(state){
       return state.listTotalTransaction;
+    },
+
+    getTotalNotify(state){
+      console.log('đang gettotalNotify');
+      return state.n_notify;
+    },
+    getListNotify(state){
+      return state.listNotify;
     }
   },
   mutations: {
@@ -213,6 +238,9 @@ export default new Vuex.Store({
     },
     SET_LIST_DEBIT(state, payload){
       state.listDebit = [...payload];
+    },
+    SET_MINE_LIST_DEBIT(state, payload){
+      state.createdListDebit = [...payload];
     },
     UPDATE_QUERY(state, payload){
       state.accountQuery = payload;
@@ -330,6 +358,40 @@ export default new Vuex.Store({
 
     SET_TOTAL_TRANSFER_BANK(state, payload){
       state.listTotalTransaction = {...payload};
+    },
+    
+    UPDATE_DEBT_STATUS(state, payload){
+      state.listDebit.forEach(function(item){
+        if(item.id === payload.id){
+          item.status = payload.status;
+        }
+      });
+    },
+
+    UPDATE_DEBT_STATUS_1(state, payload){
+      state.createdListDebit.forEach(function(item){
+        if(item.id === payload.id){
+          item.status = payload.status;
+        }
+      });
+    },
+
+    SET_LIST_NOTIFY(state, payload){
+      state.listNotify = [...payload];
+    },
+
+    SET_TOTAL_NOTIFY(state, payload){
+      state.n_notify = payload;
+    },
+
+    UPDATE_TOTAL_NOTIFY(state,payload){
+      console.log(state.n_notify);
+      if(payload.value === false){
+        state.n_notify = state.n_notify+payload.count;
+      }else{
+      state.n_notify = payload.value + payload.count;
+      }
+      console.log(state.n_notify);
     }
   },
   actions: {
@@ -396,6 +458,24 @@ export default new Vuex.Store({
       .then(json => {
         if(json.success){
           ctx.commit('SET_LIST_DEBIT', json.data);
+        }
+        else{
+          alert(json.error);
+        }
+      });
+    },
+    async setTheCreatedDebitList(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/mine_list_debit';
+      return fetch(url, {
+        method: 'get', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          ctx.commit('SET_MINE_LIST_DEBIT', json.data);
         }
         else{
           alert(json.error);
@@ -500,6 +580,18 @@ export default new Vuex.Store({
 
     updateDebtID(ctx, query){
       ctx.commit('UPDATE_DEBT_ID',query);
+    },
+
+    updateDebitStatus(ctx, query){
+      ctx.commit('UPDATE_DEBT_STATUS', query);
+    },
+
+    updateDebitStatus_1(ctx, query){
+      ctx.commit('UPDATE_DEBT_STATUS_1', query);
+    },
+
+    updateTotalNotify(ctx, query){
+      ctx.commit('UPDATE_TOTAL_NOTIFY', query);
     },
 
     async updateAccountCustomerActive(ctx, id){
@@ -624,8 +716,42 @@ export default new Vuex.Store({
           alert(json.error)
         }
       });
-    }
+    },
 
+    async setListNotify(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/list_notify';
+      return fetch(url, {
+        method: 'get',
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          ctx.commit('SET_LIST_NOTIFY', json.data);
+        }
+        else{
+          alert(json.error);
+        }
+      });
+    },
+
+    async setTotalNotify(ctx){
+      await myMixin.methods.handleBeforeCallServer();
+      const url = 'http://localhost:3000/customer/total_notify';
+      return fetch(url, {
+        method: 'get',
+        headers: {
+          'x-access-token': localStorage.internetbanking_accesstoken
+        },
+      }).then(response => response.json())
+      .then(json => {
+        if(json.success){
+          ctx.commit('SET_TOTAL_NOTIFY', json.data);
+        }
+      });
+    }
     
   },
 

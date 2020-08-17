@@ -28,7 +28,9 @@
     "mysql": "^2.18.1",
     "node-rsa": "^1.0.8",
     "openpgp": "^4.10.4",
-    "sleep": "^6.2.0"
+    "sleep": "^6.2.0",
+    "sweetalert2": "^9.17.1",
+    "vue-sweetalert2": "^3.0.6"
   },
   "devDependencies": {},
   "keywords": []
