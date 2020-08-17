@@ -42,6 +42,8 @@ export default new Vuex.Store({
     accountEmployeeActive: [],
     emailRetrievePassword:'',
     debtID : '',
+
+    listTotalTransaction: {}
   },
   getters: {
     getDebtID(state){
@@ -184,6 +186,10 @@ export default new Vuex.Store({
 
     getListAccountEmployee(state){
       return state.listAccountEmployee;
+    },
+
+    getListTotalTransaction(state){
+      return state.listTotalTransaction;
     }
   },
   mutations: {
@@ -320,6 +326,10 @@ export default new Vuex.Store({
 
     SET_ACCOUNT_EMPLOYEE_ACTIVE(state, payload){
       state.accountEmployeeActive = [...payload];
+    },
+
+    SET_TOTAL_TRANSFER_BANK(state, payload){
+      state.listTotalTransaction = {...payload};
     }
   },
   actions: {
@@ -607,7 +617,7 @@ export default new Vuex.Store({
       }).then(response => response.json())
       .then(json => {
         if(json.success){
-          console.log(json);
+          console.log(json.data);
           ctx.commit("SET_TOTAL_TRANSFER_BANK", json.data);
         }
         else{

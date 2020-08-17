@@ -1,7 +1,9 @@
 const express = require("express");
 const model = require("../../models/model");
 const router = express.Router();
+const numeral = require("numeral");
 const bcrypt = require("bcrypt");
+const { value } = require("numeral");
 
 router.route("/create_employee_account").post(async function(req, res){
     var name = req.body.name;
@@ -80,18 +82,127 @@ router.route("/edit_employee_account").post(async function(req, res){
 });
 
 router.route("/total_transfer/:bank/:time").get(async function(req, res){
-    /*const id = req.params.id;
-    const rows = await model.single_by_id('tbluser', id);
-    if (rows.length === 1){
-        console.log(rows);
-        return res.status(200).json({success: true, error: "", data: rows});
-    }else{
-        return res.status(401).json({ success: false, error: "Not found user" });
-    }*/
     const bank = req.params.bank;
     const time = req.params.time;
-    //console.log("Bank + Time: ", bank + ' ' + time);
-    //const rows = await model.a
+    //console.log(bank, time);
+
+    const rows = await model.all_by_bank_other('tblhistorytransaction', 'TttwVLKHvXRujyllDq');
+    //console.log(rows);
+
+    var listTransaction = [];
+    var valueTransaction = [];
+
+    rows.forEach(element => {
+    
+        if (bank === 'a' && element.bank_company_id === "TnyjhGBTwMthNgYZkq"){
+            listTransaction.push(element);
+        }
+        else if (bank === 'b' && element.bank_company_id === "jpS38Zwq37hIQf0jkO"){
+            listTransaction.push(element);
+        }
+        else if (bank === 'c' && element.bank_company_id === "hFKsgwJyJXUpNxNwZM"){
+            listTransaction.push(element);
+        }
+        else if (bank === 'd' && element.bank_company_id === "pawGDX1Ddu"){
+            listTransaction.push(element);
+        }
+        else if (bank === 'all'){
+            listTransaction.push(element);
+        }
+        else{
+        }
+    });
+
+    var resultListTransaction = [];
+    const presentTime = Date.now();
+    listTransaction.forEach(element => {
+        const timeTransaction = new Date(element.time).getTime();
+        
+        const typeTime = presentTime - timeTransaction;
+        //console.log(element);
+        //console.log("time", time);
+        if (time === '0'){
+            console.log("nhảy");
+            resultListTransaction.push(element);
+        }else if (time === '1' & typeTime <= 86400000){
+            resultListTransaction.push(element);
+        }else if (time === '2' & typeTime <= 604800000){
+            resultListTransaction.push(element);
+        }else if (time === '3' & typeTime <= 2629800000){
+            resultListTransaction.push(element);
+        }
+        else if (time === '4' & typeTime <= 31557600000){
+            resultListTransaction.push(element);
+        }
+    });
+
+    console.log("result List Transaction", resultListTransaction);
+
+
+    var valueA = 0;
+    var valueB = 0;
+    var valueC = 0;
+    var valueDat = 0;
+
+    resultListTransaction.forEach(element => {
+        const value = +element.value;
+        if (element.bank_company_id === 'TnyjhGBTwMthNgYZkq'){
+            valueA += value;
+        }else if (element.bank_company_id === 'jpS38Zwq37hIQf0jkO'){
+            valueB += value;
+        }else if (element.bank_company_id === 'hFKsgwJyJXUpNxNwZM'){
+            valueC += value;
+        }else if (element.bank_company_id === 'pawGDX1Ddu'){
+            valueDat += value;
+        }
+    });
+
+    const bankA = {
+        id: 1,
+        name: "Ngân Hàng A",
+        value: valueA
+    }
+
+    const bankB = {
+        id: 2,
+        name: "Ngân Hàng B",
+        value: valueB
+    }
+
+    const bankC = {
+        id: 3,
+        name: "Ngân Hàng C",
+        value: valueC
+    }
+
+    const bankDat = {
+        id: 4,
+        name: "Ngân Hàng của Đạt",
+        value: valueDat
+    }
+
+    if ( bank ===  'a') {
+        valueTransaction.push(bankA);
+    } else if ( bank ===  'd') {
+        valueTransaction.push(bankDat);
+    } else if ( bank ===  'b') {
+        valueTransaction.push(bankB);
+    } else if ( bank ===  'c') {
+        valueTransaction.push(bankC);
+    }else if ( bank ===  'all') {
+        valueTransaction.push(bankA);
+        valueTransaction.push(bankB);
+        valueTransaction.push(bankC);
+        valueTransaction.push(bankDat);
+    }
+
+    const result = {
+        resultListTransaction,
+        valueTransaction
+    }
+
+    return res.status(200).json({success: true, error: "", data: result});
+
 });
 
 
