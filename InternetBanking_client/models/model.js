@@ -17,6 +17,9 @@ module.exports = {
     all_by_role: (table, role) => {
         return db.load(`select * from ${table} where role = ${role};`);
     },
+    all_by_bank_other:(table, bank_other) => {
+        return db.load(`select * from ${table} where bank_company_id != '${bank_other}' `);
+    },
     single_by_id: (table, id) => { return db.load(`select * from ${table} where id = "${id}"`) },
     single_by_idString: (table, id) => { return db.load(`select * from ${table} where id = '${id}'`) },
     single_by_username_id: (table, username_id) => { return db.load(`select * from ${table} where username = '${username_id}'`) },

@@ -11,7 +11,6 @@
                                     <b-form-select
                                     v-model="selectedBank"
                                     :options="optionsBank"
-                                    size="sm"
                                     ></b-form-select>
                                 </b-form-group>
                             </b-col>
@@ -19,7 +18,6 @@
                                 <b-form-group class="txtTitleForm" label="Thời gian giao dịch:">
                                     <b-form-select
                                     v-model="selectedTime"
-                                    size="sm"
                                     :options="optionsTime"
                                     ></b-form-select>
                                 </b-form-group>
@@ -34,28 +32,36 @@
                 </b-card>
             </b-col>
             <b-col cols="3">
-
             </b-col>
         </b-row>
-        <b-row>
+        <b-row class="mb-4">
             <b-col>
                 <b-card
-                    header="Card Header"
+                    header="DANH SÁCH GIAO DỊCH VỚI NGÂN HÀNG KHÁC"
                     header-text-variant="white"
                     header-tag="header"
                     header-bg-variant="dark"
+
                 >
-                    <b-card-text>Header and footers variants.</b-card-text>
+                    <div v-if="getListTotalTransaction.count === 0">
+                        Không có giao dịch
+                    </div>
+                    <div v-else>
+                        <ViewChart :data="getListTotalTransaction.resultListTransaction" />
+
+                    </div> 
                 </b-card>
             </b-col>
+        </b-row>
+        <b-row class="mb-4">
             <b-col>
                 <b-card
-                    header="Card Header"
+                    header="THỐNG KÊ TỔNG SỐ TIỀN GIAO DỊCH"
                     header-text-variant="white"
                     header-tag="header"
                     header-bg-variant="dark"
                 >
-                    <b-card-text>Header and footers variants.</b-card-text>
+                    <TotalMoney :data="getListTotalTransaction.valueTransaction" />
                 </b-card>
             </b-col>
         </b-row>
@@ -64,47 +70,54 @@
 </template>
 
 <script>
+import ViewChart from './ViewChart'
+import TotalMoney from './TotalMoney'
 import mixin from '../../../Mixin';
-
+import { mapGetters } from "vuex";
 export default {
     mixins: [mixin],
     data() {
       return {
-        selectedBank: 'a',
+        selectedBank: 'all',
         optionsBank: [
-          { value: 'a', text: 'Ngân hàng A' },
-          { value: 'b', text: 'Ngân hàng B' },
-          { value: 'c', text: 'Ngân hàng của Đạt' },
-          { value: 'd', text: 'Ngân hàng C'}
+            { value: 'all', text: '--- Tất cả ---' },
+            { value: 'a', text: 'Ngân hàng A' },
+            { value: 'b', text: 'Ngân hàng B' },
+            { value: 'c', text: 'Ngân hàng C' },
+            { value: 'd', text: 'Ngân hàng của Đạt'}
         ],
-        selectedTime: 1,
+        selectedTime: 0,
         optionsTime: [
-          { value: 1, text: '1 ngày trước' },
-          { value: 2, text: '1 tuần trước' },
-          { value: 3, text: '1 tháng trước' },
-          { value: 4, text: '1 năm trước'}
+            { value: 0, text: '--- Tất cả ---' },
+            { value: 1, text: 'Một ngày trước' },
+            { value: 2, text: 'Tuần này' },
+            { value: 3, text: 'Tháng này' },
+            { value: 4, text: 'Năm này'}
         ]
       }
     },
     methods: {
-        /*handleChange(){
-            this.$forceUpdate();
-            const data = {
-                bank: this.selectedBank,
-                time:  this.selectedTime
-            }
-            alert(JSON.stringify(data));
-        },*/
         onSubmit(){
             const data = {
                 bank: this.selectedBank,
                 time:  this.selectedTime
             }
             this.$store.dispatch("setTotalTransferBank", data);
-
-            //alert(JSON.stringify(data));
         }
-    }    
+    }, 
+    mounted(){
+        const data = {
+            bank: 'all',
+            time: 0
+        }
+        this.$store.dispatch("setTotalTransferBank", data);
+        this.$store.dispatch("updateListTransaction", {});
+        this.clearDataSending();
+    },
+    components: {ViewChart, TotalMoney},
+    computed:{
+        ...mapGetters(["getListTotalTransaction"])
+    } 
 }
 </script>
 

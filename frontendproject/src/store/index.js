@@ -42,9 +42,13 @@ export default new Vuex.Store({
     accountEmployeeActive: [],
     emailRetrievePassword:'',
     debtID : '',
+
+    listTotalTransaction: {},
+
     createdListDebit:[],
     n_notify: 0,
     listNotify:[],
+
   },
   getters: {
     getDebtStatus(state){
@@ -200,6 +204,11 @@ export default new Vuex.Store({
     getListAccountEmployee(state){
       return state.listAccountEmployee;
     },
+
+    getListTotalTransaction(state){
+      return state.listTotalTransaction;
+    },
+
     getTotalNotify(state){
       console.log('đang gettotalNotify');
       return state.n_notify;
@@ -319,6 +328,10 @@ export default new Vuex.Store({
       state.accountCustomerQuery = payload;
     },
 
+    UPDATE_LIST_TRANSACTION(state, payload){
+      state.listTotalTransaction = {...payload};
+    },
+
     UPDATE_ACCOUNT_CUSTOMER_ACTIVE(state, payload){
       state.accountCustomerActive = [...payload];
     },
@@ -347,6 +360,10 @@ export default new Vuex.Store({
       state.accountEmployeeActive = [...payload];
     },
 
+    SET_TOTAL_TRANSFER_BANK(state, payload){
+      state.listTotalTransaction = {...payload};
+    },
+    
     UPDATE_DEBT_STATUS(state, payload){
       state.listDebit.forEach(function(item){
         if(item.id === payload.id){
@@ -553,7 +570,9 @@ export default new Vuex.Store({
     updateListAccountCustomer(ctx, query){
       ctx.commit('UPDATE_LIST_ACCOUNT_CUSTOMER', query);
     },
-
+    updateListTransaction (ctx, query){
+      ctx.commit('UPDATE_LIST_TRANSACTION', query);
+    },
     updateListHistoryTransfer(ctx, query){
       ctx.commit('UPDATE_LIST_HISTORY_TRANSFER', query);
     },
@@ -696,7 +715,7 @@ export default new Vuex.Store({
       }).then(response => response.json())
       .then(json => {
         if(json.success){
-          console.log(json);
+          console.log(json.data);
           ctx.commit("SET_TOTAL_TRANSFER_BANK", json.data);
         }
         else{
