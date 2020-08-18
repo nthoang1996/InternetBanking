@@ -32,7 +32,7 @@ export default {
   mounted() {
     console.log("abc: " + this.$route.path);
     this.$store.dispatch("setCurrentPage", this.$route.path); //query === this.$route.path === /dashboard/list_history
-    this.$store.dispatch("setListHistory");
+    this.$store.dispatch("setListHistory", "not_recent");
     this.clearDataSending();
   },
   computed: {

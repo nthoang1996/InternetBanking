@@ -1,36 +1,59 @@
 <template>
-  <div>
-    <label for="inp" class="inp">
-      <input
-        type="text"
-        id="inp"
-        placeholder="Tìm kiếm"
-        pattern=".{6,}"
-        @keyup="handleChange($event)"
-      />
-      <svg
-        width="280px"
-        height="18px"
-        viewBox="0 0 280 18"
-        class="border"
-        style="border:none !important"
-      >
-        <path
-          d="M0,12 L223.166144,12 C217.241379,12 217.899687,12 225.141066,12 C236.003135,12 241.9279,12 249.827586,12 C257.727273,12 264.639498,12 274.514107,12 C281.097179,12 281.755486,12 276.489028,12"
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="inp" class="inp">
+        <input
+          type="text"
+          id="inp"
+          placeholder="Tìm kiếm"
+          pattern=".{6,}"
+          @keyup="handleChange($event)"
         />
-      </svg>
-    </label>
+        <svg
+          width="280px"
+          height="18px"
+          viewBox="0 0 280 18"
+          class="border"
+          style="border:none !important"
+        >
+          <path
+            d="M0,12 L223.166144,12 C217.241379,12 217.899687,12 225.141066,12 C236.003135,12 241.9279,12 249.827586,12 C257.727273,12 264.639498,12 274.514107,12 C281.097179,12 281.755486,12 276.489028,12"
+          />
+        </svg>
+      </label>
+    </div>
+
+    <div class="col-sm-6 d-flex align-items-center justify-content-end">
+      <b-form-checkbox
+        id="checkbox-1"
+        v-model="status"
+        name="checkbox-1"
+        value="recent"
+        unchecked-value="not_recent"
+        @input="onChange"
+      >Trong vòng 30 ngày</b-form-checkbox>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      status: "not_recent",
+    };
+  },
+
   methods: {
     handleChange(event) {
       this.$store.dispatch("updateHistoryQuery", event.target.value);
       // alert(event.target.tagName);
-    }
-  }
+    },
+
+    onChange () {
+      this.$store.dispatch("setListHistory", this.status);
+    },
+  },
 };
 </script>
 

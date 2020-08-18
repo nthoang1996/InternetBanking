@@ -9,17 +9,6 @@ key.setOptions({ encryptionScheme: 'pkcs1' });
 key.importKey(config.secret_key.private_key.join('\n'), 'pkcs1');
 const sleep = require('sleep');
 const router = express.Router();
-// const myPublickey =  '-----BEGIN PUBLIC KEY-----\n' +
-//     'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDF9PFzaqogWK6urJi5825h2o6d\n' +
-//     'k4wuH6VV37k1oxnZA7cm23ynoQUK8Y9XpvfBKheCQLw30MwQBtQXXHUuNZva1dxd\n' +
-//     '66tYERJwURIsldzZtwGPQD6azyh0gkaebadTzrz2LH/iWrxshWBPHhyU47Mink6E\n' +
-//     'UhmVRO9Qh/dddovCGQIDAQAB\n' +
-//     '-----END PUBLIC KEY-----';
-// async function call(){
-//     console.log("run00");
-//     await model.edit("tblbank",{public_key: myPublickey}, {id: "7APW008iv5sSF1EWskRd"});
-// }
-// call();
 router.route('/recharge')
     .post(async function (req, res) {
         try {

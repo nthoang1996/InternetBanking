@@ -14,6 +14,9 @@ module.exports = {
     all_by_root_id: (table, root_id) => {
         return db.load(`select * from ${table} where root_id = ${root_id};`);
     },
+    all_by_root_id_recent: (table, root_id, date) => {
+        return db.load(`select * from ${table} where root_id = ${root_id} and time >= '${date}';`);
+    },
     all_by_role: (table, role) => {
         return db.load(`select * from ${table} where role = ${role};`);
     },

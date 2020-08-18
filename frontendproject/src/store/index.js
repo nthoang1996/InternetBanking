@@ -531,9 +531,9 @@ export default new Vuex.Store({
     deleteDebitItem(ctx, id){
       ctx.commit("DELETE_DEBIT_ITEM", id);
     },
-    async setListHistory(ctx){
+    async setListHistory(ctx, isRecent){
       await myMixin.methods.handleBeforeCallServer();
-      const url = 'http://localhost:3000/customer/list_history';
+      const url = 'http://localhost:3000/customer/list_history?type=' + isRecent;
       return fetch(url, {
         method: 'get', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -542,6 +542,7 @@ export default new Vuex.Store({
       }).then(response => response.json())
       .then(json => {
         if(json.success){
+          console.log(json.data)
           ctx.commit("SET_LIST_HISTORY", json.data);
         }
         else{

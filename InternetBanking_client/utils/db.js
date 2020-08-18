@@ -8,6 +8,7 @@ const mysql_query = util.promisify(pool.query).bind(pool);
 
 module.exports = {
     load: sql => {
+        console.log(sql);
         return mysql_query(sql);
     },
     add: (table, entity) => {
