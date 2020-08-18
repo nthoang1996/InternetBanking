@@ -1,280 +1,44 @@
 <template>
     <div>
-        <div v-if="data.bank === 'all' && data.time === '0'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Ngân hàng A</th>
-                        <th scope="col">Ngân hàng B</th>
-                        <th scope="col">Ngân hàng C</th>
-                        <th scope="col">Ngân hàng của Đạt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Hôm nay</th>
-                        <td>{{data.totalA[0]}}</td>
-                        <td>{{data.totalB[0]}}</td>
-                        <td>{{data.totalC[0]}}</td>
-                        <td>{{data.totalDat[0]}}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Tuần này</th>
-                        <td>{{data.totalA[1]}}</td>
-                        <td>{{data.totalB[1]}}</td>
-                        <td>{{data.totalC[1]}}</td>
-                        <td>{{data.totalDat[1]}}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Tháng này</th>
-                        <td>{{data.totalA[2]}}</td>
-                        <td>{{data.totalB[2]}}</td>
-                        <td>{{data.totalC[2]}}</td>
-                        <td>{{data.totalDat[2]}}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Năm này</th>
-                        <td>{{data.totalA[3]}}</td>
-                        <td>{{data.totalB[3]}}</td>
-                        <td>{{data.totalC[3]}}</td>
-                        <td>{{data.totalDat[3]}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'a' && data.time === '0'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Hôm nay</th>
-                        <th scope="col">Tuần này</th>
-                        <th scope="col">Tháng này</th>
-                        <th scope="col">Năm này</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Ngân hàng A</th>
-                        <td>{{data.totalA[0]}}</td>
-                        <td>{{data.totalA[1]}}</td>
-                        <td>{{data.totalA[2]}}</td>
-                        <td>{{data.totalA[3]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'b' && data.time === '0'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Hôm nay</th>
-                        <th scope="col">Tuần này</th>
-                        <th scope="col">Tháng này</th>
-                        <th scope="col">Năm này</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Ngân hàng B</th>
-                        <td>{{data.totalB[0]}}</td>
-                        <td>{{data.totalB[1]}}</td>
-                        <td>{{data.totalB[2]}}</td>
-                        <td>{{data.totalB[3]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'c' && data.time === '0'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Hôm nay</th>
-                        <th scope="col">Tuần này</th>
-                        <th scope="col">Tháng này</th>
-                        <th scope="col">Năm này</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Ngân hàng C</th>
-                        <td>{{data.totalC[0]}}</td>
-                        <td>{{data.totalC[1]}}</td>
-                        <td>{{data.totalC[2]}}</td>
-                        <td>{{data.totalC[3]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'd' && data.time === '0'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Hôm nay</th>
-                        <th scope="col">Tuần này</th>
-                        <th scope="col">Tháng này</th>
-                        <th scope="col">Năm này</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Ngân hàng của Đạt</th>
-                        <td>{{data.totalDat[0]}}</td>
-                        <td>{{data.totalDat[1]}}</td>
-                        <td>{{data.totalDat[2]}}</td>
-                        <td>{{data.totalDat[3]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'a' && data.time === '1'">
-            <p>Số tiền giao dịch: <span>{{data.totalA[0]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'b' && data.time === '1'">
-            <p>Số tiền giao dịch: <span>{{data.totalB[0]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'c' && data.time === '1'">
-            <p>Số tiền giao dịch: <span>{{data.totalC[0]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'd' && data.time === '1'">
-            <p>Số tiền giao dịch: <span>{{data.totalDat[0]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'a' && data.time === '2'">
-            <p>Số tiền giao dịch: <span>{{data.totalA[1]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'b' && data.time === '2'">
-            <p>Số tiền giao dịch: <span>{{data.totalB[1]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'c' && data.time === '2'">
-            <p>Số tiền giao dịch: <span>{{data.totalC[1]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'd' && data.time === '2'">
-            <p>Số tiền giao dịch: <span>{{data.totalDat[1]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'a' && data.time === '3'">
-            <p>Số tiền giao dịch: <span>{{data.totalA[2]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'b' && data.time === '3'">
-            <p>Số tiền giao dịch: <span>{{data.totalB[2]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'c' && data.time === '3'">
-            <p>Số tiền giao dịch: <span>{{data.totalC[2]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'd' && data.time === '3'">
-            <p>Số tiền giao dịch: <span>{{data.totalDat[2]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'a' && data.time === '4'">
-            <p>Số tiền giao dịch: <span>{{data.totalA[3]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'b' && data.time === '4'">
-            <p>Số tiền giao dịch: <span>{{data.totalB[3]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'c' && data.time === '4'">
-            <p>Số tiền giao dịch: <span>{{data.totalC[3]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'd' && data.time === '4'">
-            <p>Số tiền giao dịch: <span>{{data.totalDat[3]}}</span></p>
-        </div>
-        <div v-else-if="data.bank === 'all' && data.time === '1'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Ngân hàng A</th>
-                        <th scope="col">Ngân hàng B</th>
-                        <th scope="col">Ngân hàng C</th>
-                        <th scope="col">Ngân hàng của Đạt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Hôm nay</th>
-                        <td>{{data.totalA[0]}}</td>
-                        <td>{{data.totalB[0]}}</td>
-                        <td>{{data.totalC[0]}}</td>
-                        <td>{{data.totalDat[0]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'all' && data.time === '2'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Ngân hàng A</th>
-                        <th scope="col">Ngân hàng B</th>
-                        <th scope="col">Ngân hàng C</th>
-                        <th scope="col">Ngân hàng của Đạt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Tuần này</th>
-                        <td>{{data.totalA[1]}}</td>
-                        <td>{{data.totalB[1]}}</td>
-                        <td>{{data.totalC[1]}}</td>
-                        <td>{{data.totalDat[1]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'all' && data.time === '3'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Ngân hàng A</th>
-                        <th scope="col">Ngân hàng B</th>
-                        <th scope="col">Ngân hàng C</th>
-                        <th scope="col">Ngân hàng của Đạt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Tháng này</th>
-                        <td>{{data.totalA[2]}}</td>
-                        <td>{{data.totalB[2]}}</td>
-                        <td>{{data.totalC[2]}}</td>
-                        <td>{{data.totalDat[2]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div v-else-if="data.bank === 'all' && data.time === '4'">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Ngân hàng A</th>
-                        <th scope="col">Ngân hàng B</th>
-                        <th scope="col">Ngân hàng C</th>
-                        <th scope="col">Ngân hàng của Đạt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Năm này</th>
-                        <td>{{data.totalA[3]}}</td>
-                        <td>{{data.totalB[3]}}</td>
-                        <td>{{data.totalC[3]}}</td>
-                        <td>{{data.totalDat[3]}}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Khách Hàng</th>
+                    <th scope="col">KH Ngân Hàng Khác</th>
+                    <th scope="col">Ngày Giao Dịch</th>
+                    <th scope="col">Số Tiền Giao Dịch</th>
+                    <th scope="col">Ngân Hàng Giao Dịch</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in data" :key="item.id">
+                    <td class="tdTrasaction">
+                        <p>{{item.source_name}}</p>
+                        <span>{{item.source_username}}</span>   
+                    </td>
+
+                    <td class="tdTrasaction">
+                        <p>{{item.des_name}}</p>
+                        <span>{{item.des_username}}</span> 
+                    </td>
+
+                    <td><p class="txtDate">{{item.time}}</p></td>
+
+                    <td v-if="item.type === 1"  >
+                        <p class="txtMoneyGiam">{{item.value}}</p>
+                    </td>
+                    <td v-else >
+                        <p class="txtMoneyTang">{{item.value}}</p>
+                    </td>
+
+                    <td v-if="item.bank_company_id==='TnyjhGBTwMthNgYZkq'"><p class="txtBank">NGÂN HÀNG A</p> </td>
+                    <td v-else-if="item.bank_company_id==='jpS38Zwq37hIQf0jkO'"><p class="txtBank" >NGÂN HÀNG B</p></td>
+                    <td v-else-if="item.bank_company_id==='hFKsgwJyJXUpNxNwZM'"><p class="txtBank">NGÂN HÀNG C</p></td>
+                    <td v-else><p class="txtBank">NGÂN HÀNG CỦA ĐẠT</p></td>
+                </tr>
+                
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -289,5 +53,48 @@ export default {
 <style scoped>
 table{
     color: black;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+}
+
+span{
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+}
+
+.txtMoneyGiam{
+    color: red;
+    font-weight: 500;
+}
+
+.txtMoneyTang{
+    color: green;
+    font-weight: 500;
+}
+
+.txtBank{
+    font-weight: 500;
+    color: #000;
+}
+
+.txtDate{
+    font-weight: 500;
+}
+
+.tdTrasaction{
+    padding: 0;
+    padding-left: 0.75rem;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+td{
+    padding: 0.75rem;
 }
 </style>

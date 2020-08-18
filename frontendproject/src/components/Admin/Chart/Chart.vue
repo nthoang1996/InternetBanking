@@ -35,20 +35,28 @@
             </b-col>
         </b-row>
         <b-row class="mb-4">
-            <b-col cols="8">
+            <b-col>
                 <b-card
-                    header="Biểu đồ biểu diễn"
+                    header="DANH SÁCH GIAO DỊCH VỚI NGÂN HÀNG KHÁC"
                     header-text-variant="white"
                     header-tag="header"
                     header-bg-variant="dark"
 
                 >
-                    <ViewChart :data="getListTotalTransaction" />
+                    <div v-if="getListTotalTransaction.count === 0">
+                        Không có giao dịch
+                    </div>
+                    <div v-else>
+                        <ViewChart :data="getListTotalTransaction.resultListTransaction" />
+
+                    </div> 
                 </b-card>
             </b-col>
-            <b-col cols="4">
+        </b-row>
+        <b-row class="mb-4">
+            <b-col>
                 <b-card
-                    header="Thống kê số tiền giao dịch"
+                    header="THỐNG KÊ TỔNG SỐ TIỀN GIAO DỊCH"
                     header-text-variant="white"
                     header-tag="header"
                     header-bg-variant="dark"
@@ -81,10 +89,10 @@ export default {
         selectedTime: 0,
         optionsTime: [
             { value: 0, text: '--- Tất cả ---' },
-            { value: 1, text: '1 ngày trước' },
-            { value: 2, text: '1 tuần trước' },
-            { value: 3, text: '1 tháng trước' },
-            { value: 4, text: '1 năm trước'}
+            { value: 1, text: 'Một ngày trước' },
+            { value: 2, text: 'Tuần này' },
+            { value: 3, text: 'Tháng này' },
+            { value: 4, text: 'Năm này'}
         ]
       }
     },
@@ -97,6 +105,15 @@ export default {
             this.$store.dispatch("setTotalTransferBank", data);
         }
     }, 
+    mounted(){
+        const data = {
+            bank: 'all',
+            time: 0
+        }
+        this.$store.dispatch("setTotalTransferBank", data);
+        this.$store.dispatch("updateListTransaction", {});
+        this.clearDataSending();
+    },
     components: {ViewChart, TotalMoney},
     computed:{
         ...mapGetters(["getListTotalTransaction"])

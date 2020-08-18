@@ -3,7 +3,7 @@ const model = require("../../models/model");
 const router = express.Router();
 const numeral = require("numeral");
 const bcrypt = require("bcrypt");
-const { value } = require("numeral");
+const moment = require('moment');
 
 router.route("/create_employee_account").post(async function(req, res){
     var name = req.body.name;
@@ -89,6 +89,8 @@ router.route("/total_transfer/:bank/:time").get(async function(req, res){
     const rows = await model.all_by_bank_other('tblhistorytransaction', 'TttwVLKHvXRujyllDq');
     //console.log(rows);
 
+    rows.sort((a, b)=>{return b.time - a.time});
+
     var listTransaction = [];
     var valueTransaction = [];
 
@@ -140,45 +142,82 @@ router.route("/total_transfer/:bank/:time").get(async function(req, res){
 
 
     var valueA = 0;
+    var valueAChuyen = 0;
+    var valueANhan = 0;
+
     var valueB = 0;
+    var valueBChuyen = 0;
+    var valueBNhan = 0;
+
     var valueC = 0;
+    var valueCChuyen = 0;
+    var valueCNhan = 0;
+
     var valueDat = 0;
+    var valueDatChuyen = 0;
+    var valueDatNhan = 0;
+
 
     resultListTransaction.forEach(element => {
         const value = +element.value;
         if (element.bank_company_id === 'TnyjhGBTwMthNgYZkq'){
             valueA += value;
+            if(element.type === 1){
+                valueAChuyen += value;
+            }
         }else if (element.bank_company_id === 'jpS38Zwq37hIQf0jkO'){
             valueB += value;
+            if(element.type === 1){
+                valueBChuyen += value;
+            }
         }else if (element.bank_company_id === 'hFKsgwJyJXUpNxNwZM'){
             valueC += value;
+            if(element.type === 1){
+                valueCChuyen += value;
+            }
         }else if (element.bank_company_id === 'pawGDX1Ddu'){
             valueDat += value;
+            if(element.type === 1){
+                valueDatChuyen += value;
+            }
         }
     });
 
+    valueANhan = valueA - valueAChuyen;
+    valueBNhan = valueB - valueBChuyen;
+    valueCNhan = valueC - valueCChuyen;
+    valueDatNhan = valueDat - valueDatChuyen;
+
     const bankA = {
         id: 1,
-        name: "Ngân Hàng A",
-        value: valueA
+        name: "NGÂN HÀNG A",
+        value: numeral(valueA).format("0,0") + " VNĐ",
+        valueChuyen: numeral(valueAChuyen).format("0,0") + " VNĐ",
+        valueNhan: numeral(valueANhan).format("0,0") + " VNĐ"
     }
 
     const bankB = {
         id: 2,
-        name: "Ngân Hàng B",
-        value: valueB
+        name: "NGÂN HÀNG B",
+        value: numeral(valueB).format("0,0") + " VNĐ",
+        valueChuyen: numeral(valueBChuyen).format("0,0") + " VNĐ",
+        valueNhan: numeral(valueBNhan).format("0,0") + " VNĐ"
     }
 
     const bankC = {
         id: 3,
-        name: "Ngân Hàng C",
-        value: valueC
+        name: "NGÂN HÀNG C",
+        value: numeral(valueC).format("0,0") + " VNĐ",
+        valueChuyen: numeral(valueCChuyen).format("0,0") + " VNĐ",
+        valueNhan: numeral(valueCNhan).format("0,0") + " VNĐ"
     }
 
     const bankDat = {
         id: 4,
-        name: "Ngân Hàng của Đạt",
-        value: valueDat
+        name: "NGÂN HÀNG CỦA ĐẠT",
+        value: numeral(valueDat).format("0,0") + " VNĐ",
+        valueChuyen: numeral(valueDatChuyen).format("0,0") + " VNĐ",
+        valueNhan: numeral(valueDatNhan).format("0,0") + " VNĐ"
     }
 
     if ( bank ===  'a') {
@@ -196,8 +235,16 @@ router.route("/total_transfer/:bank/:time").get(async function(req, res){
         valueTransaction.push(bankDat);
     }
 
+    for (let i = 0; i < resultListTransaction.length; i++) {
+        resultListTransaction[i].value = numeral(resultListTransaction[i].value).format("0,0") + " VNĐ";
+        resultListTransaction[i].time = moment(resultListTransaction[i].time).format(
+            "MMMM Do YYYY"
+        );        
+    }
+
     const result = {
         resultListTransaction,
+        count: resultListTransaction.length,
         valueTransaction
     }
 
