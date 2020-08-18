@@ -1,9 +1,15 @@
 <template>
-  <div>
-      <h3>Thông báo</h3>
-      <div v-for="item in getListNotify.slice().reverse()" :key="item.id">
-          <ItemNotify :data="item" />
-      </div>
+  <div class="debt_notify">
+        <h3 class="debt_notify__header">Thông báo</h3>
+        <div class="debt_notify__notify-list">
+            <div v-for="item in getListNotify.slice().reverse()" :key="item.id" >
+            <ItemNotify :data="item" />
+        </div>
+        </div>
+        
+        <footer class="debt_notify__footer">
+            <a href="#" class="debt_notify__footer-btn">Xem tất cả</a>
+        </footer>
   </div>
 </template>
 
@@ -21,5 +27,24 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.debt_notify__header{
+    color: #666;
+}
+
+.debt_notify__footer{
+    display: flex;
+    margin: 10px 0;
+}
+
+.debt_notify__footer-btn{
+    margin: auto;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+.debt_notify__notify-list{
+    overflow: auto;
+}
 </style>
