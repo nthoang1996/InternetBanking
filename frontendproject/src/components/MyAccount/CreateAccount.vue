@@ -86,7 +86,7 @@ export default {
                                 title: 'Tạo tài khoản thành công',
                                 text: 'Thông tin tài khoản đã được gởi về địa chỉ email đã đăng ký',
                             })
-                            return this.$router.push("/employee/list_customer_account");
+                            return this.$router.push("/dashboard");
                         } else {
                             Swal.fire({
                                 title: 'Warning',

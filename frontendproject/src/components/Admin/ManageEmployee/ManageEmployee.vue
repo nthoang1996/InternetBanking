@@ -17,7 +17,7 @@
 
                 <!-- -->
                 <b-col>
-                    <FilterEmployee />
+                    <!-- <FilterEmployee /> -->
                 </b-col>
             </b-row>
 
@@ -31,7 +31,6 @@
 
 <script>
 import mixin from "../../../Mixin";
-import FilterEmployee from './FilterEmployee';
 import AccountEmployee from './AccountEmployee';
 import { mapGetters } from "vuex";
 export default {
@@ -49,7 +48,7 @@ export default {
     computed: {
     ...mapGetters(["getListAccountEmployee"])
     },
-    components:{FilterEmployee, AccountEmployee}
+    components:{ AccountEmployee}
 }
 </script>
 
