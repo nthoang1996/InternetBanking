@@ -560,6 +560,7 @@ router.route("/pay_debt").post(async function (req, res) {
 	const type_payment = req.body.type_payment;
 	const userID = req.tokenPayload.userID;
 	const debtID = req.body.debtID;
+	const messages = req.body.message;
 
 	// Xác thực mã OTP
 	const user = await model.single_by_id("tbluser", userID);
@@ -619,6 +620,36 @@ router.route("/pay_debt").post(async function (req, res) {
 		message: req.body.message,
 		type: 0,
 		status: 1
+	});
+
+	/** Ghi vào bảng lịch sử giao dịch */
+	// Phía người nhận nợ (type = 3)
+	await model.add('tblhistorytransaction',{
+		type: 3,
+		root_id: receiver.id,
+		source_username: user[0].username,
+		source_name: user[0].name,
+		bank_company_id: "TttwVLKHvXRujyllDq",
+		des_username: receiver.username,
+		des_name: receiver.name,
+		value: money_number,
+		type_payment: type_payment,
+		message: messages,
+		time: new Date()
+	});
+	// Phía người trả nợ (type = 4) (phần khác so với trên gồm id, type, root_id)
+	await model.add('tblhistorytransaction',{
+		type: 4,
+		root_id: user[0].id,
+		source_username: user[0].username,
+		source_name: user[0].name,
+		bank_company_id: "TttwVLKHvXRujyllDq",
+		des_username: receiver.username,
+		des_name: receiver.name,
+		value: money_number,
+		type_payment: type_payment,
+		message: messages,
+		time: new Date()
 	});
 
 	return res.status(200).json({ success: true });
