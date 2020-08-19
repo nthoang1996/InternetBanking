@@ -12,7 +12,7 @@ class HoangBankAPI{
     }
 
     async callApiRecharge(){
-		const url = 'http://localhost:8000/customer/recharge';	
+		const url = 'https://salty-meadow-17297.herokuapp.com/customer/recharge';	
 		const dataVerify = {};
 		const timestamp = Date.now();
         dataVerify.ts = timestamp;
@@ -38,7 +38,7 @@ class HoangBankAPI{
     }
 
     async callApiGetInfo(){
-		const url = 'http://localhost:8000/customer/query_information';
+		const url = 'https://salty-meadow-17297.herokuapp.com/customer/query_information';
 		const secret_key = config.secret_key.secret_key;
 		console.log(secret_key);
 		console.log(this.data);
