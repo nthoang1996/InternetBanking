@@ -36,6 +36,12 @@ import InputValueContainer from "./InputValueContainer";
 import InputRadioContainer from "./InputRadioContainer";
 import { mapGetters } from "vuex";
 import mixin from "../../../Mixin";
+import VueSweetalert2 from 'vue-sweetalert2';
+import Vue from "vue";
+ 
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
 export default {
   data() {
     return {
@@ -70,15 +76,15 @@ export default {
     async openModal(event) {
       event.preventDefault();
       if (this.getDataSendingAccountName === "") {
-        alert("Vui lòng kiểm tra tài khoản trước khi thực hiện lệnh gửi tiền");
+        Vue.swal('Vui lòng kiểm tra tài khoản trước khi thực hiện lệnh gửi tiền');
         return;
       }
       if (this.getDataSendingAccountName === "Không tìm thấy người dùng") {
-        alert("Tài khoản không đúng");
+        Vue.swal('Tài khoản không đúng');
         return;
       }
       if (parseInt(this.getDataSendingValue) < 1000) {
-        alert("Số tiền không đủ lớn");
+        Vue.swal('Số tiền không đủ lớn');
         return;
       }
 
@@ -98,7 +104,7 @@ export default {
         .then(response => response.json())
         .then(json => {
           if (!json.success) {
-            alert("Đã có lỗi xảy ra, vui lòng thử lại sau ít phút!");
+            Vue.swal('Đã có lỗi xảy ra, vui lòng thử lại sau ít phút!');
           }
         });
       await this.$store.dispatch("updateModalType", 1);

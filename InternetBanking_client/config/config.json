@@ -1,11 +1,11 @@
 {
     "mysql": {
         "connectionLimit": 50,
-        "host": "localhost",
+        "host": "us-cdbr-east-05.cleardb.net",
         "port": 3306,
-        "user": "root",
-        "password": "",
-        "database": "internet_banking"
+        "user": "b74136098a5546",
+        "password": "8e706ee6",
+        "database": "heroku_29239930608a422"
     },
     "secret_key": {
         "private_key": ["-----BEGIN RSA PRIVATE KEY-----",

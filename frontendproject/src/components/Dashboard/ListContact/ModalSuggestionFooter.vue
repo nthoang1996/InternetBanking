@@ -14,6 +14,14 @@
 <script>
 import mixin from "../../../Mixin";
 import { mapGetters } from "vuex";
+import VueSweetalert2 from 'vue-sweetalert2';
+import Vue from "vue";
+ 
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+Vue.use(VueSweetalert2);
+
 export default {
   mixins: [mixin],
   computed: {
@@ -47,12 +55,13 @@ export default {
         .then(async(json) => {
           console.log(json);
           if (!json.success) {
-            alert(json.error);
+            // alert(json.error);
+            Vue.swal(json.error);
             return;
           } else {
             await this.$store.dispatch('insertListContact', json.data);
             this.clearDataSending();
-            alert("Thao tác thành công!");
+            Vue.swal('Thực hiện thao tác thành công');
             this.$emit("close");
           }
         });
