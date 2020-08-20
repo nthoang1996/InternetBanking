@@ -76,6 +76,7 @@ router.route("/transferAboard").post(async function (req, res) {
 			response = await api.callApiRecharge();
 			verify = await verifyResult(response);
 			response = JSON.parse(response);
+			console.log("respond from dat", response);
 			cleartext = response.cleartext;
 			if (verify) {
 				let res = cleartext.slice(
@@ -109,6 +110,7 @@ router.route("/transferAboard").post(async function (req, res) {
 			};
 			api = new hoabankapi(hoa_data);
 			response = JSON.parse(await api.callApiRecharge());
+			console.log("respond from hoa", response);
 			const hoaBank = await model.single_by_id(
 				"tblbank",
 				"7APW008iv5sSF1EWskRd"
@@ -460,12 +462,27 @@ router.route("/list_history").get(async function (req, res) {
 			element.accountId = element.source_username;
 			element.myClass = "my-type-receive";
 		}
+		else if(element.type == 3){
+			element.nameType = "Được trả nợ";
+			element.accountId = element.source_username;
+			element.displayName = element.source_name;
+			element.myClass = "my-type-get-debit";
+		}
+		else{
+			element.displayName = element.des_name;
+			element.nameType = "Trả nợ";
+			element.accountId = element.des_username;
+			element.myClass = "my-type-pay-debit";
+		}
 		if (element.bank_company_id === "TttwVLKHvXRujyllDq") {
 			element.bank_name = "Cùng ngân hàng";
 		} else {
 			const bank = listBank.find((bank) => bank.id === element.bank_company_id);
 			if (bank) {
 				element.bank_name = bank.name;
+			}
+			else{
+				element.bank_name = "Ngân hàng của Hòa";
 			}
 		}
 	});

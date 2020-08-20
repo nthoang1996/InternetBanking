@@ -47,4 +47,12 @@ export default {
 .my-type-receive{
   color: rgb(123, 201, 155);
 }
+
+.my-type-get-debit{
+  color: #DD2BF5 ;
+}
+
+.my-type-pay-debit{
+  color: #F66B7E  ;
+}
 </style>

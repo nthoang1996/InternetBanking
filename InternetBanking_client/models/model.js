@@ -12,10 +12,10 @@ module.exports = {
         return db.load(`select * from ${table} where id_user = ${id_user};`);
     },
     all_by_root_id: (table, root_id) => {
-        return db.load(`select * from ${table} where root_id = ${root_id};`);
+        return db.load(`select * from ${table} where root_id = ${root_id} ORDER BY time DESC;`);
     },
     all_by_root_id_recent: (table, root_id, date) => {
-        return db.load(`select * from ${table} where root_id = ${root_id} and time >= '${date}';`);
+        return db.load(`select * from ${table} where root_id = ${root_id} and time >= '${date}' ORDER BY time DESC;`);
     },
     all_by_role: (table, role) => {
         return db.load(`select * from ${table} where role = ${role};`);
